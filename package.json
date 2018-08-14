@@ -1,0 +1,47 @@
+{
+  "name": "fs-code-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "tsc && ncp ./src/views ./dist/views && ncp ./src/public ./dist/public",
+    "build:frontend": "cd ./frontend && npm run build",
+    "serve": "node ./bin/code-generator"
+  },
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "code-generator": "./bin/code-generator"
+  },
+  "devDependencies": {
+    "@types/app-root-path": "^1.2.4",
+    "@types/express": "^4.11.1",
+    "@types/node": "^10.0.8",
+    "@types/socket.io": "^1.4.33",
+    "@types/winston": "^2.3.9",
+    "angular-cli": "^1.0.0-beta.28.3",
+    "ncp": "^2.0.0",
+    "nodemon": "^1.17.4",
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.3",
+    "winston": "^2.4.2"
+  },
+  "dependencies": {
+    "@types/bluebird": "^3.5.5",
+    "@types/compression": "0.0.36",
+    "@types/consolidate": "0.0.34",
+    "@types/errorhandler": "0.0.32",
+    "app-root-path": "^2.0.1",
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "cpx": "^1.5.0",
+    "errorhandler": "^1.5.0",
+    "express": "^4.16.3",
+    "htmling": "0.0.8",
+    "socket.io": "^2.1.0",
+    "socketio-wildcard": "^2.0.0",
+    "tsmodels": "^0.4.6"
+  }
+}
