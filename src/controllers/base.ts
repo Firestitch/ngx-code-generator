@@ -46,7 +46,9 @@ export let index = (req: Request, res: Response) => {
 
     case ListCreationType.listCreateEditFull: {
       schema = 'list';
-      command += ' --mode=full';
+      command += `\
+      --mode=full\
+      --singleName=${params.singularComponentName}`;
     } break;
 
     case ListCreationType.listCreateEditDialog: {
@@ -67,6 +69,7 @@ export let index = (req: Request, res: Response) => {
       --module=${params.module.moduleFullPath} \
       --secondLevel=true \
       --path=${params.module.modulePath}/${params.componentName} \
+      --singleName=${params.singularComponentName}\
       --name=${params.singularComponentName}`;
     } break;
 
@@ -74,11 +77,12 @@ export let index = (req: Request, res: Response) => {
       schema = 'list-create-dialog';
 
       command = `\
-      --mode='dialog'
+      --mode='dialog'\
       --parentName=${params.componentName} \
       --module=${params.module.moduleFullPath} \
       --secondLevel=true \
       --path=${params.module.modulePath}/${params.componentName} \
+      --singleName=${params.singularComponentName}\
       --name=${params.singularComponentName}`;
 
     } break;
