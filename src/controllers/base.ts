@@ -24,7 +24,7 @@ export let index = (req: Request, res: Response) => {
 
   const params = req.body;
 
-  if (!params.componentName || !params.module) {
+  if (!params.pluralComponentName || !params.module) {
     res.status(400).json({
       message: 'Component and Module are requierd'
     });
@@ -33,9 +33,11 @@ export let index = (req: Request, res: Response) => {
   }
 
   let command = `\
-  --name=${params.componentName} \
+  --name=${params.pluralComponentName} \
   --module=${params.module.moduleName} \
-  --path=${params.module.modulePath}`;
+  --path=${params.module.modulePath} \
+  --service=${params.service.singularName} \
+  --servicePath=${params.service.servicePath}`;
 
   let schema = '';
 
@@ -65,10 +67,10 @@ export let index = (req: Request, res: Response) => {
 
       command = `\
       --mode='full'\
-      --parentName=${params.componentName} \
+      --parentName=${params.pluralComponentName} \
       --module=${params.module.moduleFullPath} \
       --secondLevel=true \
-      --path=${params.module.modulePath}/${params.componentName} \
+      --path=${params.module.modulePath}/${params.pluralComponentName} \
       --singleName=${params.singularComponentName}\
       --name=${params.singularComponentName}`;
     } break;
@@ -78,10 +80,10 @@ export let index = (req: Request, res: Response) => {
 
       command = `\
       --mode='dialog'\
-      --parentName=${params.componentName} \
+      --parentName=${params.pluralComponentName} \
       --module=${params.module.moduleFullPath} \
       --secondLevel=true \
-      --path=${params.module.modulePath}/${params.componentName} \
+      --path=${params.module.modulePath}/${params.pluralComponentName} \
       --singleName=${params.singularComponentName}\
       --name=${params.singularComponentName}`;
 
@@ -117,4 +119,69 @@ export let modulesList = (req: Request, res: Response) => {
     console.log(`stdout: ${stdout}`);
     console.log(`stderr: ${stderr}`);
   });
+};
+
+export let servicesList = (req: Request, res: Response) => {
+  exec(`ng g @firestitch/schematics:services-list`, (err, stdout, stderr) => {
+    if (err) {
+      res.status(500).json({
+        message: stderr
+      });
+    } else {
+      try {
+        const list = JSON.parse(stdout.replace('Nothing to be done.', ''));
+
+        res.json({
+          services: list
+        });
+      } catch (e) {
+        res
+          .status(500)
+          .json({
+            message: e
+          }) ;
+      }
+    }
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  });
+};
+
+export let generateService = (req: Request, res: Response) => {
+  const execHandler = (err: any, stdout: any, stderr: any) => {
+    if (err) {
+      res.status(500).json({
+        message: stderr
+      });
+    } else {
+      res.json({
+        message: stdout
+      })
+    }
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  };
+
+  const params = req.body;
+
+  if (!params.singularName || !params.pluralName || !params.module) {
+    res.status(400).json({
+      message: 'Name and Module are requierd'
+    });
+
+    return;
+  }
+
+  let command = `\
+  --name=${params.singularName} \
+  --module=${params.module.moduleName} \
+  --path=${params.module.modulePath} \
+  --subdirectory=${params.subdirectory} \
+  --pluralName=${params.pluralName} \
+  --menuService`;
+
+  let schema = 'service';
+
+  exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
+
 };
