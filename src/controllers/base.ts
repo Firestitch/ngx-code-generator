@@ -166,7 +166,7 @@ export let generateService = (req: Request, res: Response) => {
 
   if (!params.singularName || !params.pluralName || !params.module) {
     res.status(400).json({
-      message: 'Name and Module are requierd'
+      message: 'Name and Module are required'
     });
 
     return;
@@ -184,4 +184,40 @@ export let generateService = (req: Request, res: Response) => {
 
   exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
 
+};
+
+export let generateModule = (req: Request, res: Response) => {
+  const execHandler = (err: any, stdout: any, stderr: any) => {
+    if (err) {
+      res.status(500).json({
+        message: stderr
+      });
+    } else {
+      res.json({
+        message: stdout
+      })
+    }
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  };
+
+  const params = req.body;
+  console.log(params);
+
+  if (!params.name) {
+    res.status(400).json({
+      message: 'Name is required'
+    });
+
+    return;
+  }
+
+  let command = `\
+  --name=${params.name} \
+  --path=${params.module.modulePath} \
+  --module=${params.module.moduleName}`;
+
+  let schema = 'module';
+
+  exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
 };
