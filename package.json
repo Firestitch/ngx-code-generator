@@ -1,6 +1,6 @@
 {
   "name": "@firestitch/codegenerator",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "bin": {
-    "codegenerator": "./bin/codegenerator"
+    "codegen": "./bin/codegenerator"
   },
   "devDependencies": {
     "@types/app-root-path": "^1.2.4",

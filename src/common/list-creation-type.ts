@@ -4,4 +4,5 @@ export enum ListCreationType {
   listCreateEditDialog = 2,
   CreateEditFull = 3,
   CreateEditDialog = 4,
+  Basic = 5,
 }

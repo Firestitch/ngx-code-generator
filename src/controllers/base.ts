@@ -35,22 +35,25 @@ export let index = (req: Request, res: Response) => {
   let command = `\
   --name=${params.pluralComponentName} \
   --module=${params.module.moduleName} \
-  --path=${params.module.modulePath} \
-  --service=${params.service.singularName} \
-  --servicePath=${params.service.servicePath}`;
+  --path=${params.module.modulePath} \ `;
 
   let schema = '';
 
   switch (params.interfacePattern) {
     case ListCreationType.list: {
       schema = 'list';
+      command += `\
+      --service=${params.service.singularName} \
+      --servicePath=${params.service.servicePath}`
     } break;
 
     case ListCreationType.listCreateEditFull: {
       schema = 'list';
       command += `\
       --mode=full\
-      --singleName=${params.singularComponentName}`;
+      --singleName=${params.singularComponentName} \
+      --service=${params.service.singularName} \
+      --servicePath=${params.service.servicePath}`;
     } break;
 
     case ListCreationType.listCreateEditDialog: {
@@ -58,7 +61,9 @@ export let index = (req: Request, res: Response) => {
 
       command += `\
       --mode=dialog \
-      --singleName=${params.singularComponentName}`;
+      --singleName=${params.singularComponentName} \
+      --service=${params.service.singularName} \
+      --servicePath=${params.service.servicePath}`;
 
     } break;
 
@@ -72,7 +77,9 @@ export let index = (req: Request, res: Response) => {
       --secondLevel=true \
       --path=${params.module.modulePath}/${params.pluralComponentName} \
       --singleName=${params.singularComponentName}\
-      --name=${params.singularComponentName}`;
+      --name=${params.singularComponentName} \
+      --service=${params.service.singularName} \
+      --servicePath=${params.service.servicePath}`;
     } break;
 
     case ListCreationType.CreateEditDialog: {
@@ -85,9 +92,15 @@ export let index = (req: Request, res: Response) => {
       --secondLevel=true \
       --path=${params.module.modulePath}/${params.pluralComponentName} \
       --singleName=${params.singularComponentName}\
-      --name=${params.singularComponentName}`;
+      --name=${params.singularComponentName}
+      --service=${params.service.singularName} \
+      --servicePath=${params.service.servicePath}`;
 
     } break;
+
+    case ListCreationType.Basic: {
+      schema = 'base';
+    }
   }
 
   exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
@@ -215,7 +228,8 @@ export let generateModule = (req: Request, res: Response) => {
   let command = `\
   --name=${params.name} \
   --path=${params.module.modulePath} \
-  --module=${params.module.moduleName}`;
+  --module=${params.module.moduleName} \
+  --routing=${params.routing}`;
 
   let schema = 'module';
 
