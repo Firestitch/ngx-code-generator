@@ -44,7 +44,9 @@ export let index = (req: Request, res: Response) => {
       schema = 'list';
       command += `\
       --service=${params.service.singularName} \
-      --servicePath=${params.service.servicePath}`
+      --servicePath=${params.service.servicePath} \
+      --pluralModel=${params.pluralModelName} \
+      --singleModel=${params.singularModelName}`
     } break;
 
     case ListCreationType.listCreateEditFull: {
@@ -53,7 +55,9 @@ export let index = (req: Request, res: Response) => {
       --mode=full\
       --singleName=${params.singularComponentName} \
       --service=${params.service.singularName} \
-      --servicePath=${params.service.servicePath}`;
+      --servicePath=${params.service.servicePath} \
+      --pluralModel=${params.pluralModelName} \
+      --singleModel=${params.singularModelName}`;
     } break;
 
     case ListCreationType.listCreateEditDialog: {
@@ -63,7 +67,9 @@ export let index = (req: Request, res: Response) => {
       --mode=dialog \
       --singleName=${params.singularComponentName} \
       --service=${params.service.singularName} \
-      --servicePath=${params.service.servicePath}`;
+      --servicePath=${params.service.servicePath} \
+      --pluralModel=${params.pluralModelName} \
+      --singleModel=${params.singularModelName}`;
 
     } break;
 
@@ -79,7 +85,9 @@ export let index = (req: Request, res: Response) => {
       --singleName=${params.singularComponentName}\
       --name=${params.singularComponentName} \
       --service=${params.service.singularName} \
-      --servicePath=${params.service.servicePath}`;
+      --servicePath=${params.service.servicePath} \
+      --pluralModel=${params.pluralModelName} \
+      --singleModel=${params.singularModelName}`;
     } break;
 
     case ListCreationType.CreateEditDialog: {
@@ -94,7 +102,9 @@ export let index = (req: Request, res: Response) => {
       --singleName=${params.singularComponentName}\
       --name=${params.singularComponentName}
       --service=${params.service.singularName} \
-      --servicePath=${params.service.servicePath}`;
+      --servicePath=${params.service.servicePath} \
+      --pluralModel=${params.pluralModelName} \
+      --singleModel=${params.singularModelName}`;
 
     } break;
 
