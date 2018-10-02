@@ -100,7 +100,7 @@ export let index = (req: Request, res: Response) => {
       --secondLevel=true \
       --path=${params.module.modulePath}/${params.pluralComponentName} \
       --singleName=${params.singularComponentName}\
-      --name=${params.singularComponentName}
+      --name=${params.singularComponentName} \
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
