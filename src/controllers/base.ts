@@ -81,7 +81,7 @@ export let index = (req: Request, res: Response) => {
       --parentName=${params.pluralComponentName} \
       --module=${params.module.moduleFullPath} \
       --secondLevel=true \
-      --path=${params.module.modulePath}/${params.pluralComponentName} \
+      --path=${params.module.modulePath} \
       --singleName=${params.singularComponentName}\
       --name=${params.singularComponentName} \
       --service=${params.service.singularName} \
@@ -98,7 +98,7 @@ export let index = (req: Request, res: Response) => {
       --parentName=${params.pluralComponentName} \
       --module=${params.module.moduleFullPath} \
       --secondLevel=true \
-      --path=${params.module.modulePath}/${params.pluralComponentName} \
+      --path=${params.module.modulePath} \
       --singleName=${params.singularComponentName}\
       --name=${params.singularComponentName} \
       --service=${params.service.singularName} \
