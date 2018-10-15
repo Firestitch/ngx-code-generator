@@ -78,12 +78,11 @@ export let index = (req: Request, res: Response) => {
 
       command = `\
       --mode='full'\
-      --parentName=${params.pluralComponentName} \
       --module=${params.module.moduleFullPath} \
       --secondLevel=true \
       --path=${params.module.modulePath} \
-      --singleName=${params.singularComponentName}\
-      --name=${params.singularComponentName} \
+      --singleName=${params.pluralComponentName}\
+      --name=${params.pluralComponentName} \
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
@@ -95,12 +94,11 @@ export let index = (req: Request, res: Response) => {
 
       command = `\
       --mode='dialog'\
-      --parentName=${params.pluralComponentName} \
       --module=${params.module.moduleFullPath} \
       --secondLevel=true \
       --path=${params.module.modulePath} \
-      --singleName=${params.singularComponentName}\
-      --name=${params.singularComponentName} \
+      --singleName=${params.pluralComponentName}\
+      --name=${params.pluralComponentName} \
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
