@@ -53,6 +53,7 @@ export let index = (req: Request, res: Response) => {
       schema = 'list';
       command += `\
       --mode=full\
+      --parentName=${params.pluralComponentName} \
       --singleName=${params.singularComponentName} \
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
@@ -65,6 +66,7 @@ export let index = (req: Request, res: Response) => {
 
       command += `\
       --mode=dialog \
+      --parentName=${params.pluralComponentName} \
       --singleName=${params.singularComponentName} \
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
@@ -81,11 +83,10 @@ export let index = (req: Request, res: Response) => {
       --module=${params.module.moduleFullPath} \
       --secondLevel=true \
       --path=${params.module.modulePath} \
-      --singleName=${params.pluralComponentName}\
-      --name=${params.pluralComponentName} \
+      --singleName=${params.singularComponentName}\
+      --name=${params.singularComponentName} \
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
-      --pluralModel=${params.pluralModelName} \
       --singleModel=${params.singularModelName}`;
     } break;
 
@@ -97,8 +98,8 @@ export let index = (req: Request, res: Response) => {
       --module=${params.module.moduleFullPath} \
       --secondLevel=true \
       --path=${params.module.modulePath} \
-      --singleName=${params.pluralComponentName}\
-      --name=${params.pluralComponentName} \
+      --singleName=${params.singularComponentName}\
+      --name=${params.singularComponentName} \
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
