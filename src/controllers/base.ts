@@ -35,7 +35,8 @@ export let index = (req: Request, res: Response) => {
   let command = `\
   --name=${params.pluralComponentName} \
   --module=${params.module.moduleName} \
-  --path=${params.module.modulePath} \ `;
+  --path=${params.module.modulePath} \
+  --nestedPath=${params.nestedPath}`;
 
   let schema = '';
 
@@ -85,6 +86,7 @@ export let index = (req: Request, res: Response) => {
       --path=${params.module.modulePath} \
       --singleName=${params.singularComponentName}\
       --name=${params.singularComponentName} \
+      --nestedPath=${params.nestedPath} \
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
       --singleModel=${params.singularModelName}`;
@@ -100,6 +102,7 @@ export let index = (req: Request, res: Response) => {
       --path=${params.module.modulePath} \
       --singleName=${params.singularComponentName}\
       --name=${params.singularComponentName} \
+      --nestedPath=${params.nestedPath} \
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
