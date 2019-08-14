@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
-import { exec } from 'child_process';
+import { createWriteStream } from 'fs';
+import { exec, spawn, execFileSync } from 'child_process';
 import { ListCreationType } from '../common/list-creation-type';
+import { findAllModules, findAllServices } from '../helpers';
+import * as path from 'path';
 
 /**
  * GET /
@@ -24,7 +27,7 @@ export let index = (req: Request, res: Response) => {
 
   const params = req.body;
 
-  if (!params.pluralComponentName || !params.module) {
+  if (!params.componentName || !params.module) {
     res.status(400).json({
       message: 'Component and Module are requierd'
     });
@@ -33,10 +36,10 @@ export let index = (req: Request, res: Response) => {
   }
 
   let command = `\
-  --name=${params.pluralComponentName} \
+  --name=${params.componentName} \
   --module=${params.module.moduleName} \
   --path=${params.module.modulePath} \
-  --nestedPath=${params.nestedPath}`;
+  --type=${params.componentType}`;
 
   let schema = '';
 
@@ -50,64 +53,36 @@ export let index = (req: Request, res: Response) => {
       --singleModel=${params.singularModelName}`
     } break;
 
-    case ListCreationType.listCreateEditFull: {
+    case ListCreationType.listCreateEdit: {
       schema = 'list';
       command += `\
-      --mode=full\
-      --parentName=${params.pluralComponentName} \
-      --singleName=${params.singularComponentName} \
+      --mode=${params.createEditInterfacePattern}\
+      --parentName=${params.componentName} \
+      --singleName=${params.createEditComponentName} \
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
       --singleModel=${params.singularModelName}`;
     } break;
 
-    case ListCreationType.listCreateEditDialog: {
-      schema = 'list';
-
-      command += `\
-      --mode=dialog \
-      --parentName=${params.pluralComponentName} \
-      --singleName=${params.singularComponentName} \
-      --service=${params.service.singularName} \
-      --servicePath=${params.service.servicePath} \
-      --pluralModel=${params.pluralModelName} \
-      --singleModel=${params.singularModelName}`;
-
-    } break;
-
-    case ListCreationType.CreateEditFull: {
-      schema = 'list-create';
+    case ListCreationType.CreateEdit: {
+      if (params.createEditInterfacePattern === 'dialog') {
+        schema = 'list-create-dialog';
+      } else {
+        schema = 'list-create';
+      }
 
       command = `\
-      --mode='full'\
+      --mode=${params.createEditInterfacePattern}\
       --module=${params.module.moduleFullPath} \
       --secondLevel=true \
       --path=${params.module.modulePath} \
-      --singleName=${params.singularComponentName}\
-      --name=${params.singularComponentName} \
-      --nestedPath=${params.nestedPath} \
+      --parentName=${params.componentName} \
+      --name=${params.createEditComponentName} \
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
-      --singleModel=${params.singularModelName}`;
-    } break;
-
-    case ListCreationType.CreateEditDialog: {
-      schema = 'list-create-dialog';
-
-      command = `\
-      --mode='dialog'\
-      --module=${params.module.moduleFullPath} \
-      --secondLevel=true \
-      --path=${params.module.modulePath} \
-      --singleName=${params.singularComponentName}\
-      --name=${params.singularComponentName} \
-      --nestedPath=${params.nestedPath} \
-      --service=${params.service.singularName} \
-      --servicePath=${params.service.servicePath} \
-      --pluralModel=${params.pluralModelName} \
-      --singleModel=${params.singularModelName}`;
-
+      --singleModel=${params.singularModelName} \
+      --type=${params.componentType}`;
     } break;
 
     case ListCreationType.Basic: {
@@ -115,61 +90,70 @@ export let index = (req: Request, res: Response) => {
     }
   }
 
+  console.log(`ng g @firestitch/schematics:${schema} ${command}`);
   exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
 };
 
 export let modulesList = (req: Request, res: Response) => {
+  const currentPath = path.relative(process.cwd(), 'src');
 
-
-  exec(`ng g @firestitch/schematics:modules-list`, (err, stdout, stderr) => {
-    if (err) {
-      res.status(500).json({
-        message: stderr
+  findAllModules(currentPath).then((modules) => {
+    try {
+      res.json({
+        modules: modules
       });
-    } else {
-      try {
-        const list = JSON.parse(stdout.replace('Nothing to be done.', ''));
 
-        res.json({
-          modules: list
-        });
-      } catch (e) {
-        res
-          .status(500)
-          .json({
-            message: e
-          }) ;
-      }
+    } catch (err) {
+      res.status(500).json({
+        message: err
+      });
     }
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
   });
 };
 
 export let servicesList = (req: Request, res: Response) => {
-  exec(`ng g @firestitch/schematics:services-list`, (err, stdout, stderr) => {
-    if (err) {
-      res.status(500).json({
-        message: stderr
-      });
-    } else {
-      try {
-        const list = JSON.parse(stdout.replace('Nothing to be done.', ''));
+  const currentPath = path.relative(process.cwd(), 'src');
 
+  findAllModules(currentPath).then((modules) => {
+    findAllServices(modules).then((services) => {
+      try {
         res.json({
-          services: list
+          services: services
         });
-      } catch (e) {
-        res
-          .status(500)
-          .json({
-            message: e
-          }) ;
+
+      } catch (err) {
+        res.status(500).json({
+          message: err
+        });
       }
-    }
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
+    });
   });
+  // exec(`ng g @firestitch/schematics:services-list`, (err, stdout, stderr) => {
+  //   if (err) {
+  //     res.status(500).json({
+  //       message: stderr
+  //     });
+  //   } else {
+  //     const str = stdout.replace('Nothing to be done.', '');
+  //
+  //     try {
+  //       const list = JSON.parse(str);
+  //
+  //       res.json({
+  //         services: list
+  //       });
+  //     } catch (e) {
+  //       res
+  //         .status(500)
+  //         .json({
+  //           message: e,
+  //           target: str
+  //         }) ;
+  //     }
+  //   }
+  //   console.log(`stdout: ${stdout}`);
+  //   console.log(`stderr: ${stderr}`);
+  // });
 };
 
 export let generateService = (req: Request, res: Response) => {
@@ -207,6 +191,7 @@ export let generateService = (req: Request, res: Response) => {
 
   let schema = 'service';
 
+  console.log(`ng g @firestitch/schematics:${schema} ${command}`);
   exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
 
 };
