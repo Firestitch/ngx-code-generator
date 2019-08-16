@@ -1,13 +1,16 @@
 {
   "name": "@firestitch/codegenerator",
-  "version": "7.0.0",
+  "version": "7.1.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run build:backend && npm run build:frontend",
+    "package": "npm run build:backend && npm run build:frontend:prod",
+    "package:publish": "npm publish",
     "build:backend": "tsc && ncp ./src/public ./dist/public",
     "build:frontend": "cd ./frontend && npm run build",
+    "build:frontend:prod": "cd ./frontend && npm run build:prod",
     "serve": "node ./bin/codegenerator"
   },
   "author": "",
