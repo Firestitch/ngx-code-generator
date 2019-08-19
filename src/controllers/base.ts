@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { createWriteStream } from 'fs';
 import { exec, spawn, execFileSync } from 'child_process';
 import { ListCreationType } from '../common/list-creation-type';
-import { findAllModules, findAllServices } from '../helpers';
+import { findAllModules, findAllServices, getFileContent } from '../helpers';
 import * as path from 'path';
 
 /**
@@ -89,6 +89,62 @@ export let index = (req: Request, res: Response) => {
       schema = 'base';
     }
   }
+
+  console.log(`ng g @firestitch/schematics:${schema} ${command}`);
+  exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
+};
+
+/**
+ * GET /create-enum
+ */
+export let createEnum = (req: Request, res: Response) => {
+
+  const execHandler = (err: any, stdout: any, stderr: any) => {
+    if (err) {
+      res.status(500).json({
+        message: stderr
+      });
+    } else {
+      const currentPath = path.relative(process.cwd(), 'src');
+      const modulePath = params.module.modulePath.replace('/src/', '');
+      const filePath = `${currentPath}/${modulePath}/enums/${params.name}.enum.ts`;
+
+      getFileContent(filePath).then((content) => {
+        res.json({
+          code: content,
+          path: `src/${modulePath}/enums/${params.name}.enum.ts`,
+        })
+      });
+    }
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  };
+
+  const params = req.body;
+
+  if (!params.name || !params.module) {
+    res.status(400).json({
+      message: 'Component and Module are requierd'
+    });
+
+    return;
+  }
+
+  const keys: any = [];
+  const values: any = [];
+
+  params.enums.forEach((en: any) => {
+    keys.push(en.name);
+    values.push(en.value);
+  });
+
+  let command = `\
+  --name=${params.name} \
+  --path=${params.module.modulePath} \
+  --keys=${keys.join()} \
+  --values=${values.join()}`;
+
+  const schema = 'enum';
 
   console.log(`ng g @firestitch/schematics:${schema} ${command}`);
   exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);

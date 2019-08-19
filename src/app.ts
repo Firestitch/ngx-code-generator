@@ -21,6 +21,7 @@ app.use(
 app.post('/api/generate', baseController.index);
 app.post('/api/generate/service', baseController.generateService);
 app.post('/api/generate/module', baseController.generateModule);
+app.post('/api/generate/enum', baseController.createEnum);
 app.get('/api/modules', baseController.modulesList);
 app.get('/api/services', baseController.servicesList);
 app.get('*', (req, res) => {
