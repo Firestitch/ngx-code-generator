@@ -4,6 +4,8 @@ import { exec, spawn, execFileSync } from 'child_process';
 import { ListCreationType } from '../common/list-creation-type';
 import { findAllModules, findAllServices, getFileContent } from '../helpers';
 import * as path from 'path';
+import { getEnumKeysList } from '../helpers/get-enum-keys-list';
+import { findAllEnums } from '../helpers/find-all-enums';
 
 /**
  * GET /
@@ -150,6 +152,63 @@ export let createEnum = (req: Request, res: Response) => {
   exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
 };
 
+export let createConst = (req: Request, res: Response) => {
+
+  const execHandler = (err: any, stdout: any, stderr: any) => {
+    if (err) {
+      res.status(500).json({
+        message: stderr
+      });
+    } else {
+      const currentPath = path.relative(process.cwd(), 'src');
+      const modulePath = params.module.modulePath.replace('src/', '');
+      const filePath = `${currentPath}/${modulePath}/consts/${params.name}.const.ts`;
+
+      getFileContent(filePath).then((content) => {
+        res.json({
+          code: content,
+          path: `src/${modulePath}/consts/${params.name}.const.ts`,
+        })
+      });
+    }
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  };
+
+  const params = req.body;
+
+  if (!params.name || !params.module) {
+    res.status(400).json({
+      message: 'Component and Module are requierd'
+    });
+
+    return;
+  }
+
+  const keys: any = [];
+  const values: any = [];
+
+  let idx = 0;
+  params.enumData.members.forEach((en: any) => {
+    keys.push(en);
+    values.push(params.consts[idx]);
+    idx++;
+  });
+
+  let command = `\
+  --name=${params.name} \
+  --path=${params.module.modulePath} \
+  --enumName=${params.enumData.name} \
+  --enumPath=${params.enum.enumFullPath} \
+  --keys=${keys.join()} \
+  --values=${values.join()}`;
+
+  const schema = 'const';
+
+  console.log(`ng g @firestitch/schematics:${schema} ${command}`);
+  exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
+}
+
 export let modulesList = (req: Request, res: Response) => {
   const currentPath = path.relative(process.cwd(), 'src');
 
@@ -278,13 +337,57 @@ export let generateModule = (req: Request, res: Response) => {
     return;
   }
 
-  let command = `\
+  const command = `\
   --name=${params.name} \
   --path=${params.module.modulePath} \
   --module=${params.module.moduleName} \
   --routing=${params.routing}`;
 
-  let schema = 'module';
+  const schema = 'module';
 
   exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
+};
+
+export let enumKeysList = (req: Request, res: Response) => {
+  const params = req.query;
+
+  if (!params.enumPath) {
+    res.status(400).json({
+      message: 'Name is required'
+    });
+  }
+
+  const currentPath = path.relative(process.cwd(), params.enumPath);
+
+  try {
+    getEnumKeysList(currentPath).then((data) => {
+      res.json(data);
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: e
+    });
+  }
+};
+
+export let enumsList = (req: Request, res: Response) => {
+  const params = req.query;
+
+  if (!params.enumPath) {
+    res.status(400).json({
+      message: 'Name is required'
+    });
+  }
+
+  const currentPath = path.relative(process.cwd(), params.enumPath + '/enums');
+
+  try {
+    findAllEnums(currentPath).then((data) => {
+      res.json(data);
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: e
+    });
+  }
 };

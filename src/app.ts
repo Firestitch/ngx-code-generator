@@ -22,6 +22,9 @@ app.post('/api/generate', baseController.index);
 app.post('/api/generate/service', baseController.generateService);
 app.post('/api/generate/module', baseController.generateModule);
 app.post('/api/generate/enum', baseController.createEnum);
+app.post('/api/generate/const', baseController.createConst);
+app.get('/api/generate/enums-list', baseController.enumsList);
+app.get('/api/generate/enum-keys-list', baseController.enumKeysList);
 app.get('/api/modules', baseController.modulesList);
 app.get('/api/services', baseController.servicesList);
 app.get('*', (req, res) => {
