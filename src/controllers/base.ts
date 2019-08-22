@@ -6,6 +6,7 @@ import { findAllModules, findAllServices, getFileContent } from '../helpers';
 import * as path from 'path';
 import { getEnumKeysList } from '../helpers/get-enum-keys-list';
 import { findAllEnums } from '../helpers/find-all-enums';
+import { fixErrorResponseMessage } from '../helpers/fix-error-response-message';
 
 /**
  * GET /
@@ -16,7 +17,7 @@ export let index = (req: Request, res: Response) => {
   const execHandler = (err: any, stdout: any, stderr: any) => {
     if (err) {
       res.status(500).json({
-        message: stderr
+        message: fixErrorResponseMessage(stderr)
       });
     } else {
       res.json({
@@ -104,7 +105,7 @@ export let createEnum = (req: Request, res: Response) => {
   const execHandler = (err: any, stdout: any, stderr: any) => {
     if (err) {
       res.status(500).json({
-        message: stderr
+        message: fixErrorResponseMessage(stderr)
       });
     } else {
       const currentPath = path.relative(process.cwd(), 'src');
@@ -157,7 +158,7 @@ export let createConst = (req: Request, res: Response) => {
   const execHandler = (err: any, stdout: any, stderr: any) => {
     if (err) {
       res.status(500).json({
-        message: stderr
+        message: fixErrorResponseMessage(stderr)
       });
     } else {
       const currentPath = path.relative(process.cwd(), 'src');
@@ -238,7 +239,7 @@ export let servicesList = (req: Request, res: Response) => {
 
       } catch (err) {
         res.status(500).json({
-          message: err
+          message: fixErrorResponseMessage(err)
         });
       }
     });
@@ -275,7 +276,7 @@ export let generateService = (req: Request, res: Response) => {
   const execHandler = (err: any, stdout: any, stderr: any) => {
     if (err) {
       res.status(500).json({
-        message: stderr
+        message: fixErrorResponseMessage(stderr)
       });
     } else {
       res.json({
@@ -315,7 +316,7 @@ export let generateModule = (req: Request, res: Response) => {
   const execHandler = (err: any, stdout: any, stderr: any) => {
     if (err) {
       res.status(500).json({
-        message: stderr
+        message: fixErrorResponseMessage(stderr)
       });
     } else {
       res.json({
