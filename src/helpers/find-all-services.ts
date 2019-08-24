@@ -5,6 +5,7 @@ import * as fs from 'fs';
 export async function findAllServices(modules: any) {
   const servicesList: any = [];
   const serviceRe = /\.service\.ts$/;
+  const dataRe = /\.data\.ts$/;
 
 
   for (const module of modules) {
@@ -46,7 +47,7 @@ export async function findAllServices(modules: any) {
     for (const file of files) {
       const stat = await fs.promises.stat(path.join(file.servicePath, file.singularName));
 
-      if (stat.isFile() && serviceRe.test(file.singularName)) {
+      if (stat.isFile() && (serviceRe.test(file.singularName) || dataRe.test(file.singularName))) {
         services.push(file);
       }
     }
