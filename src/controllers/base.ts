@@ -1,11 +1,8 @@
 import { Request, Response } from 'express';
-import { createWriteStream } from 'fs';
-import { exec, spawn, execFileSync } from 'child_process';
-import { ListCreationType } from '../common/list-creation-type';
-import { findAllModules, findAllServices, getFileContent } from '../helpers';
+import { exec } from 'child_process';
 import * as path from 'path';
-import { getEnumKeysList } from '../helpers/get-enum-keys-list';
-import { findAllEnums } from '../helpers/find-all-enums';
+import { ListCreationType } from '../common/list-creation-type';
+import { findAllModules, findAllServices, getFileContent, getEnumKeysList, findAllEnums } from '../helpers';
 import { fixErrorResponseMessage } from '../helpers/fix-error-response-message';
 
 /**
@@ -104,21 +101,28 @@ export let index = (req: Request, res: Response) => {
 export let createEnum = (req: Request, res: Response) => {
 
   const execHandler = (err: any, stdout: any, stderr: any) => {
-    if (err) {
+    if (stderr) {
       res.status(500).json({
         message: fixErrorResponseMessage(stderr)
       });
     } else {
       const currentPath = path.relative(process.cwd(), 'src');
-      const modulePath = params.module.modulePath.replace('/src/', '');
-      const filePath = `${currentPath}/${modulePath}/enums/${params.name}.enum.ts`;
+      const modulePath = params.module.modulePath.replace(/^[\/\\]src[\/\\]/, '');
+      const filePath = path.join(currentPath, modulePath, 'enums', `${params.name}.enum.ts`);
 
-      getFileContent(filePath).then((content) => {
-        res.json({
-          code: content,
-          path: `src/${modulePath}/enums/${params.name}.enum.ts`,
-        })
-      });
+      try {
+        getFileContent(filePath).then((content) => {
+          res.json({
+            code: content,
+            path: path.join('src', modulePath, 'enums', `${params.name}.enum.ts`),
+          })
+        });
+
+      } catch (e) {
+        res.status(500).json({
+          message: e
+        });
+      }
     }
     console.log(`stdout: ${stdout}`);
     console.log(`stderr: ${stderr}`);
@@ -142,7 +146,7 @@ export let createEnum = (req: Request, res: Response) => {
     values.push(en.value);
   });
 
-  let command = `\
+  const command = `\
   --name=${params.name} \
   --path=${params.module.modulePath} \
   --keys=${keys.join()} \
@@ -163,15 +167,21 @@ export let createConst = (req: Request, res: Response) => {
       });
     } else {
       const currentPath = path.relative(process.cwd(), 'src');
-      const modulePath = params.module.modulePath.replace('src/', '');
-      const filePath = `${currentPath}/${modulePath}/consts/${params.name}.const.ts`;
+      const modulePath = params.module.modulePath.replace(/^src[\/\\]/, '');
+      const filePath = path.join(currentPath, modulePath, 'consts', `${params.name}.const.ts`);
 
-      getFileContent(filePath).then((content) => {
-        res.json({
-          code: content,
-          path: `src/${modulePath}/consts/${params.name}.const.ts`,
-        })
-      });
+      try {
+        getFileContent(filePath).then((content) => {
+          res.json({
+            code: content,
+            path: path.join('src', modulePath, 'consts', `${params.name}.const.ts`),
+          })
+        });
+      } catch (e) {
+        res.status(500).json({
+          message: e
+        });
+      }
     }
     console.log(`stdout: ${stdout}`);
     console.log(`stderr: ${stderr}`);
@@ -197,7 +207,7 @@ export let createConst = (req: Request, res: Response) => {
     idx++;
   });
 
-  let command = `\
+  const command = `\
   --name=${params.name} \
   --path=${params.module.modulePath} \
   --enumName=${params.enumData.name} \
@@ -209,7 +219,7 @@ export let createConst = (req: Request, res: Response) => {
 
   console.log(`ng g @firestitch/schematics:${schema} ${command}`);
   exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
-}
+};
 
 export let modulesList = (req: Request, res: Response) => {
   const currentPath = path.relative(process.cwd(), 'src');
@@ -298,7 +308,7 @@ export let generateService = (req: Request, res: Response) => {
     return;
   }
 
-  let command = `\
+  const command = `\
   --name=${params.singularName} \
   --module=${params.module.moduleName} \
   --path=${params.module.modulePath} \
@@ -306,7 +316,7 @@ export let generateService = (req: Request, res: Response) => {
   --pluralName=${params.pluralName} \
   --menuService`;
 
-  let schema = 'service';
+  const schema = 'service';
 
   console.log(`ng g @firestitch/schematics:${schema} ${command}`);
   exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
@@ -381,7 +391,7 @@ export let enumsList = (req: Request, res: Response) => {
     });
   }
 
-  const currentPath = path.relative(process.cwd(), params.enumPath + '/enums');
+  const currentPath = path.relative(process.cwd(), path.join(params.enumPath, 'enums'));
 
   try {
     findAllEnums(currentPath).then((data) => {
