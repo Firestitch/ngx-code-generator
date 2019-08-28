@@ -30,9 +30,9 @@ export let index = (req: Request, res: Response) => {
 
   const params = req.body;
 
-  if (!params.componentName || !params.module) {
+  if (!params.module) {
     res.status(400).json({
-      message: 'Component and Module are requierd'
+      message: 'Module requierd'
     });
 
     return;
@@ -81,6 +81,7 @@ export let index = (req: Request, res: Response) => {
       --secondLevel=true \
       --path=${params.module.modulePath} \
       --parentName=${params.componentName} \
+      --parentType=${params.relatedParentType} \
       --name=${params.createEditComponentName} \
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
