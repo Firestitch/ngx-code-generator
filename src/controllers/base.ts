@@ -39,7 +39,7 @@ export let index = (req: Request, res: Response) => {
   --name=${params.componentName} \
   --module=${params.module.moduleName} \
   --path=${params.module.modulePath} \
-  --type=${params.componentType}`;
+  --routableComponent=${params.routableComponent}`;
 
   let schema = '';
 
@@ -62,7 +62,8 @@ export let index = (req: Request, res: Response) => {
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
-      --singleModel=${params.singularModelName}`;
+      --singleModel=${params.singularModelName} \
+      --routableCreateComponent=${params.routableCreateComponent}`;
     } break;
 
     case ListCreationType.CreateEdit: {
@@ -83,7 +84,7 @@ export let index = (req: Request, res: Response) => {
       --service=${params.service.singularName} \
       --servicePath=${params.service.servicePath} \
       --singleModel=${params.singularModelName} \
-      --type=${params.componentType}`;
+      --routableCreateComponent=${params.routableCreateComponent}`;
     } break;
 
     case ListCreationType.Basic: {
