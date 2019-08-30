@@ -4,6 +4,7 @@ import * as path from 'path';
 import { ListCreationType } from '../common/list-creation-type';
 import { findAllModules, findAllServices, getFileContent, getEnumKeysList, findAllEnums } from '../helpers';
 import { fixErrorResponseMessage } from '../helpers/fix-error-response-message';
+import { dasherize } from '@angular-devkit/core/src/utils/strings';
 
 /**
  * GET /
@@ -107,15 +108,16 @@ export let createEnum = (req: Request, res: Response) => {
         message: fixErrorResponseMessage(stderr)
       });
     } else {
+      const name = dasherize(params.name);
       const currentPath = path.relative(process.cwd(), 'src');
       const modulePath = params.module.modulePath.replace(/^[\/\\]src[\/\\]/, '');
-      const filePath = path.join(currentPath, modulePath, 'enums', `${params.name}.enum.ts`);
+      const filePath = path.join(currentPath, modulePath, 'enums', `${name}.enum.ts`);
 
       try {
         getFileContent(filePath).then((content) => {
           res.json({
             code: content,
-            path: path.join('src', modulePath, 'enums', `${params.name}.enum.ts`),
+            path: path.join('src', modulePath, 'enums', `${name}.enum.ts`),
           })
         });
 
@@ -167,15 +169,16 @@ export let createConst = (req: Request, res: Response) => {
         message: fixErrorResponseMessage(stderr)
       });
     } else {
+      const name = dasherize(params.name);
       const currentPath = path.relative(process.cwd(), 'src');
       const modulePath = params.module.modulePath.replace(/^src[\/\\]/, '');
-      const filePath = path.join(currentPath, modulePath, 'consts', `${params.name}.const.ts`);
+      const filePath = path.join(currentPath, modulePath, 'consts', `${name}.const.ts`);
 
       try {
         getFileContent(filePath).then((content) => {
           res.json({
             code: content,
-            path: path.join('src', modulePath, 'consts', `${params.name}.const.ts`),
+            path: path.join('src', modulePath, 'consts', `${name}.const.ts`),
           })
         });
       } catch (e) {
@@ -256,32 +259,6 @@ export let servicesList = (req: Request, res: Response) => {
       }
     });
   });
-  // exec(`ng g @firestitch/schematics:services-list`, (err, stdout, stderr) => {
-  //   if (err) {
-  //     res.status(500).json({
-  //       message: stderr
-  //     });
-  //   } else {
-  //     const str = stdout.replace('Nothing to be done.', '');
-  //
-  //     try {
-  //       const list = JSON.parse(str);
-  //
-  //       res.json({
-  //         services: list
-  //       });
-  //     } catch (e) {
-  //       res
-  //         .status(500)
-  //         .json({
-  //           message: e,
-  //           target: str
-  //         }) ;
-  //     }
-  //   }
-  //   console.log(`stdout: ${stdout}`);
-  //   console.log(`stderr: ${stderr}`);
-  // });
 };
 
 export let generateService = (req: Request, res: Response) => {
