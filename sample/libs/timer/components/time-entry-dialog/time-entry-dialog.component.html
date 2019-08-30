@@ -1,0 +1,22 @@
+<div [fsSkeletonForm]="timeEntry">
+  <form *ngIf="timeEntry" (fsForm)="save()" #form="ngForm">  
+    <fs-dialog>
+      <div mat-dialog-title>{{ timeEntry.id ? 'Edit' : 'Create' }} Time Entry</div>
+      <mat-dialog-content>
+        <div fxLayout="column">
+          <app-timer-entry-form
+            [(timeEntry)]="timeEntry"
+            [(startDate)]="timeEntry.start_date"
+            [(minutes)]="timeEntry.minutes"
+            [(mode)]="timeEntry.type"
+            (proceedTask)="close()"
+          ></app-timer-entry-form>
+        </div>
+      </mat-dialog-content>
+      <mat-dialog-actions>
+        <button mat-button type="submit" color="primary">{{ timeEntry.id ? 'Save' : 'Create' }}</button>
+        <button mat-button mat-dialog-close>Cancel</button>
+      </mat-dialog-actions>
+    </fs-dialog>
+  </form>
+</div>

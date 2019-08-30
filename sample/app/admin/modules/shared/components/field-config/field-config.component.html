@@ -1,0 +1,4 @@
+<div [fsSkeletonForm]="type">
+  <fs-field-editor *ngIf="config" [config]="config"></fs-field-editor>
+  <button mat-raised-button (click)="submitFormData()" color="primary">Save</button>
+</div>

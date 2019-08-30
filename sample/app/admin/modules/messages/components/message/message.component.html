@@ -1,0 +1,191 @@
+<form (fsForm)="save()" #form="ngForm" [fsSkeleton]="message">
+  <fs-dialog *ngIf="message">
+    <div mat-dialog-title>Edit Message</div>
+    <mat-dialog-content>
+
+      <mat-tab-group>
+        <mat-tab label="General">
+
+          <div fxLayout="column">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Name"
+                [(ngModel)]="message.name"
+                name="Name"
+                required>
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Description"
+                [(ngModel)]="message.description"
+                name="description">
+            </mat-form-field>
+
+            <div
+              fxLayout="row"
+              fxLayoutGap="10px"
+              fxLayout.xs="column"
+              fxLayout.sm="column">
+              <mat-form-field fxFlex>
+                <input
+                  matInput
+                  placeholder="From Email"
+                  [(ngModel)]="message.email_message.from_email"
+                  name="from_email">
+              </mat-form-field>
+              <mat-form-field fxFlex>
+                <input
+                  matInput
+                  placeholder="From Name"
+                  [(ngModel)]="message.email_message.from_name"
+                  name="from_name">
+              </mat-form-field>
+              <mat-form-field fxFlex>
+                <input
+                  matInput
+                  placeholder="Reply To"
+                  [(ngModel)]="message.email_message.reply_to"
+                  name="reply_to">
+              </mat-form-field>
+            </div>
+
+            <div
+              fxLayout="row"
+              fxLayoutGap="10px"
+              fxLayout.xs="column"
+              fxLayout.sm="column">
+              <mat-form-field fxFlex>
+                <input
+                  matInput
+                  placeholder="To"
+                  [(ngModel)]="message.email_message.to_recipients"
+                  name="to">
+              </mat-form-field>
+              <mat-form-field fxFlex>
+                <input
+                  matInput
+                  placeholder="CC"
+                  [(ngModel)]="message.email_message.cc_recipients"
+                  name="cc">
+              </mat-form-field>
+              <mat-form-field fxFlex>
+                <input
+                  matInput
+                  placeholder="BCC"
+                  [(ngModel)]="message.email_message.bcc_recipients"
+                  name="bcc">
+              </mat-form-field>
+            </div>
+
+            <div
+              fxLayout="row"
+              fxLayoutGap="10px"
+              fxLayout.sm="column"
+              fxLayout.xs="column">
+              <mat-form-field fxFlex>
+                <input
+                  matInput
+                  placeholder="Subject"
+                  [(ngModel)]="message.email_message.subject"
+                  name="name"
+                  required>
+              </mat-form-field>
+            </div>
+          </div>
+
+        </mat-tab>
+        <mat-tab label="Email Message" *ngIf="message.email_message">
+          <div fxLayout="column">
+
+            <div fxLayout="row" fxLayoutGap="10px">
+
+              <mat-form-field>
+                <mat-select
+                  required
+                  placeholder="Format"
+                  [(ngModel)]="message.email_message.format"
+                  name="format"
+                  (ngModelChange)="formatChanged($event)">
+                    <mat-option *ngFor="let item of emailMessageFormats" [value]="item.value">
+                      {{item.name}}
+                    </mat-option>
+                  </mat-select>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-select
+                  placeholder="Template"
+                  [(ngModel)]="message.email_message.message_template_id"
+                  name="template">
+                    <mat-option *ngFor="let item of message_templates" [value]="item.id">
+                      {{item.name}}
+                    </mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+
+
+            <ng-container *ngIf="message.email_message.format===emailMessageFormat.RichText">
+              <fs-label>Body</fs-label>
+              <fs-editor-rich-text
+                [(ngModel)]="message.email_message.body"
+                name="body">
+              </fs-editor-rich-text>
+            </ng-container>
+
+            <ng-container *ngIf="message.email_message.format===emailMessageFormat.HTML">
+              <mat-form-field
+                fxFlex>
+                  <textarea
+                    matInput
+                    cdkTextareaAutosize
+                    placeholder="Body"
+                    [(ngModel)]="message.email_message.body"
+                    name="body"
+                    class="textarea-html"
+                    required>
+                  </textarea>
+              </mat-form-field>
+            </ng-container>
+
+
+            <mat-form-field
+              fxFlex
+              *ngIf="message.email_message.format===emailMessageFormat.Text">
+                <textarea
+                  matInput
+                  cdkTextareaAutosize
+                  placeholder="Body"
+                  [(ngModel)]="message.email_message.body"
+                  name="body"
+                  required>
+                </textarea>
+            </mat-form-field>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Defaults">
+          <fs-label-field>
+            <fs-label>Subject</fs-label>
+            <div class="content">{{message.default_email_subject}}</div>
+          </fs-label-field>
+
+          <br>
+
+          <fs-label-field>
+            <fs-label>Body</fs-label>
+            <div class="content">{{message.default_email_body}}</div>
+          </fs-label-field>
+        </mat-tab>
+      </mat-tab-group>
+
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button color="primary">Save</button>
+      <button mat-button type="button" (click)="sendTest()">Send Test</button>
+      <button mat-button [mat-dialog-close]="true">Cancel</button>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

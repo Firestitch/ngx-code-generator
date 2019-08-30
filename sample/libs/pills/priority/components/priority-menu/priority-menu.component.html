@@ -1,0 +1,10 @@
+<mat-form-field class="prioirty-selector">
+  <mat-select placeholder="Priority" [ngModel]="priority" [compareWith]="compareFn" (ngModelChange)="changePriority($event)" name="priority">
+    <mat-select-trigger>
+      <app-priority-pill [priority]="priority" showName="true"></app-priority-pill>
+    </mat-select-trigger>
+    <mat-option *ngFor="let item of priorities" [value]="item">
+      <app-priority-pill [priority]="item.value" showName="true"></app-priority-pill>
+    </mat-option>
+  </mat-select>
+</mat-form-field>

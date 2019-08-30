@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import { srcPath } from '../server';
 
 
 export async function findAllServices(modules: any) {
@@ -11,7 +12,7 @@ export async function findAllServices(modules: any) {
   for (const module of modules) {
     const files = [];
     // Make relative path
-    const modulePath = module.modulePath.replace('/', '');
+    const modulePath = module.modulePath;
 
     const servicesPath = path.join(modulePath, 'services');
     const dataServicesPath = path.join(modulePath, 'data');
@@ -23,7 +24,8 @@ export async function findAllServices(modules: any) {
         ...serviceFiles.map((file) => {
           return {
             servicePath: servicesPath,
-            singularName: file
+            singularName: file,
+            name: servicesPath.toString().replace(/\\/g, '/').replace(new RegExp(`^${srcPath}/`), ''),
           };
         })
       );
@@ -36,7 +38,8 @@ export async function findAllServices(modules: any) {
         ...dataServiceFiles.map((file) => {
           return {
             servicePath: dataServicesPath,
-            singularName: file
+            singularName: file,
+            name: dataServicesPath.toString().replace(/\\/g, '/').replace(new RegExp(`^${srcPath}/`), ''),
           };
         })
       );

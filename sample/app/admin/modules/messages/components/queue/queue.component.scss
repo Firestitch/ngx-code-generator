@@ -1,0 +1,14 @@
+.subject, .body {
+  display: block;
+  margin-top: 15px;
+}
+
+.body {
+  .format-text {
+    white-space: pre-wrap;
+  }
+
+  .body-frame {
+    border: 0;
+  }
+}

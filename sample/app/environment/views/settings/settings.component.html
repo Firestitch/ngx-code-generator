@@ -1,0 +1,29 @@
+<form (fsForm)="save()">
+  <div [fsSkeletonForm]="routeObserver.loaded">
+    <div fxLayout="row" fxLayoutGap="20px" fxLayoutGap.xs="0" fxLayout.xs="column" fxFlex fxFlexAlign="start">
+      <div>
+        <div fxLayout="row" fxLayout.xs="column">
+          <fs-file-image-picker
+            fxFlexAlign.xs="center"
+            #environmentImage
+            (select)="upload($event)"
+            [url]="environment?.image?.small"
+            [imageWidth]="500"
+            [imageHeight]="500"
+            [imageQuality]="0.8"
+            [previewDiameter]="100"
+            *ngIf="environment.id">
+          </fs-file-image-picker>
+        </div>
+      </div>
+      <div class="mat-fullwidth">
+        <div fxLayout="column">
+          <mat-form-field class="mat-fullwidth">
+            <input matInput placeholder="Name" [(ngModel)]="environment.name" fsFormRequired name="name">
+          </mat-form-field>
+        </div>
+        <button mat-raised-button type="submit" color="primary">Save</button>
+      </div>
+    </div>
+  </div>
+</form>

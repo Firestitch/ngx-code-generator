@@ -1,0 +1,26 @@
+<mat-card>
+  <fs-list [config]="config" #list>
+    <fs-list-column>
+      <ng-template fs-list-header>Name</ng-template>
+      <ng-template fs-list-cell let-row="row">
+        {{row.name}}
+        <div>
+          <small>{{row.cron_setting.summary}}</small>
+        </div>
+      </ng-template>
+    </fs-list-column>
+    <fs-list-column>
+      <ng-template fs-list-header>Status</ng-template>
+      <ng-template fs-list-cell let-row="row">
+        {{cronStates[row.state]}}
+      </ng-template>
+    </fs-list-column>
+    <fs-list-column>
+      <ng-template fs-list-header>Last Ran</ng-template>
+      <ng-template fs-list-cell let-row="row">
+        <fs-date-ago [date]="row.create_date"></fs-date-ago>
+        <div><small *ngIf="row.duration">Duration: {{ row.duration | fsDateDuration }}</small></div>
+      </ng-template>
+    </fs-list-column>
+  </fs-list>
+</mat-card>

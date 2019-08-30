@@ -1,0 +1,52 @@
+<div [fsSkeletonContent]="environment">
+  <fs-list *ngIf="environment" [config]="config" #list>
+
+    <fs-list-column title="Name" name="first_name" sortable="true" *ngIf="accountType == 'person'">
+      <ng-template fs-list-cell let-row="row">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <fs-badge shape="circle" image="{{ row?.account.image.small }}"></fs-badge>
+          <div fxLayout="column">
+            <a (click)="openMemberDialog(row)">{{ row?.account.first_name }} {{ row?.account.last_name }}</a>
+          </div>
+        </div>
+      </ng-template>
+    </fs-list-column>
+
+    <fs-list-column title="API Key" name="api_key" sortable="true" *ngIf="accountType == 'api'">
+      <ng-template fs-list-cell let-row="row">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <div fxLayout="column">
+            <a (click)="openMemberDialog(row)">{{ row?.account.api_key }}</a>
+          </div>
+        </div>
+      </ng-template>
+    </fs-list-column>
+
+    <fs-list-column>
+      <ng-template fs-list-header>Role</ng-template>
+      <ng-template fs-list-cell let-row="row">
+        <div *ngIf="row.acl_roles && row.acl_roles.length" fxLayout="column">
+          <span *ngFor="let item of row.acl_roles">{{ item.name }}</span>
+        </div>
+      </ng-template>
+    </fs-list-column>
+
+    <fs-list-column>
+      <ng-template fs-list-header>Projects</ng-template>
+      <ng-template fs-list-cell let-row="row">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2px">
+          <fs-badge shape="circle" *ngFor="let project of row.projects" image="{{ project.image.small }}"></fs-badge>
+          <span *ngIf="row.projects_count > 2">&nbsp;+&nbsp;{{ row.projects_count - 2 }}</span>
+        </div>
+      </ng-template>
+    </fs-list-column>
+
+    <fs-list-column>
+      <ng-template fs-list-header>Sign-In</ng-template>
+      <ng-template fs-list-cell let-row="row">
+        <span *ngIf="row.signin_date;else loginNever">{{ row.signin_date | fsDateAgo }}</span>
+        <ng-template #loginNever>Never</ng-template>
+      </ng-template>
+    </fs-list-column>
+  </fs-list>
+</div>

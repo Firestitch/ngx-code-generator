@@ -1,0 +1,10 @@
+mat-form-field {
+  ::ng-deep {
+    .mat-form-field-suffix {
+      top: 3px;
+      mat-icon {
+        cursor: pointer;
+      }
+    }
+  }
+}

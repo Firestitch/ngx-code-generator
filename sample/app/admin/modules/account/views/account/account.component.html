@@ -1,0 +1,13 @@
+<mat-card>
+  <nav mat-tab-nav-bar *ngIf="account.id">
+    <a mat-tab-link
+      *ngFor="let item of navItems"
+      [routerLink]="item.path"
+      routerLinkActive #rla="routerLinkActive"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [active]="rla.isActive">
+      {{item.label}}
+    </a>
+  </nav>
+  <router-outlet></router-outlet>
+</mat-card>

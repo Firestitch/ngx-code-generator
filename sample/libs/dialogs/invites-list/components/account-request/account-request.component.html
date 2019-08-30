@@ -1,0 +1,129 @@
+<form (fsForm)="save()" #form="ngForm">
+  <fs-dialog>
+    <div mat-dialog-title>{{ type === 'full' ? 'Create Account' : 'Invite People' }}</div>
+    <div mat-dialog-content>
+      <div fxLayout="column">
+        <div *ngIf="type === 'full'" class="create-method">
+          <fs-radio-group [ngModel]="action" (ngModelChange)="onActionChange($event)" fsFormRequired label="Create Method" name="dialog_type" orientation="vertical">
+            <mat-radio-button value="invite">
+              <div fxLayout="column">
+                <div>Invite</div>
+                <div class="checkbox-hint"><small>The person invited via email can create an Account using a supplied invite link.</small></div>
+              </div>
+            </mat-radio-button>
+            <mat-radio-button value="create">
+              <div>Create Account & Require Activation</div>
+              <div class="checkbox-hint"><small>The Account is created with status of Pending Activation. An email can be sent to prompt the person to activate their account using a supplied activation link.</small></div>
+            </mat-radio-button>
+            <mat-radio-button value="activate">
+              <div>Create Account & Auto Activation</div>
+              <div class="checkbox-hint"><small>The Account is created with status of Active.</small></div>
+            </mat-radio-button>
+          </fs-radio-group>
+        </div>
+
+        <ng-container *ngIf="action === 'invite'">
+
+          <fs-autocomplete-chips
+            [(ngModel)]="selectedAccounts"
+            [fetch]="search"
+            placeholder="Account or Email Address"
+            fsFormRequired="true"
+            [allowText]="true"
+            [validateText]="validateText"
+            invalidTextMessage="Invalid email address"
+            imageProperty="image.small"
+            name="selected_accounts">
+            <ng-template fsAutocompleteObject let-object="object">
+              {{ object.first_name }} {{ object.last_name }}
+            </ng-template>
+          </fs-autocomplete-chips>
+        </ng-container>
+
+        <ng-container *ngIf="action !== 'invite'">
+          <div fxLayout="row" fxLayoutGap="10px" fxLayoutGap.xs="0" fxLayout.xs="column">
+            <mat-form-field fxFlex="50">
+              <input matInput placeholder="First Name" [(ngModel)]="account.first_name" name="first_name" fsFormRequired>
+            </mat-form-field>
+            <mat-form-field fxFlex>
+              <input matInput placeholder="Last Name" [(ngModel)]="account.last_name" name="last_name" fsFormRequired>
+            </mat-form-field>
+          </div>
+          <div fxLayout="column">
+            <mat-form-field fxFlex>
+              <input matInput placeholder="Email" [(ngModel)]="account.email" name="email" fsFormEmail fsFormRequired>
+            </mat-form-field>
+          </div>
+
+          <fs-checkbox-group label="Activation Email Delivery" *ngIf="action === 'create'">
+            <mat-checkbox name="send_email" [(ngModel)]="sendActivationEmail">
+              Send Activation Email
+            </mat-checkbox>
+          </fs-checkbox-group>
+        </ng-container>
+
+        <fs-checkbox-group
+          *ngIf="mode === 'global' && globalRoles"
+          [(ngModel)]="selectedRoles"
+          fsFormRequired
+          fsFormRequiredMessage="Please select at least one role"
+          name="roles" label="Roles" orientation="vertical">
+          <mat-checkbox *ngFor="let role of globalRoles" [value]="role">
+            {{ role.name }}
+          </mat-checkbox>
+        </fs-checkbox-group>
+
+        <ng-container *ngIf="mode !== 'global'">
+          <fs-radio-group
+            [(ngModel)]="mode"
+            (ngModelChange)="changeMode()"
+            fsFormRequired
+            label="Invite to access" name="role_mode" orientation="vertical">
+            <mat-radio-button value="environment">The entire workspace</mat-radio-button>
+            <mat-radio-button value="project">Selected projects</mat-radio-button>
+          </fs-radio-group>
+
+          <fs-checkbox-group
+            *ngIf="mode === 'project' && projectRoles"
+            [(ngModel)]="selectedRoles"
+            fsFormRequired
+            fsFormRequiredMessage="Please select at least one role"
+            name="roles" label="Roles" orientation="vertical">
+            <mat-checkbox *ngFor="let role of projectRoles" [value]="role">
+              {{ role.name }}
+            </mat-checkbox>
+          </fs-checkbox-group>
+
+          <fs-checkbox-group
+            *ngIf="mode === 'environment' && environmentRoles"
+            [(ngModel)]="selectedRoles"
+            fsFormRequired
+            fsFormRequiredMessage="Please select at least one role"
+            name="roles" label="Roles" orientation="vertical">
+            <mat-checkbox *ngFor="let role of environmentRoles" [value]="role">
+              {{ role.name }}
+            </mat-checkbox>
+          </fs-checkbox-group>
+
+          <ng-container *ngIf="mode === 'project'">
+            <fs-autocomplete-chips
+            [(ngModel)]="selectedProjects"
+            [fetch]="fetchProjects"
+            placeholder="Projects"
+            fsFormRequired="true"
+            imageProperty="image.small"
+            name="projects">
+            <ng-template fsAutocompleteObject let-object="object">
+              {{ object.name }}
+            </ng-template>
+            </fs-autocomplete-chips>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+    <mat-dialog-actions>
+      <button type="submit" mat-button color="primary">{{ action === 'invite' ? 'Invite' : 'Create' }}</button>
+      <button type="button" mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

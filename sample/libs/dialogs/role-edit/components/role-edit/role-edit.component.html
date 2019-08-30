@@ -1,0 +1,92 @@
+<form (fsForm)="save()" #form="ngForm">
+  <fs-dialog>
+    <ng-container *ngIf="role">
+      <div mat-dialog-title>{{ role.id ? 'Edit' : 'Create' }} Role</div>
+      <mat-dialog-content>
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="40px" fxLayoutGap.xs="0">
+          <div fxLayout="column" fxFlex="{{ role.level ? '50%' : '' }}">
+            <mat-form-field>
+              <input matInput placeholder="Name" [(ngModel)]="role.name" name="name" fsFormRequired>
+            </mat-form-field>
+
+            <div fxLayout="row">
+              <div class="level">
+                <fs-radio-group
+                  [(ngModel)]="role.level"
+                  (ngModelChange)="levelChanged()"
+                  fsFormRequired
+                  label="Level"
+                  orientation="vertical"
+                  name="level">
+                  <mat-radio-button
+                    *ngFor="let item of levels"
+                    [value]="item.value"
+                    [disabled]="!!role.protected">
+                      {{ item.name }}
+                  </mat-radio-button>
+                </fs-radio-group>
+              </div>
+
+              <fs-checkbox-group label="All Permissions">
+                <mat-checkbox
+                  [(ngModel)]="role.all_permissions"
+                  (ngModelChange)="updatePermissions()"
+                  [disabled]="!!role.protected"
+                  name="all_permissions">
+                </mat-checkbox>
+              </fs-checkbox-group>
+            </div>
+          </div>
+
+          <div fxLayout="column" fxFlex="50%" class="permissions">
+
+            <fs-list [config]="listConfig" #list>
+                <fs-list-column title="Permissions">
+                  <ng-template fs-list-cell let-permission="row">
+                      <div>{{ permission.name }}</div>
+
+                      <small
+                        *ngIf="permission.inheritsLength"
+                        [matTooltip]="permission.inheritedPermissionsTooltip"
+                        [matTooltipClass]="{ 'material-tooltip' : true }">
+                          Inherits {{ permission.inheritsLength }} Permission{{ permission.inheritsLength === 1 ? '' : 's' }}
+                        </small>
+                  </ng-template>
+                </fs-list-column>
+                <fs-list-column title="Access" width="1%" class="access">
+                  <ng-template fs-list-cell let-row="permission" let-permission="row">
+                    <span *ngIf="role.all_permissions; else elseAll">
+                      {{ accessesFlatten[role.permissions[permission.value]] }}
+                    </span>
+
+                    <ng-template #elseAll>
+
+                      <mat-form-field>
+                        <mat-select
+                          [(ngModel)]="role.permissions[permission.value]"
+                          [disabled]="!!role.protected"
+                          fsFormRequired
+                          name="access-{{ permission.value }}">
+                          <ng-container *ngFor="let access of accesses">
+                            <mat-option
+                              *ngIf="access.value === 0 || permission.accesses.indexOf(access.value) !== -1"
+                              [value]="access.value">
+                                {{ access.name }}
+                            </mat-option>
+                          </ng-container>
+                        </mat-select>
+                      </mat-form-field>
+                    </ng-template>
+                  </ng-template>
+                </fs-list-column>
+            </fs-list>
+          </div>
+        </div>
+      </mat-dialog-content>
+      <mat-dialog-actions>
+        <button mat-button type="submit" color="primary">{{ role.id ? 'Save' : 'Create' }}</button>
+        <button mat-button [mat-dialog-close]="true">Cancel</button>
+      </mat-dialog-actions>
+    </ng-container>
+  </fs-dialog>
+</form>

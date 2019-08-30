@@ -1,0 +1,21 @@
+::ng-deep .drawer-container {
+
+  .side-container .header {
+    font-size: 21px;
+    margin-bottom: 15px;
+    min-height: 36px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .icon {
+      margin-right: 10px;
+    }
+  }
+
+  .back {
+    transform: scale(1.4) translate(-3px);
+    display: flex;
+    color: #4c4c4c;
+  }
+}

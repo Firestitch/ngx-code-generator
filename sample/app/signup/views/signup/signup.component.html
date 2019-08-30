@@ -1,0 +1,24 @@
+
+<mat-card>
+  <img class="logo" src="/assets/logo.png">
+  <mat-card-title>Sign Up</mat-card-title>
+  <mat-card-content>
+
+    <app-social-button-group>
+      <app-social-button platform="facebook" (click)="signupFacebook()" label="Sign Up with Facebook"></app-social-button>
+      <app-social-button platform="google" (click)="signupGoogle()" label="Sign Up with Google"></app-social-button>
+    </app-social-button-group>
+
+    <app-or-line></app-or-line>
+
+    <form (fsForm)="signupEmail()">
+      <mat-form-field class="mat-fullwidth">
+        <input matInput placeholder="Email" [(ngModel)]="email" name="email" fsFormRequired fsFormEmail="true">
+      </mat-form-field>
+
+      <button mat-raised-button type="submit" color="primary" class="sign-up">Sign Up with Email</button>
+    </form>
+    <p>By signing up, you are agreeing to the <a (click)="terms()">Terms of Service</a> and <a (click)="privacy()">Privacy Policy</a>.</p>
+    <div class="sign-in">Back to <a routerLink="/signin">Sign in</a></div>
+  </mat-card-content>
+</mat-card>

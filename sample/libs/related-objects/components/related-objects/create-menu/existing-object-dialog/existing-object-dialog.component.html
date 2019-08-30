@@ -1,0 +1,10 @@
+<app-global-search
+  [selectable]="true"
+  [advancedSearch]="false"
+  [linkable]="false"
+  [selected]="relates"
+  [highlightOriginObject]="entity"
+  (selectedEntity)="relate($event)"
+  (highlightSwitch)="onHighlightSwitch($event)">
+</app-global-search>
+<button mat-button (click)="close()">Done</button>

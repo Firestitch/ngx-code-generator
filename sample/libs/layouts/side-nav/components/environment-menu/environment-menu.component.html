@@ -1,0 +1,5 @@
+<fs-sidenav-menu-items>
+  <button fs-sidenav-menu-item [routerLink]="['/workspace/',workspace.id,'settings']" *ngIf="workspace" (click)="close()">Settings</button>
+  <button fs-sidenav-menu-item (click)="create()">Create New Workspace</button>
+  <button fs-sidenav-menu-item (click)="switch()">Switch Workspace</button>
+</fs-sidenav-menu-items>

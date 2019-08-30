@@ -1,0 +1,20 @@
+<fs-list [config]="config" #list>
+  <fs-list-column>
+    <ng-template fs-list-header>Message</ng-template>
+    <ng-template fs-list-cell let-row="row">
+      <a href="javascript:;" (click)="open(row)">{{row.message}}</a>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column>
+    <ng-template fs-list-header>Type</ng-template>
+    <ng-template fs-list-cell let-row="row">
+      {{row.type}}
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column>
+    <ng-template fs-list-header>Date</ng-template>
+    <ng-template fs-list-cell let-row="row">
+      <fs-date-ago [date]="row.create_date"></fs-date-ago>
+    </ng-template>
+  </fs-list-column>
+</fs-list>

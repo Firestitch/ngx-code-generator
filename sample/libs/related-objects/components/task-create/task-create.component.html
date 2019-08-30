@@ -1,0 +1,48 @@
+<form (fsForm)="save()" #form="ngForm">
+  <fs-dialog>
+    <div mat-dialog-title>Create Task</div>
+    <mat-dialog-content>
+      <div fxLayout="column">
+
+        <mat-form-field *ngIf="projects">
+          <mat-select [(ngModel)]="task.project_id"
+                      placeholder="Project" name="project"
+                      fsFormRequired>
+            <mat-option *ngFor="let project of projects" [value]="project.id">
+              {{ project.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Name" [(ngModel)]="task.name" name="name" fsFormRequired>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="types">
+          <mat-select [(ngModel)]="task.type_id"
+                      placeholder="Type" name="type"
+                      fsFormRequired>
+            <mat-option *ngFor="let type of types" [value]="type.id">
+              {{ type.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="workflows">
+          <mat-select [(ngModel)]="task.workflow_id"
+                      placeholder="Workflow" name="workflow">
+            <mat-option value="null">None</mat-option>
+            <mat-option *ngFor="let workflow of workflows" [value]="workflow.id">
+              {{ workflow.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button type="submit" color="primary">CREATE</button>
+      <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

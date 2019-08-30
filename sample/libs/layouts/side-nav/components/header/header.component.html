@@ -1,0 +1,18 @@
+<mat-toolbar color="primary">
+
+  <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+    <a fsNavBack><mat-icon>keyboard_arrow_left</mat-icon></a>
+    <button
+      mat-icon-button
+      class="menu"
+      (click)="sideNavClick()"
+      *ngIf="account">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div fsNavComponent="image" type="image"></div>
+    <div>
+      <div fsNavSupertitle></div>
+      <div fsNavTitle></div>
+    </div>
+  </div>
+</mat-toolbar>

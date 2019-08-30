@@ -1,0 +1,13 @@
+<div fxLayout="row" fxLayoutGap="6px">
+  <ng-container *ngFor="let workspace of workspaces">
+    <fs-badge
+      *ngIf="workspace.image"
+      shape="circle"
+      [image]="workspace.image.small"
+      [tooltip]="workspace.name">
+    </fs-badge>
+  </ng-container>
+  <div *ngIf="workspaces.length !== allWorkspaces.length" fxLayoutAlign="center center">
+    + {{ allWorkspaces.length - workspaces.length }} more
+  </div>
+</div>

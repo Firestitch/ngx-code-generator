@@ -1,0 +1,44 @@
+<mat-card>
+  <fs-list [config]="config" #ProjectsList>
+    <fs-list-column title="Icon" width="1%">
+      <ng-template fs-list-cell let-row="row">
+        <fs-badge shape="circle" image="{{ row.image.small }}"></fs-badge>
+      </ng-template>
+    </fs-list-column>
+    <fs-list-column name="status_name" title="Status" [sortable]="true" width="1%">
+      <ng-template fs-list-cell let-row="row">
+        <app-status-pill *ngIf="row.status" [status]="row.status"></app-status-pill>
+      </ng-template>
+    </fs-list-column>
+    <fs-list-column name="name" title="Name" [sortable]="true">
+      <ng-template fs-list-cell let-row="row">
+        <div>
+          <ng-container *ngIf="row.state !== 'deleted'; then activeProject; else deletedProject"></ng-container>
+
+          <ng-template #activeProject>
+            <a [routerLink]="['../projects', row.id]">{{ row.name }}</a>
+            <div class="links">
+              <a [routerLink]="['../projects', row.id, 'tasks']">
+                Tasks
+              </a>
+              <a [routerLink]="['../projects', row.id, 'docs']">
+                Docs
+              </a>
+              <a [routerLink]="['../projects', row.id, 'images']">
+                Images
+              </a>
+              <a [routerLink]="['../projects', row.id, 'overview']">
+                Settings
+              </a>
+            </div>
+          </ng-template>
+
+          <ng-template #deletedProject>
+            <span>{{ row.name }}</span>
+          </ng-template>
+        </div>
+      </ng-template>
+    </fs-list-column>
+  </fs-list>
+</mat-card>
+

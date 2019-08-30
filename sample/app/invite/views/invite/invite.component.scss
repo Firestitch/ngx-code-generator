@@ -1,0 +1,35 @@
+:host {
+  ::ng-deep {
+    .mat-card-header-text {
+      margin: 0;
+    }
+
+    .info-block {
+      max-width: fit-content;
+      margin: auto;
+    }
+
+    p.invite-title {
+      margin-bottom: 0 !important;
+      text-align: center;
+    }
+
+    mat-card-title.invite-title {
+      margin-top: 0;
+    }
+  }
+
+  p {
+    margin: 20px 0;
+  }
+}
+
+.cancel {
+  display: block;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.continue {
+  width: 100%;
+}

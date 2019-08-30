@@ -1,0 +1,12 @@
+:host {
+    ::ng-deep {
+      p.invite-title {
+        margin-bottom: 0 !important;
+        text-align: center;
+      }
+
+      mat-card-title.invite-title {
+        margin-top: 0;
+      }
+    }
+  }

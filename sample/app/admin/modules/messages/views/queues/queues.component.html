@@ -1,0 +1,26 @@
+<fs-list [config]="config" #list>
+  <fs-list-column title="Recipients">
+    <ng-template fs-list-cell let-row="row">
+      <ng-container *ngIf="row.email_message_queue">
+        <a (click)="open(row)">{{row.email_message_queue.to_recipients.join(', ')}}</a>
+      </ng-container>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column title="Subject" name="subject" sortable="true">
+    <ng-template fs-list-cell let-row="row">
+      <ng-container *ngIf="row.email_message_queue">
+        <a (click)="open(row)">{{row.email_message_queue.subject}}</a>
+      </ng-container>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column title="Date" name="created_date" sortable="true">
+    <ng-template fs-list-cell let-row="row">
+      <fs-date-ago [date]="row.created_date"></fs-date-ago>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column title="Status">
+    <ng-template fs-list-cell let-row="row">
+      {{messageQueueStates[row.state]}}
+    </ng-template>
+  </fs-list-column>
+</fs-list>

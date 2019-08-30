@@ -5,6 +5,7 @@ import { ListCreationType } from '../common/list-creation-type';
 import { findAllModules, findAllServices, getFileContent, getEnumKeysList, findAllEnums } from '../helpers';
 import { fixErrorResponseMessage } from '../helpers/fix-error-response-message';
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
+import { srcPath } from '../server';
 
 /**
  * GET /
@@ -109,7 +110,7 @@ export let createEnum = (req: Request, res: Response) => {
       });
     } else {
       const name = dasherize(params.name);
-      const currentPath = path.relative(process.cwd(), 'src');
+      const currentPath = path.relative(process.cwd(), srcPath);
       const modulePath = params.module.modulePath.replace(/^[\/\\]src[\/\\]/, '');
       const filePath = path.join(currentPath, modulePath, 'enums', `${name}.enum.ts`);
 
@@ -117,7 +118,7 @@ export let createEnum = (req: Request, res: Response) => {
         getFileContent(filePath).then((content) => {
           res.json({
             code: content,
-            path: path.join('src', modulePath, 'enums', `${name}.enum.ts`),
+            path: path.join(srcPath, modulePath, 'enums', `${name}.enum.ts`),
           })
         });
 
@@ -170,15 +171,15 @@ export let createConst = (req: Request, res: Response) => {
       });
     } else {
       const name = dasherize(params.name);
-      const currentPath = path.relative(process.cwd(), 'src');
-      const modulePath = params.module.modulePath.replace(/^src[\/\\]/, '');
+      const currentPath = path.relative(process.cwd(), srcPath);
+      const modulePath = params.module.modulePath.replace(new RegExp(`^${srcPath}[\/\\]`), '');
       const filePath = path.join(currentPath, modulePath, 'consts', `${name}.const.ts`);
 
       try {
         getFileContent(filePath).then((content) => {
           res.json({
             code: content,
-            path: path.join('src', modulePath, 'consts', `${name}.const.ts`),
+            path: path.join(srcPath, modulePath, 'consts', `${name}.const.ts`),
           })
         });
       } catch (e) {
@@ -226,7 +227,7 @@ export let createConst = (req: Request, res: Response) => {
 };
 
 export let modulesList = (req: Request, res: Response) => {
-  const currentPath = path.relative(process.cwd(), 'src');
+  const currentPath = path.relative(process.cwd(), srcPath);
 
   findAllModules(currentPath).then((modules) => {
     try {
@@ -243,7 +244,7 @@ export let modulesList = (req: Request, res: Response) => {
 };
 
 export let servicesList = (req: Request, res: Response) => {
-  const currentPath = path.relative(process.cwd(), 'src');
+  const currentPath = path.relative(process.cwd(), srcPath);
 
   findAllModules(currentPath).then((modules) => {
     findAllServices(modules).then((services) => {

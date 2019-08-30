@@ -1,0 +1,100 @@
+  <div [fsDrawerSide]="drawer">
+    <ng-template fsDrawerAction="related">
+      <app-related-objects
+        [sourceObject]="task"
+        (highlightSwitch)="getRelatedObjects()"
+        (remove)="getRelatedObjects()"
+        (relatesChange)="getRelatedObjects()"
+      ></app-related-objects>
+    </ng-template>
+    <ng-template fsDrawerAction="versions">
+      <app-object-versions [object]="task" (versionChanged)="updateTask($event)"></app-object-versions>
+    </ng-template>
+    <ng-template fsDrawerAction="info">
+      <task-info [task]="task" (workflowChanged)="changeWorkflow($event)"></task-info>
+    </ng-template>
+  </div>
+
+  <div fsDrawerContent class="task-drawer-container">
+    <div class="container" *ngIf="task">
+      <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="stretch center" class="task-header">
+          <app-type-menu
+              fxFlex="nogrow"
+              [type]="task.type"
+              class="task"
+              (typeChanged)="changeType($event)">
+          </app-type-menu>
+
+        <div fxFlex="noshrink" *ngIf="task.id">
+          <app-object-identifier [object]="task" [project]="task.project"></app-object-identifier>
+        </div>
+
+        <!-- FS-T1067: Added form tag for validation -->
+        <!-- Added (fsForm) because without it validation message fires error and doesn't work -->
+        <form (fsForm)="changeName()" fxFlex="grow">
+          <mat-form-field fxFlex="grow">
+            <input matInput [(ngModel)]="task.name" name="name" (blur)="changeName()" fsFormRequired>
+          </mat-form-field>
+        </form>
+
+      </div>
+
+      <div fxLayout="row wrap" fxLayoutGap="20px">
+        <app-status-menu fxFlex="nogrow" class="task"
+                         [status]="task.status" (statusChanged)="changeStatus($event)">
+        </app-status-menu>
+
+        <app-assign-to-menu fxFlex="nogrow"
+                            [account]="task.assigned_account" (accountChanged)="changeAccount($event)">
+        </app-assign-to-menu>
+        <app-priority-menu [priority]="task.priority" (priorityChanged)="changePriority($event)"></app-priority-menu>
+
+        <mat-form-field class="due-date">
+          <input matInput
+                  [(ngModel)]="task.due_date"
+                  placeholder="Due Date"
+                  (ngModelChange)="changeDueDate($event)"
+                  fsDatePicker
+                  name="date">
+        </mat-form-field>
+
+        <fs-label-field *ngIf="task.current_status_due">
+          <fs-label>Status Due</fs-label>
+          {{ task.current_status_due|fsDate }}
+        </fs-label-field>
+      </div>
+
+      <fs-attribute-field
+        class="tag"
+        [data]="{ project_id: task.project_id, object_id: task.id }"
+        (changed)="tagsChanged($event)">
+      </fs-attribute-field>
+
+      <fs-label>Description</fs-label>
+      <app-rich-text
+        [content]="task.content"
+        placeholder="Add a description..."
+        (changed)="descriptionChanged($event)">
+      </app-rich-text>
+
+      <div class="mt-5">
+        <button type="button" mat-button color="primary" (click)="save(task)">Save description</button>
+      </div>
+
+      <div class="highlighted-related">
+        <app-highlighted-related-view [objects]="relatedObjects"></app-highlighted-related-view>
+      </div>
+
+      <div *ngIf="task.id">
+        <fs-label-field class="comment">
+          <fs-label>Comment</fs-label>
+          <app-comment-create
+            [object]="task"
+            [workflowPaths]="workflowPaths"
+            (onSaved)="savedComment($event)">
+          </app-comment-create>
+        </fs-label-field>
+      </div>
+      <app-audits-logs [task]="task"></app-audits-logs>
+    </div>
+  </div>

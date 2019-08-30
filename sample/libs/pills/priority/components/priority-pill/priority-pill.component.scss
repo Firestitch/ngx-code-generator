@@ -1,0 +1,23 @@
+:host {
+  display: inline-block;
+}
+
+.priority {
+  .priority-sign {
+    border-radius: 50%;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+
+    .mat-icon {
+      transform: scale(.7);
+      vertical-align: middle;
+      margin: 0;
+      width: 20px;
+      height: 20px;
+    }
+    .material-icons {
+      font-size: 20px;
+    }
+  }
+}

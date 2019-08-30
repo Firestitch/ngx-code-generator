@@ -1,0 +1,23 @@
+
+<form (fsForm)="save()" #form="ngForm">
+  <fs-dialog>
+    <div mat-dialog-title>Edit Content</div>
+    <mat-dialog-content>
+      <div fxLayout="column">
+        <mat-form-field>
+          <input matInput placeholder="Name" [(ngModel)]="content_widget.name" name="Name" required>
+        </mat-form-field>
+
+        <fs-label-field>
+          <fs-label>Content</fs-label>
+          <fs-editor-rich-text [options]="options" [(ngModel)]="content_widget.content" name="content"></fs-editor-rich-text>
+        </fs-label-field>
+
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button color="primary">Save</button>
+      <button mat-button [mat-dialog-close]="true">Cancel</button>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

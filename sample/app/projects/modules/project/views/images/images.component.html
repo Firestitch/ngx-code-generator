@@ -1,0 +1,31 @@
+<mat-card>
+  <div [fsSkeletonContent]="project">
+    <div *ngIf="project">
+      <fs-gallery
+        #gallery
+        [config]="config">
+        <ng-template fsGalleryPreview let-item="item">
+          <div>{{ item.description }}</div>
+        </ng-template>
+      </fs-gallery>
+    </div>
+  </div>
+</mat-card>
+
+<!--
+
+<fs-gallery
+  #gallery
+  [config]="config">
+  <ng-template fsGalleryThumbnail let-item="item">
+    <div *ngIf="item.custom" class="custom">Custom<br>HTML</div>
+  </ng-template>
+  <ng-template fsGalleryPreview let-item="item">
+    <div class="description" *ngIf="item.description">{{ item.description }}</div>
+  </ng-template>
+  <ng-template fsGalleryThumbnailContainer let-item="item">
+    <fs-gallery-thumbnail-preview [item]="item"></fs-gallery-thumbnail-preview>
+    <fs-gallery-thumbnail-info [item]="item"></fs-gallery-thumbnail-info>
+    <div class="custom-footer">Uploaded on Jan 12</div>
+  </ng-template>
+</fs-gallery> -->

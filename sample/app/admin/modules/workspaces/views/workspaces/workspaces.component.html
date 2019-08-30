@@ -1,0 +1,12 @@
+<mat-card>
+  <fs-list [config]="config" #table>
+    <fs-list-column title="Name" name="name" sortable="true">
+      <ng-template fs-list-cell let-row="row">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <fs-badge *ngIf="row.image.small" shape="circle" image="{{ row.image.small }}"></fs-badge>
+          <a [routerLink]="['/workspace', row.id, 'settings']">{{ row.name }}</a>
+        </div>
+      </ng-template>
+    </fs-list-column>
+  </fs-list>
+</mat-card>

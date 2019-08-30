@@ -1,0 +1,24 @@
+<form (fsForm)="save()" #form="ngForm" *ngIf="!invite.error">
+  <mat-card>
+    <fs-badge class="logo" shape="circle" size="80" image="{{ image }}"></fs-badge>
+    <p class="invite-title">You have been invited to join</p>
+    <mat-card-title class="invite-title">{{ invite.scope }}</mat-card-title>
+    <mat-card-content>
+
+      <app-social-button-group>
+        <app-social-button platform="facebook" (click)="continueFacebook()" label="Continue with Facebook"></app-social-button>
+        <app-social-button platform="google" (click)="continueGoogle()" label="Continue with Google"></app-social-button>
+      </app-social-button-group>
+
+      <app-or-line></app-or-line>
+
+      <mat-form-field class="mat-fullwidth">
+        <input matInput placeholder="Email" [(ngModel)]="invite.email" name="email" fsFormRequired fsFormEmail="true">
+      </mat-form-field>
+
+      <button mat-raised-button type="submit" color="primary" class="continue">Continue with Email</button>
+      <a routerLink="/signin" class="cancel">Cancel</a>
+    </mat-card-content>
+  </mat-card>
+</form>
+

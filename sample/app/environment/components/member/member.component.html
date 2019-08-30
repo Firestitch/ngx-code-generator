@@ -1,0 +1,67 @@
+<form (fsForm)="save()" #form="ngForm">
+  <fs-dialog>
+    <ng-container *ngIf="environmentAccount">
+      <div mat-dialog-title *ngIf="environmentAccount.account.type=='person'">Edit Environment Member</div>
+      <div mat-dialog-title *ngIf="environmentAccount.account.type=='api'">Edit API Key</div>
+      <mat-dialog-content>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutGap.xs="0" [fsSkeletonForm]="environmentAccount">
+          <div fxLayout="column">
+
+            <fs-label-field *ngIf="environmentAccount.account.type=='person'">
+              <fs-label>Member</fs-label>
+              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <fs-badge shape="circle" image="{{ environmentAccount?.account.image.small }}"></fs-badge>
+                <a (click)="proceedAccount(environmentAccount.account)" *ngIf="isAdmin; else memberLabel">{{ environmentAccount?.account.first_name }} {{ environmentAccount?.account.last_name }}</a>
+                <ng-template #memberLabel><span>{{ environmentAccount?.account.first_name }} {{ environmentAccount?.account.last_name }}</span></ng-template>
+              </div>
+            </fs-label-field>
+
+            <fs-label-field *ngIf="environmentAccount.account.type=='api'">
+              <fs-label>API Key</fs-label>
+              {{environmentAccount?.account.api_key}}
+            </fs-label-field>
+
+            <fs-label-field *ngIf="environmentAccount.account.type=='api'">
+              <fs-label>API Secret</fs-label>
+              {{environmentAccount?.account.api_secret}}
+            </fs-label-field>
+
+            <fs-radio-group [(ngModel)]="access" label="Access" orientation="vertical" name="access">
+              <mat-radio-button value="environment">The entire environment</mat-radio-button>
+              <mat-radio-button value="projects">Selected projects</mat-radio-button>
+            </fs-radio-group>
+
+            <fs-checkbox-group *ngIf="environmentRoles.length && access === 'environment'" [(ngModel)]="selectedEnvironmentRoles" name="acl_environment_roles" label="Roles" orientation="vertical" fsFormRequired>
+              <mat-checkbox *ngFor="let item of environmentRoles" [disabled]="item.protected === 1 || environmentRoles.length === 1" [value]="item">{{ item.name }}</mat-checkbox>
+            </fs-checkbox-group>
+          </div>
+          <div *ngIf="access === 'projects'" fxLayout="column" class="project-roles">
+            <fs-label-field>
+              <fs-label>Projects</fs-label>
+              <div *ngFor="let project of projects" fxLayout="row" fxLayoutAlign="start start">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                  <fs-badge shape="circle" image="{{ project.image.small }}"></fs-badge>
+                  <span>{{ project.name }}</span>
+                </div>
+
+                <div fxFlex class="gap"></div>
+
+                <mat-form-field>
+                  <mat-select [(ngModel)]="selectedProjectRoles[project.id].acl_role_ids" multiple="true" name="acl_role_ids_{{ project.id }}">
+                    <mat-option *ngFor="let item of projectRoles" [value]="item.id">
+                      {{ item.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </fs-label-field>
+          </div>
+        </div>
+      </mat-dialog-content>
+      <mat-dialog-actions>
+        <button mat-button type="submit" color="primary">SAVE</button>
+        <button mat-button [mat-dialog-close]="true">Cancel</button>
+      </mat-dialog-actions>
+    </ng-container>
+  </fs-dialog>
+</form>

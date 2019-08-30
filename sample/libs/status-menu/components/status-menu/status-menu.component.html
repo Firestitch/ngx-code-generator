@@ -1,0 +1,10 @@
+<mat-form-field class="status-selector" [ngStyle]="{ width: width }">
+  <mat-select [placeholder]="label" [ngModel]="status" [compareWith]="compareFn" (ngModelChange)="changeStatus($event)" name="status">
+    <mat-select-trigger *ngIf="status">
+      <app-status-pill [status]="status"></app-status-pill>
+    </mat-select-trigger>
+    <mat-option *ngFor="let item of statuses" [value]="item">
+      <app-status-pill class="tag-wrap" [status]="item"></app-status-pill>
+    </mat-option>
+  </mat-select>
+</mat-form-field>

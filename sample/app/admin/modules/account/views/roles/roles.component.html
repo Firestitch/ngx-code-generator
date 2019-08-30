@@ -1,0 +1,62 @@
+<div [fsSkeletonForm]="aclEntries.length" fxLayout="column">
+  <fs-list [config]="configAdminRoles" #listAdminRoles>
+    <fs-list-column>
+      <ng-template fs-list-header>Object</ng-template>
+      <ng-template fs-list-cell let-row="row">
+
+        <div
+          *ngIf="row.object; else elseObject"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="10px">
+            <fs-badge *ngIf="row.object.image_url" shape="circle" image="{{ row.object.image_url }}"></fs-badge>
+            <span>
+              <div>{{ row.object.name }}</div>
+              <small>{{row.object.class_name}}</small>
+            </span>
+        </div>
+
+        <ng-template #elseObject>
+          Global
+        </ng-template>
+      </ng-template>
+    </fs-list-column>
+
+    <fs-list-column>
+      <ng-template fs-list-header>Role</ng-template>
+      <ng-template fs-list-cell let-row="row">
+        <div fxLayout="column" fxLayoutGap="10px">
+          <ng-container *ngFor="let item of row.aclEntries">
+            <div>
+              <div>{{ item.acl_role.name }}</div>
+              <small *ngIf="item.acl_role.inheritsCount">Inherits {{ item.acl_role.inheritsCount }} Permission{{ item.acl_role.inheritsCount === 1 ? '' : 's' }}</small>
+            </div>
+          </ng-container>
+        </div>
+      </ng-template>
+    </fs-list-column>
+
+    <fs-list-column>
+      <ng-template fs-list-header>Access</ng-template>
+      <ng-template fs-list-cell let-row="row">
+        <div fxLayout="column" fxLayoutGap="10px">
+          <ng-container *ngFor="let item of row.aclEntries">
+            <div>
+              <div>{{ accessesFlatten[item.acl_role.access] }}</div>
+              <small>&nbsp;</small>
+            </div>
+          </ng-container>
+        </div>
+      </ng-template>
+    </fs-list-column>
+
+    <fs-list-column width="1%">
+      <ng-template fs-list-cell let-row="row">
+        <fs-menu *ngIf="!row.object">
+          <ng-template fs-menu-item (click)="update(row)">Edit</ng-template>
+        </fs-menu>
+      </ng-template>
+    </fs-list-column>
+
+  </fs-list>
+</div>

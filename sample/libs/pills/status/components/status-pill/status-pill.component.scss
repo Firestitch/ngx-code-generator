@@ -1,0 +1,22 @@
+:host {
+  display: inline-block;
+}
+
+.pill {
+  display: inline-flex;
+  border-radius: 3px;
+  padding: 3px 5px;
+  max-width: 100px;
+  text-align: center;
+
+  .pill-content {
+    display: block;
+    color: #fff;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: keep-all;
+    white-space: nowrap;
+    line-height: normal;
+  }
+}

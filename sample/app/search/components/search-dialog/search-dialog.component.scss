@@ -1,0 +1,60 @@
+:host {
+
+  .search {
+    .advanced-search {
+      margin-top: -20px;
+      font-size: 13px;
+    }
+    ::ng-deep {
+      fs-filter {
+        .menu-filter {
+          a.filter {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  .view-all {
+    font-size: 13px;
+  }
+
+  .classes {
+    margin-top: 8px;
+    .recent-label {
+      color: #888;
+    }
+    .object-class {
+      margin-bottom: 20px;
+
+      .class {
+        color: #777;
+        .name {
+          font-weight: 600;
+        }
+        mat-icon {
+          font-size: 20px;
+        }
+      }
+
+      .object {
+        flex-direction: row;
+        display: flex;
+        margin: 8px 0;
+
+        fs-badge {
+          margin-right: 12px;
+        }
+
+        .details {
+          .identifier {
+            font-size: smaller;
+            color: #777;
+          }
+        }
+      }
+    }
+  }
+
+}

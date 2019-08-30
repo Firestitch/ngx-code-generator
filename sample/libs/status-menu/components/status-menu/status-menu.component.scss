@@ -1,0 +1,14 @@
+:host::ng-deep {
+  .mat-form-field-infix {
+      padding: 0.2em 0;
+  }
+
+  .mat-select-value {
+    height: 23px;
+    text-overflow: unset;
+  }
+}
+
+.tag-wrap {
+  line-height: 16px;
+}

@@ -1,0 +1,16 @@
+:host {
+  ::ng-deep {
+    .mat-card-header-text {
+      margin: 0;
+    }
+
+    .info-block {
+      max-width: fit-content;
+      margin: auto;
+    }
+  }
+
+  p {
+    margin: 20px 0;
+  }
+}

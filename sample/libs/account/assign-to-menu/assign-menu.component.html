@@ -1,0 +1,10 @@
+<mat-form-field class="status-selector">
+  <mat-select [placeholder]="label" [ngModel]="account" [compareWith]="compareFn" (ngModelChange)="changeAccount($event)" name="status">
+    <mat-select-trigger *ngIf="account">
+      <app-account-assign-pill [account]="account"></app-account-assign-pill>
+    </mat-select-trigger>
+    <mat-option *ngFor="let item of accounts" [value]="item">
+      <app-account-assign-pill [account]="item"></app-account-assign-pill>
+    </mat-option>
+  </mat-select>
+</mat-form-field>

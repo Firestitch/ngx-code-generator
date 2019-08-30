@@ -1,0 +1,4 @@
+export * from './docs.component';
+
+
+

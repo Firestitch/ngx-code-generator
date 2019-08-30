@@ -1,0 +1,59 @@
+:host ::ng-deep {
+  .mat-form-field-infix {
+    width: 100%;
+  }
+}
+
+.search-panel {
+
+  .search {
+    display: flex;
+
+    .search-input {
+      width: 85%;
+    }
+  }
+}
+
+.close {
+  margin-top: 15px;
+}
+
+.project {
+  display: flex;
+  margin-bottom: 15px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .project-info {
+    margin-left: 12px;
+    display: inline-block;
+
+    .project-name {
+      text-decoration: none;
+      color: #000;
+    }
+
+    .project-links {
+      a {
+        margin-right: 20px;
+        font-size: 13px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+
+  }
+
+}
+
+
+@media only screen and (min-width: 600px) {
+  .actions {
+    display: none;
+  }
+}

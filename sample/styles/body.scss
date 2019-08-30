@@ -1,0 +1,14 @@
+.body-card.body-signin,
+.body-card.body-signup {
+  .app-content {
+    max-width: 400px;
+  }
+}
+
+.body-card.body-share {
+  .app-content {
+    flex-direction: row;
+    align-items: center;
+    max-width: none;
+  }
+}

@@ -1,0 +1,36 @@
+<form (fsForm)="save()" #form="ngForm">
+  <fs-dialog>
+    <div mat-dialog-title>Create Doc</div>
+    <div mat-dialog-content>
+
+      <div fxLayout="column">
+        <mat-form-field>
+          <mat-select
+            [(ngModel)]="selectedType"
+            placeholder="Doc Type"
+            name="type"
+            fsFormRequired
+            (ngModelChange)="onTypeSelected()">
+            <mat-option *ngFor="let type of types" [value]="type">
+              {{ type.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="selectedType">
+          <input
+            matInput
+            placeholder="Name"
+            [(ngModel)]="doc.name"
+            name="name"
+            fsFormRequired>
+        </mat-form-field>
+      </div>
+
+    </div>
+    <mat-dialog-actions>
+      <button mat-button type="submit" color="primary" [disabled]="!selectedType">CREATE</button>
+      <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

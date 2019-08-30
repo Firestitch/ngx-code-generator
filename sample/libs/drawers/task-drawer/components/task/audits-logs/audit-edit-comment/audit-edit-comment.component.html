@@ -1,0 +1,10 @@
+<fs-dialog>
+  <h1 mat-dialog-title>Edit Comment</h1>
+  <mat-dialog-content>
+    <app-rich-text [content]="comment" placeholder="Add a comment..." (changed)="changed($event)"></app-rich-text>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="button" mat-button color="primary" (click)="save()"> Save </button>
+    <button type="button" mat-button (click)="close()"> Cancel </button>
+  </mat-dialog-actions>
+</fs-dialog>

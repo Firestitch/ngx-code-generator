@@ -1,0 +1,32 @@
+<form (fsForm)="save()" #form="ngForm" [fsSkeleton]="message_template">
+  <fs-dialog *ngIf="message_template">
+    <div mat-dialog-title>Message Template</div>
+    <mat-dialog-content>
+      <div fxLayout="column">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Name"
+            [(ngModel)]="message_template.name"
+            name="Name"
+            required>
+        </mat-form-field>
+        <mat-form-field>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            placeholder="Body"
+            [(ngModel)]="message_template.content"
+            name="body"
+            class="textarea-html"
+            required>
+          </textarea>
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button color="primary">Save</button>
+      <button mat-button [mat-dialog-close]="true">Cancel</button>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

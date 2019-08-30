@@ -1,0 +1,18 @@
+<mat-card *ngIf="activate?.error" class="info-block">
+  <mat-card-header>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+      <mat-icon *ngIf="activate.error.code === 460" color="primary">info</mat-icon>
+      <mat-icon *ngIf="activate.error.code === 450" color="warn">info</mat-icon>
+      <span *ngIf="activate.error.code === 460">Information</span>
+      <span *ngIf="activate.error.code === 450">Error</span>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <p *ngIf="activate.error.code === 460">Your activation link has expired.</p>
+    <p *ngIf="activate.error.code === 450">Your activation link is invalid.</p>
+  </mat-card-content>
+  <div class="buttons">
+    <button mat-button type="button" color="primary" routerLink="/signin">OK</button>
+    <button *ngIf="activate.error.code === 460" mat-button type="button" color="primary" (click)="sendLink()">SEND NEW ACTIVATION LINK</button>
+  </div>
+</mat-card>

@@ -1,0 +1,23 @@
+<fs-list [config]="config" #list>
+  <fs-list-column title="Name" name="name" sortable="true">
+    <ng-template fs-list-cell let-row="row">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <div fxLayout="column">
+          <a (click)="openDialog(row)">{{ row.name }}</a>
+        </div>
+      </div>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column>
+    <ng-template fs-list-header>Level</ng-template>
+    <ng-template fs-list-cell let-row="row">
+      <span>{{ levelsFlatten[row.level] }}</span>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column>
+    <ng-template fs-list-header>All Permissions</ng-template>
+    <ng-template fs-list-cell let-row="row">
+      <span>{{ row.all_permissions ? 'Yes' : '' }}</span>
+    </ng-template>
+  </fs-list-column>
+</fs-list>

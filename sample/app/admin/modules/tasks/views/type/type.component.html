@@ -1,0 +1,32 @@
+<form (fsForm)="save()" #form="ngForm">
+  <fs-dialog>
+    <div mat-dialog-title>{{ type.id ? 'Edit' : 'Create' }} Task Type</div>
+    <mat-dialog-content>
+      <div fxLayout="column">
+        <mat-form-field>
+          <input matInput placeholder="Name" [(ngModel)]="type.name" name="name" fsFormRequired>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Color" [(ngModel)]="type.color" name="color" fsColorPicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Icon" [(ngModel)]="type.icon" [color]="type.color" name="icon" fsIconPicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select [(ngModel)]="workflow_id" placeholder="Default Workflow" name="workflow_id">
+            <mat-option *ngFor="let item of workflows" [value]="item.id">
+              {{ item.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button type="submit" color="primary">{{ type.id ? 'Save' : 'Create' }}</button>
+      <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

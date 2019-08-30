@@ -1,0 +1,64 @@
+<div class="header">
+  <mat-icon class="icon">shared</mat-icon> Related
+  <div class="related-btn" [hidden]="previewEntity">
+    <app-related-object-create-menu
+      [entity]="sourceObject"
+      [(relates)]="collections"
+      (relatesChange)="onRelatesChange($event)">
+    </app-related-object-create-menu>
+  </div>
+</div>
+
+<ng-container *ngIf="!previewEntity; else preview">
+  <div class="search" fxLayout="column">
+    <fs-filter [filter]="config" #filter></fs-filter>
+  </div>
+
+  <div fxLayout="column" fxLayoutGap="15px">
+    <ng-container *ngFor="let klass of objectClasses">
+      <div *ngIf="collections[klass.value] && collections[klass.value].length">
+        <small fxLayout="row" fxLayoutAlign="stretch">
+          {{ klass.name }}
+        </small>
+
+        <div fxLayout="column" fxLayoutGap="10px">
+          <div *ngFor="let relatedObject of collections[klass.value]">
+            <div class="object-info" fxLayout="row">
+              <div class="info" fxLayout="column">
+                <a class="label" (click)="openPreview(relatedObject)"> {{ relatedObject.name }} </a>
+                <div fxLayout="row">
+                  <mat-icon [ngStyle]="{'color': klass.color}">{{ klass.icon }}</mat-icon>
+                  <app-object-identifier [project]="relatedObject.project" [object]="relatedObject"></app-object-identifier>
+                </div>
+              </div>
+              <div class="actions">
+                <app-highlight-related
+                  [object]="sourceObject"
+                  [relatedObject]="relatedObject"
+                  (highlightSwitch)="onHighlightSwitch($event)">
+                </app-highlight-related>
+                <a mat-icon-button
+                    [routerLink]="formPath(relatedObject)"
+                    [queryParams]="formQueryParams(relatedObject)"
+                    target="_blank">
+                  <mat-icon>open_in_new</mat-icon>
+                </a>
+                <button type="button" mat-icon-button (click)="removeRelation(relatedObject)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </ng-container>
+  </div>
+</ng-container>
+
+
+<ng-template #preview>
+  <app-related-object-preview [(entity)]="previewEntity"></app-related-object-preview>
+</ng-template>
+

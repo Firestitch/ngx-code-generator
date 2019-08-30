@@ -1,0 +1,95 @@
+<fs-dialog [fsSkeleton]="message_queue">
+  <ng-container *ngIf="message_queue">
+    <div mat-dialog-title>Message Queue</div>
+    <mat-dialog-content>
+      <mat-tab-group (selectedTabChange)="selectedTabChange($event)">
+        <mat-tab label="Overview">
+          <ng-template matTabContent>
+            <div fxLayout="row wrap" fxLayoutGap="25px">
+              <fs-label-field>
+                <fs-label>
+                  Status
+                </fs-label>
+                {{messageQueueStates[message_queue.state]}}
+              </fs-label-field>
+
+              <fs-label-field>
+                <fs-label>
+                  Date
+                </fs-label>
+                {{message_queue.scheduled_date}}
+              </fs-label-field>
+
+              <fs-label-field>
+                <fs-label>
+                  Send Attempts
+                </fs-label>
+                {{message_queue.attempts}}
+              </fs-label-field>
+
+              <fs-label-field *ngIf="message_queue.email_message_queue">
+                <fs-label>
+                    Recipients
+                </fs-label>
+                {{message_queue.email_message_queue.to_recipients.join(', ')}}
+              </fs-label-field>
+
+              <fs-label-field>
+                <fs-label>
+                  Message Type
+                </fs-label>
+                <a (click)="openMessage(message_queue.message)">{{message_queue.message.name}}</a>
+              </fs-label-field>
+            </div>
+
+            <ng-container *ngIf="message_queue.email_message_queue">
+              <fs-label-field class="subject">
+                <fs-label>
+                  Subject
+                </fs-label>
+                {{message_queue.email_message_queue.subject}}
+              </fs-label-field>
+
+              <fs-label-field class="body">
+                <fs-label>
+                  Body
+                </fs-label>
+                <div *ngIf="message_queue.email_message_queue.format===emailMessageQueueFormat.Text" class="format-text">
+                  {{message_queue.email_message_queue.body}}
+                </div>
+                <iframe
+                  #bodyFrame
+                  *ngIf="message_queue.email_message_queue.format===emailMessageQueueFormat.HTML"
+                  width="100%"
+                  [height]="bodyFrameHeight"
+                  class="body-frame">
+                </iframe>
+              </fs-label-field>
+            </ng-container>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Logs">
+          <ng-template matTabContent>
+            <fs-list [config]="logConfig">
+              <fs-list-column title="Message">
+                <ng-template fs-list-cell let-row="row">
+                  {{row.message}}
+                </ng-template>
+              </fs-list-column>
+              <fs-list-column title="Date">
+                <ng-template fs-list-cell let-row="row">
+                  <fs-date-ago [date]="row.created_date"></fs-date-ago>
+                </ng-template>
+              </fs-list-column>
+            </fs-list>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button [mat-dialog-close]="true" color="primary">Done</button>
+      <button mat-button type="button" (click)="resend()">Resend</button>
+      <button mat-button type="button" (click)="forward()">Forward</button>
+    </mat-dialog-actions>
+  </ng-container>
+</fs-dialog>

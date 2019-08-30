@@ -1,0 +1,20 @@
+<form (fsForm)="save()" #form="ngForm">
+  <div mat-dialog-title>{{ category.id ? 'Edit' : 'Create' }} {{ category.class === 'task' ? 'Task' : 'Doc' }} Category</div>
+  <mat-dialog-content>
+    <div fxLayout="column">
+      <mat-form-field>
+        <input matInput placeholder="Name" [(ngModel)]="category.name" name="name" fsFormRequired>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Color" [(ngModel)]="category.color" name="color" fsColorPicker fsFormRequired>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Icon" [(ngModel)]="category.icon" name="icon" [color]="category.color" fsIconPicker fsFormRequired>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button type="submit" color="primary">{{ category.id ? 'Save' : 'Create' }}</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+  </mat-dialog-actions>
+</form>

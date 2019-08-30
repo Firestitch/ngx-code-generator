@@ -1,0 +1,18 @@
+<form (fsForm)="save()" #form="ngForm">
+  <fs-dialog>
+    <div mat-dialog-title>Edit Admin Roles</div>
+    <mat-dialog-content>
+      <div [fsSkeletonForm]="aclRoles.length">
+        <div *ngIf="aclRoles.length" fxLayout="column">
+          <fs-checkbox-group [(ngModel)]="selectedAclRoles" name="acl_roles" label="Roles" orientation="vertical">
+            <mat-checkbox *ngFor="let item of aclRoles" [disabled]="item.disabled" [value]="item">{{ item.name }}</mat-checkbox>
+          </fs-checkbox-group>
+        </div>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button type="submit" color="primary">SAVE</button>
+      <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

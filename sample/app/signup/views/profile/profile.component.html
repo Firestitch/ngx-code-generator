@@ -1,0 +1,39 @@
+<form (fsForm)="continue()">
+  <mat-card>
+    <img class="logo" src="/assets/logo.png">
+    <mat-card-title>Sign Up</mat-card-title>
+    <mat-card-content>
+
+      <mat-form-field class="mat-fullwidth" *ngIf="this.type !== 'email'; else viewEmail">
+        <input matInput placeholder="Email" [(ngModel)]="account.email" name="email" fsFormRequired fsFormEmail="true" disabled>
+      </mat-form-field>
+
+      <ng-template #viewEmail>
+        <fs-label-field>
+          <fs-label>Email</fs-label>
+          <span>{{ account.email }}</span>
+        </fs-label-field>
+      </ng-template>
+
+      <mat-form-field class="mat-fullwidth">
+        <input matInput placeholder="First Name" [(ngModel)]="account.first_name" name="first_name" fsFormRequired>
+      </mat-form-field>
+
+      <mat-form-field class="mat-fullwidth">
+        <input matInput placeholder="Last Name" [(ngModel)]="account.last_name" name="last_name" fsFormRequired>
+      </mat-form-field>
+
+      <mat-form-field class="mat-fullwidth" *ngIf="type==='email'">
+        <input matInput placeholder="Password" type="password" [(ngModel)]="account.password" name="password" fsPassword fsFormRequired>
+      </mat-form-field>
+
+      <mat-form-field class="mat-fullwidth">
+        <input matInput placeholder="Workspace Name" [(ngModel)]="account.workspace_name" name="workspace_name" fsFormRequired>
+      </mat-form-field>
+
+      <button mat-raised-button type="submit" color="primary" class="sign-up mat-fullwidth">Continue</button>
+
+      <div class="sign-in">Back to <a routerLink="/signin">Sign in</a></div>
+    </mat-card-content>
+  </mat-card>
+</form>

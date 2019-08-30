@@ -11,7 +11,7 @@
     "build:backend": "tsc && ncp ./src/public ./dist/public",
     "build:frontend": "cd ./frontend && npm run build",
     "build:frontend:prod": "cd ./frontend && npm run build:prod",
-    "serve": "node ./bin/codegenerator"
+    "serve": "node ./bin/codegenerator --src sample"
   },
   "author": "",
   "license": "ISC",
@@ -46,6 +46,7 @@
     "htmling": "0.0.8",
     "socket.io": "^2.1.0",
     "socketio-wildcard": "^2.0.0",
-    "tsmodels": "^0.4.6"
+    "tsmodels": "^0.4.6",
+    "minimist": "^1.2.0"
   }
 }

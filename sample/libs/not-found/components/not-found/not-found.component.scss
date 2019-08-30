@@ -1,0 +1,15 @@
+.oops {
+  font-size: 55px;
+  font-weight: bold;
+}
+
+.message {
+  font-size: 17px;
+  padding-top: 15px;
+}
+
+::ng-deep {
+  body.body-notfound {
+    background: #fff;
+  }
+}

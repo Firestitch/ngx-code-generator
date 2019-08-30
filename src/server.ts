@@ -6,9 +6,14 @@ import app from './app';
  */
 app.use(errorHandler());
 
+const args = require('minimist')(process.argv.slice(2))
+
 /**
  * Start Express server.
  */
+
+export const srcPath = args.src || 'src';
+
 const server = app.listen(app.get('port'), () => {
   console.log(
     "  App is running at http://localhost:%d in %s mode",

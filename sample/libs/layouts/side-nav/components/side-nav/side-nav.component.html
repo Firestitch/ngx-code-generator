@@ -1,0 +1,37 @@
+<div class="app-scroll-content" name="app-scroll">
+  <div class="container container-side-nav">
+    <mat-sidenav-container>
+
+      <mat-sidenav
+        #sidenav
+        [disableClose]="disableClose"
+        [mode]="sidenavService.mode"
+        [opened]="sidenavService.opened"
+        [fixedInViewport]="true">
+
+          <div class="sidenav-container">
+
+          <div class="logo" (click)="proceedHome()">
+            <a class="image"></a>
+            <a class="logo-name">Firestitch</a>
+          </div>
+
+          <div *ngIf="account" class="account">
+            <a routerLink="/account" class="image">
+              <fs-badge size="45" shape="circle" [image]="account.image.small"></fs-badge>
+            </a>
+          </div>
+
+          <fs-sidenav [config]="sideNavMain" [search]="searchName" (click)="clickNav($event)"></fs-sidenav>
+          <div class="spacer"></div>
+          <fs-sidenav [config]="sideNavBottom"></fs-sidenav>
+        </div>
+
+      </mat-sidenav>
+      <mat-sidenav-content>
+        <navbar></navbar>
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</div>

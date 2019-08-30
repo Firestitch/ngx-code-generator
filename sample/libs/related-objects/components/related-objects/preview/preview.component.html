@@ -1,0 +1,19 @@
+<div fxLayout="row" fxLayoutAlign="left center" class="preview-header">
+  <a class="back" (click)="close()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </a>
+  <div>
+
+    <div>{{ entity.name }}</div>
+    <small>
+      <app-object-identifier [object]="entity" [project]="entity.project"> </app-object-identifier>
+    </small>
+
+  </div>
+</div>
+
+<div class="entity-content" [ngSwitch]="fullEntity?.class">
+  <app-doc-preview *ngSwitchCase="'doc'" [doc]="fullEntity"></app-doc-preview>
+  <app-task-preview *ngSwitchCase="'task'" [task]="fullEntity"></app-task-preview>
+  <app-asset-preview *ngSwitchCase="'image'" [asset]="fullEntity"></app-asset-preview>
+</div>

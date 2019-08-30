@@ -1,5 +1,6 @@
 import * as path from 'path';
 import { promises as fs } from 'fs';
+import { srcPath } from '../server';
 
 
 export async function findAllModules(dir: string) {
@@ -18,10 +19,12 @@ export async function findAllModules(dir: string) {
       fileList.push(...await findAllModules(filePath));
     }
     else {
+
       if (moduleRe.test(file) && !routingModuleRe.test(file)) {
         fileList.push({
-          modulePath: '/' + dir.toString(),
-          moduleFullPath: '/' + filePath,
+          name: dir.toString().replace(/\\/g, '/').replace(new RegExp(`^${srcPath}/`), ''),
+          modulePath: dir.toString().replace(/\\/g, '/'),
+          moduleFullPath: filePath.replace(/\\/g, '/'),
           moduleName: file
         });
       }

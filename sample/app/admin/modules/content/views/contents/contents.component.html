@@ -1,0 +1,26 @@
+<mat-card>
+  <fs-list [config]="config" #table>
+    <fs-list-column class="name">
+      <ng-template fs-list-header>Name</ng-template>
+      <ng-template fs-list-cell let-row="row">
+        <a (click)="open(row)">{{row.name}}</a>
+      </ng-template>
+    </fs-list-column>
+    <fs-list-column>
+      <ng-template fs-list-header>Preview</ng-template>
+      <ng-template fs-list-cell let-row="row">
+        <div class="preview-container">
+          <div class="preview-content">
+            <div fsEditorRenderer [ngModel]="row.content"></div>
+          </div>
+        </div>
+      </ng-template>
+    </fs-list-column>
+    <fs-list-column class="modified">
+      <ng-template fs-list-header>Last Modified</ng-template>
+      <ng-template fs-list-cell let-row="row">
+        <fs-date-ago [date]="row.modified_date"></fs-date-ago>
+      </ng-template>
+    </fs-list-column>
+  </fs-list>
+</mat-card>

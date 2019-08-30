@@ -1,0 +1,54 @@
+<div class="container-timer">
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link [active]="mode === 'timer'" (click)="changeMode('timer')">Timer</a>
+    <a mat-tab-link [active]="mode === 'manual'" (click)="changeMode('manual')">Manual Entry</a>
+  </nav>
+  <div class="content">
+    <form #form="ngForm" (fsForm)="submit()">
+      <div fxLayout="column">
+
+        <app-timer-entry-form
+          [(timeEntry)]="timeEntry"
+          [(startDate)]="startDate"
+          [(minutes)]="minutes"
+          [(selectedTask)]="selectedTask"
+          [mode]="mode"
+          [showAccount]="false"
+          [showType]="false"
+          (projectChange)="projectChange()"
+          (taskSelected)="selectedTask = $event"
+          (proceedTask)="proceedTask($event)"
+          (descriptionChange)="restartTimer()"
+        ></app-timer-entry-form>
+
+        <app-timer-actions
+          [timer]="timer"
+          [timeEntry]="timeEntry"
+          [mode]="mode"
+          (startTimer)="submitType = 'start'"
+          (stopTimer)="submitType = 'stop'"
+          (createEntry)="submitType = 'manual'"
+          (startDateChange)="startDateChange($event)"
+          [menuRef]="menuRef"
+        ></app-timer-actions>
+
+        <div *ngIf="recentTimeEntries.length" fxLayout="row" fxLayoutAlign="start center" class="entries-heading">
+          <div fxFlex><div class="label">Recent</div></div>
+          <div>
+            <a class="view-entries" (click)="proceedReports()"><small>View All</small></a>
+          </div>
+        </div>
+
+        <app-timer-recent
+          *ngFor="let item of recentTimeEntries"
+          [timeEntry]="item"
+          [mode]="mode"
+          (start)="startRecentTimer($event)"
+          (manual)="createEntry($event)"
+          (proceedTask)="proceedTask($event)"
+          (changeTimeEntry)="onChangeTimeEntry($event)"
+        ></app-timer-recent>
+      </div>
+    </form>
+  </div>
+</div>

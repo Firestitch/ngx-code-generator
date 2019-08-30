@@ -1,0 +1,32 @@
+<mat-card>
+  <fs-list [config]="config" #DocsList *ngIf="project">
+    <fs-list-column name="category" [sortable]="false" width="1%" class="category">
+      <ng-template fs-list-cell let-row="row">
+        <app-type-pill [type]="row.type" *ngIf="row.type"></app-type-pill>
+      </ng-template>
+    </fs-list-column>
+    <fs-list-column name="status_id" title="Status" [sortable]="true" width="1%">
+      <ng-template fs-list-cell let-row="row">
+        <a *ngIf="row.state !== states.deleted" (click)="openDocDrawer(row)">
+          <app-status-pill [status]="row.status"></app-status-pill>
+        </a>
+        <app-status-pill *ngIf="row.state === states.deleted" [status]="row.status"></app-status-pill>
+      </ng-template>
+    </fs-list-column>
+    <fs-list-column name="name" title="Name" [sortable]="true">
+      <ng-template fs-list-cell let-row="row">
+        <app-object-identifier [object]="row" [project]="project"></app-object-identifier>
+        <a *ngIf="row.state !== states.deleted" (click)="openDocDrawer(row)">&nbsp;{{ row.name }}&nbsp;</a>
+        <span *ngIf="row.state === states.deleted">&nbsp;{{ row.name }}&nbsp;</span>
+        <fs-attributes [attributes]="row.tags" class="tag"></fs-attributes>
+      </ng-template>
+    </fs-list-column>
+    <fs-list-column name="modify_date" title="Last Modified" [sortable]="true" width="1%">
+      <ng-template fs-list-cell let-row="row">
+        <app-last-modified [account]="row.modifier_account" [date]="row.modify_date"></app-last-modified>
+      </ng-template>
+    </fs-list-column>
+  </fs-list>
+</mat-card>
+
+<router-outlet></router-outlet>

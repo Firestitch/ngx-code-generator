@@ -1,0 +1,15 @@
+<form (fsForm)="request()">
+  <mat-card>
+    <img class="logo" src="/assets/logo.png">
+    <mat-card-title>Forgot Password</mat-card-title>
+      <mat-card-content>
+      <mat-form-field class="mat-fullwidth">
+        <input matInput fsInput [fsFormRequired]="true" placeholder="Email" [(ngModel)]="email" name="email">
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Continue</button>
+      <div class="back">
+        Back to <a routerLink="/signin">Sign In</a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</form>

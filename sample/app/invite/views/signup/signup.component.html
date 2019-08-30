@@ -1,0 +1,40 @@
+<form (fsForm)="continue()">
+  <mat-card>
+    <fs-badge class="logo" shape="circle" size="80" [image]="image"></fs-badge>
+    <p>You have been invited to join</p>
+    <mat-card-title>{{ scope }}</mat-card-title>
+    <mat-card-content>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field fxFlex>
+          <input matInput placeholder="First Name" [(ngModel)]="account.first_name" name="first_name" fsFormRequired>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <input matInput placeholder="Last Name" [(ngModel)]="account.last_name" name="last_name" fsFormRequired>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field class="mat-fullwidth">
+        <input matInput placeholder="Email" [(ngModel)]="account.email" name="email" fsFormRequired fsFormEmail="true">
+      </mat-form-field>
+
+      <mat-form-field class="mat-fullwidth" *ngIf="type==='email'">
+        <input
+          type="password"
+          matInput
+          [(ngModel)]="account.password"
+          fsFormRequired
+          fsPassword
+          fsFormMinLength="6"
+          fsFormMaxLength="40"
+          placeholder="Password"
+          name="password">
+      </mat-form-field>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button type="submit" color="primary">Continue</button>
+      <button mat-button type="button" [routerLink]="['/invite', guid]">Back</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

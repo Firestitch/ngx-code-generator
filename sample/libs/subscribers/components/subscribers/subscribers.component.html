@@ -1,0 +1,11 @@
+<fs-autocomplete-chips
+  [(ngModel)]="subscribers"
+  [fetch]="fetch"
+  placeholder="Add subscribers"
+  (ngModelChange)="change($event)"
+  imageProperty="image.small"
+  name="autocomplete-subscribers">
+  <ng-template fsAutocompleteObject let-object="object">
+    {{ object.name }}
+  </ng-template>
+</fs-autocomplete-chips>

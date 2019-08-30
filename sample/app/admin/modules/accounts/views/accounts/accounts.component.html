@@ -1,0 +1,32 @@
+<fs-list [config]="config" #table>
+  <fs-list-column title="Name" name="name" sortable="true" [width]="'40%'">
+    <ng-template fs-list-cell let-row="row">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <fs-badge shape="circle" image="{{ row.image.small }}"></fs-badge>
+        <div fxLayout="column">
+          <a [routerLink]="[row.id]">{{ row.first_name }} {{ row.last_name }}</a>
+          <small *ngIf="row.email">{{ row.email }}</small>
+        </div>
+      </div>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column title="Admin Roles" [width]="'20%'">
+    <ng-template fs-list-cell let-row="row">
+      <div *ngIf="row.acl_roles && row.acl_roles.length" fxLayout="column">
+        <span *ngFor="let item of row.acl_roles">{{ item.name }}</span>
+      </div>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column title="Workspaces" [width]="'20%'">
+    <ng-template fs-list-cell let-row="row">
+      <workspaces-badge-list [workspaces]="row.workspaces"></workspaces-badge-list>
+    </ng-template>
+  </fs-list-column>
+  <fs-list-column>
+    <ng-template fs-list-header>Last Sign-In</ng-template>
+    <ng-template fs-list-cell let-row="row">
+      <span *ngIf="row.signin_date;else loginNever">{{ row.signin_date | fsDateAgo }}</span>
+      <ng-template #loginNever>Never</ng-template>
+    </ng-template>
+  </fs-list-column>
+</fs-list>

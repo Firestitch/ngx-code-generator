@@ -1,0 +1,75 @@
+<fs-dialog [fsSkeleton]="api_log">
+  <ng-container *ngIf="api_log">
+    <div mat-dialog-title>API Log</div>
+    <mat-dialog-content>
+      <div fxLayout="column">
+        <fs-label-field>
+          <fs-label>
+            Type
+          </fs-label>
+          {{api_log.type}}
+        </fs-label-field>
+
+        <fs-label-field>
+          <fs-label>
+            Status
+          </fs-label>
+          {{apiLogStates[api_log.state]}}
+        </fs-label-field>
+
+        <fs-label-field>
+          <fs-label>
+            Date
+          </fs-label>
+          {{api_log.create_date|fsDateFormat: 'full-date-time'}}
+        </fs-label-field>
+
+        <fs-label-field *ngIf="api_log.length">
+          <fs-label>
+              Duration
+          </fs-label>
+          {{ api_log.length | fsDateDuration }}
+        </fs-label-field>
+
+        <fs-label-field *ngIf="api_log.code">
+          <fs-label>
+            Code
+          </fs-label>
+          {{api_log.code}}
+        </fs-label-field>
+
+        <fs-label-field *ngIf="api_log.message">
+          <fs-label>
+            Message
+          </fs-label>
+          {{api_log.message}}
+        </fs-label-field>
+
+        <fs-label-field *ngIf="api_log.url">
+          <fs-label>
+            URL
+          </fs-label>
+          {{api_log.url}}
+        </fs-label-field>
+
+        <fs-label-field *ngIf="api_log.request">
+          <fs-label>
+            Request
+          </fs-label>
+          <pre>{{api_log.request|json}}</pre>
+        </fs-label-field>
+
+        <fs-label-field *ngIf="api_log.response">
+          <fs-label>
+            Response
+          </fs-label>
+          <pre>{{api_log.response|json}}</pre>
+        </fs-label-field>
+
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button [mat-dialog-close]="true" color="primary">Done</button>
+    </mat-dialog-actions>
+  </ng-container>
+</fs-dialog>

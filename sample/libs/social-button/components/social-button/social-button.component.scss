@@ -1,0 +1,22 @@
+.facebook, .google {
+
+  width: 100%;
+  color: #fff;
+  padding: 0;
+
+  img {
+    width: 23px;
+    height: 23px;
+    position: absolute;
+    left: 20px;
+    top: 6px;
+  }
+}
+
+.facebook {
+  background: #4267B2;
+}
+
+.google {
+  background: #1A73E8;
+}

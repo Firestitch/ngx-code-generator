@@ -1,0 +1,51 @@
+@import '../../../../../styles/variables.scss';
+
+:host {
+
+  .mat-toolbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10;
+    padding: 0 10px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .3);
+  }
+
+  ::ng-deep {
+    .fs-nav-back {
+      color: #fff;
+      display: flex;
+
+      &.root {
+        display: none;
+      }
+
+      mat-icon {
+        transform: scale(1.33);
+        color: #fff;
+      }
+    }
+
+    .menu {
+      margin-right: 5px;
+    }
+
+    .fs-nav-component-image img {
+      width: 28px;
+      height: 28px;
+      margin-right: 10px;
+      border-radius: 100%;
+      display: flex;
+    }
+
+    .fs-nav-supertitle,
+    .fs-nav-title {
+      line-height: normal;
+    }
+
+    .fs-nav-supertitle {
+      font-size: 12px;
+    }
+  }
+}
