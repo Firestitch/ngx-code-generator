@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { exec } from 'child_process';
 import * as path from 'path';
-import { ListCreationType } from '../common/list-creation-type';
 import { findAllModules, findAllServices, getFileContent, getEnumKeysList, findAllEnums } from '../helpers';
 import { fixErrorResponseMessage } from '../helpers/fix-error-response-message';
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import { srcPath, rootPath } from '../server';
 import { sanitizepath } from '../helpers/sanitize-path';
+import { PatternType } from '../enums/pattern-type.enum';
 
 /**
  * GET /
@@ -47,7 +47,7 @@ export let index = (req: Request, res: Response) => {
   let schema = '';
 
   switch (params.interfacePattern) {
-    case ListCreationType.list: {
+    case PatternType.List: {
       schema = 'list';
       command += `\
       --service=${params.service.singularName} \
@@ -56,7 +56,7 @@ export let index = (req: Request, res: Response) => {
       --singleModel=${params.singularModelName}`
     } break;
 
-    case ListCreationType.listCreateEdit: {
+    case PatternType.ListCreateEdit: {
       schema = 'list';
       command += `\
       --mode=${params.createEditInterfacePattern}\
@@ -69,11 +69,11 @@ export let index = (req: Request, res: Response) => {
       --routableCreateComponent=${params.routableCreateComponent}`;
     } break;
 
-    case ListCreationType.CreateEdit: {
+    case PatternType.CreateEdit: {
       if (params.createEditInterfacePattern === 'dialog') {
-        schema = 'list-create-dialog';
+        schema = 'create-edit-dialog';
       } else {
-        schema = 'list-create';
+        schema = 'create-edit-page';
       }
 
       command = `\
@@ -90,7 +90,7 @@ export let index = (req: Request, res: Response) => {
       --routableCreateComponent=${params.routableCreateComponent}`;
     } break;
 
-    case ListCreationType.Basic: {
+    case PatternType.Basic: {
       schema = 'base';
     }
   }

@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import { srcPath } from '../server';
+import { sanitizepath } from './sanitize-path';
 
 
 export async function findAllServices(modules: any) {
@@ -23,7 +24,7 @@ export async function findAllServices(modules: any) {
       files.push(
         ...serviceFiles.map((file) => {
           return {
-            servicePath: servicesPath,
+            servicePath: sanitizepath(servicesPath),
             singularName: file,
             name: servicesPath
                   .toString()
@@ -41,7 +42,7 @@ export async function findAllServices(modules: any) {
       files.push(
         ...dataServiceFiles.map((file) => {
           return {
-            servicePath: dataServicesPath,
+            servicePath: sanitizepath(dataServicesPath),
             singularName: file,
             name: dataServicesPath
                   .toString()
