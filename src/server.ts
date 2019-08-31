@@ -12,7 +12,8 @@ const args = require('minimist')(process.argv.slice(2))
  * Start Express server.
  */
 
-export const srcPath = args.src || 'src';
+export const rootPath = args.root || '';
+export const srcPath = rootPath ? rootPath + '/src' : 'src';
 
 const server = app.listen(app.get('port'), () => {
   console.log(

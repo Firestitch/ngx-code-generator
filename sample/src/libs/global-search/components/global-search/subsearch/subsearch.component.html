@@ -1,9 +1,0 @@
-<div class="subsearch">
-  <fs-chip
-    *ngFor="let objectClass of searchObjectClasses"
-    [ngClass]="{ active: objectClass.value === selected }"
-    size="small"
-    (click)="onSelect(objectClass.value)">
-    {{ objectClass.pluralName }}
-  </fs-chip>
-</div>

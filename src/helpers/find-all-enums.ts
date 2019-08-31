@@ -1,6 +1,10 @@
 import { promises as fs } from 'fs';
+import { stripRoot } from './strip-root';
 
 export async function findAllEnums(dir: any) {
+
+  console.log('findAllEnums', dir);
+
   const enums: any = [];
   const targetDirStat = await fs.stat(dir);
   const enumsRe = /\.enum\.ts$/;
@@ -16,6 +20,7 @@ export async function findAllEnums(dir: any) {
         enumPath: dir,
         enumFile: file,
         enumFullPath: dir + '/' + file,
+        name: file.replace(/\.ts$/, '')
       })
     }
   }

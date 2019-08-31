@@ -5,7 +5,8 @@ import { ListCreationType } from '../common/list-creation-type';
 import { findAllModules, findAllServices, getFileContent, getEnumKeysList, findAllEnums } from '../helpers';
 import { fixErrorResponseMessage } from '../helpers/fix-error-response-message';
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
-import { srcPath } from '../server';
+import { srcPath, rootPath } from '../server';
+import { sanitizepath } from '../helpers/sanitize-path';
 
 /**
  * GET /
@@ -23,8 +24,8 @@ export let index = (req: Request, res: Response) => {
         message: stdout
       })
     }
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
+    console.log(`${stdout}`);
+    console.log(`${stderr}`);
   };
 
   const params = req.body;
@@ -40,7 +41,7 @@ export let index = (req: Request, res: Response) => {
   let command = `\
   --name=${params.componentName} \
   --module=${params.module.moduleName} \
-  --path=${params.module.modulePath} \
+  --path=/${params.module.modulePath} \
   --routableComponent=${params.routableComponent}`;
 
   let schema = '';
@@ -50,7 +51,7 @@ export let index = (req: Request, res: Response) => {
       schema = 'list';
       command += `\
       --service=${params.service.singularName} \
-      --servicePath=${params.service.servicePath} \
+      --servicePath=/${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
       --singleModel=${params.singularModelName}`
     } break;
@@ -62,7 +63,7 @@ export let index = (req: Request, res: Response) => {
       --parentName=${params.componentName} \
       --singleName=${params.createEditComponentName} \
       --service=${params.service.singularName} \
-      --servicePath=${params.service.servicePath} \
+      --servicePath=/${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
       --singleModel=${params.singularModelName} \
       --routableCreateComponent=${params.routableCreateComponent}`;
@@ -77,14 +78,14 @@ export let index = (req: Request, res: Response) => {
 
       command = `\
       --mode=${params.createEditInterfacePattern}\
-      --module=${params.module.moduleFullPath} \
+      --module=/${params.module.moduleFullPath} \
       --secondLevel=true \
-      --path=${params.module.modulePath} \
+      --path=/${params.module.modulePath} \
       --parentName=${params.componentName} \
       --parentType=${params.relatedParentType} \
       --name=${params.createEditComponentName} \
       --service=${params.service.singularName} \
-      --servicePath=${params.service.servicePath} \
+      --servicePath=/${params.service.servicePath} \
       --singleModel=${params.singularModelName} \
       --routableCreateComponent=${params.routableCreateComponent}`;
     } break;
@@ -94,8 +95,9 @@ export let index = (req: Request, res: Response) => {
     }
   }
 
-  console.log(`ng g @firestitch/schematics:${schema} ${command}`);
-  exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
+  const cmd = `ng g @firestitch/schematics:${schema} ${command}`;
+  console.log(cmd);
+  exec(cmd, execHandler);
 };
 
 /**
@@ -110,15 +112,13 @@ export let createEnum = (req: Request, res: Response) => {
       });
     } else {
       const name = dasherize(params.name);
-      const currentPath = path.relative(process.cwd(), srcPath);
-      const modulePath = params.module.modulePath.replace(/^[\/\\]src[\/\\]/, '');
-      const filePath = path.join(currentPath, modulePath, 'enums', `${name}.enum.ts`);
+      const filePath = path.join(process.cwd(), params.module.modulePath, 'enums', `${name}.enum.ts`);
 
       try {
         getFileContent(filePath).then((content) => {
           res.json({
             code: content,
-            path: path.join(srcPath, modulePath, 'enums', `${name}.enum.ts`),
+            path: path.join(params.module.modulePath, 'enums', `${name}.enum.ts`),
           })
         });
 
@@ -128,8 +128,8 @@ export let createEnum = (req: Request, res: Response) => {
         });
       }
     }
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
+    console.log(`${stdout}`);
+    console.log(`${stderr}`);
   };
 
   const params = req.body;
@@ -152,14 +152,13 @@ export let createEnum = (req: Request, res: Response) => {
 
   const command = `\
   --name=${params.name} \
-  --path=${params.module.modulePath} \
+  --path=/${params.module.modulePath} \
   --keys=${keys.join()} \
   --values=${values.join()}`;
 
-  const schema = 'enum';
-
-  console.log(`ng g @firestitch/schematics:${schema} ${command}`);
-  exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
+  const cmd = `ng g @firestitch/schematics:enum ${command}`;
+  console.log(cmd);
+  exec(cmd, execHandler);
 };
 
 export let createConst = (req: Request, res: Response) => {
@@ -170,16 +169,15 @@ export let createConst = (req: Request, res: Response) => {
         message: fixErrorResponseMessage(stderr)
       });
     } else {
+
       const name = dasherize(params.name);
-      const currentPath = path.relative(process.cwd(), srcPath);
-      const modulePath = params.module.modulePath.replace(new RegExp(`^${srcPath}[\/\\]`), '');
-      const filePath = path.join(currentPath, modulePath, 'consts', `${name}.const.ts`);
+      const filePath = path.join(process.cwd(), params.module.modulePath, 'consts', `${name}.const.ts`);
 
       try {
         getFileContent(filePath).then((content) => {
           res.json({
             code: content,
-            path: path.join(srcPath, modulePath, 'consts', `${name}.const.ts`),
+            path: path.join(params.module.modulePath, 'consts', `${name}.const.ts`),
           })
         });
       } catch (e) {
@@ -188,8 +186,8 @@ export let createConst = (req: Request, res: Response) => {
         });
       }
     }
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
+    console.log(`${stdout}`);
+    console.log(`${stderr}`);
   };
 
   const params = req.body;
@@ -214,16 +212,17 @@ export let createConst = (req: Request, res: Response) => {
 
   const command = `\
   --name=${params.name} \
-  --path=${params.module.modulePath} \
+  --path=/${params.module.modulePath} \
   --enumName=${params.enumData.name} \
-  --enumPath=${params.enum.enumFullPath} \
+  --enumPath=/${params.enum.enumPath} \
   --keys=${keys.join()} \
   --values=${values.join()}`;
 
   const schema = 'const';
 
-  console.log(`ng g @firestitch/schematics:${schema} ${command}`);
-  exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
+  const cmd = `ng g @firestitch/schematics:${schema} ${command}`;
+  console.log(cmd);
+  exec(cmd, { cwd: rootPath }, execHandler);
 };
 
 export let modulesList = (req: Request, res: Response) => {
@@ -273,8 +272,8 @@ export let generateService = (req: Request, res: Response) => {
         message: stdout
       })
     }
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
+    console.log(`${stdout}`);
+    console.log(`${stderr}`);
   };
 
   const params = req.body;
@@ -290,15 +289,14 @@ export let generateService = (req: Request, res: Response) => {
   const command = `\
   --name=${params.singularName} \
   --module=${params.module.moduleName} \
-  --path=${params.module.modulePath} \
+  --path=/${params.module.modulePath} \
   --subdirectory=${params.subdirectory} \
   --pluralName=${params.pluralName} \
   --menuService`;
 
-  const schema = 'service';
-
-  console.log(`ng g @firestitch/schematics:${schema} ${command}`);
-  exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
+  const cmd = `ng g @firestitch/schematics:service ${command}`;
+  console.log(cmd);
+  exec(cmd, execHandler);
 
 };
 
@@ -313,8 +311,8 @@ export let generateModule = (req: Request, res: Response) => {
         message: stdout
       })
     }
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
+    console.log(`${stdout}`);
+    console.log(`${stderr}`);
   };
 
   const params = req.body;
@@ -330,13 +328,13 @@ export let generateModule = (req: Request, res: Response) => {
 
   const command = `\
   --name=${params.name} \
-  --path=${params.module.modulePath} \
-  --module=${params.module.moduleName} \
+  --path=/${params.module.modulePath} \
+  --module=/${params.module.moduleName} \
   --routing=${params.routing}`;
 
-  const schema = 'module';
-
-  exec(`ng g @firestitch/schematics:${schema} ${command}`, execHandler);
+  const cmd = `ng g @firestitch/schematics:module ${command}`;
+  exec(cmd, execHandler);
+  console.log(cmd);
 };
 
 export let enumKeysList = (req: Request, res: Response) => {
@@ -370,7 +368,7 @@ export let enumsList = (req: Request, res: Response) => {
     });
   }
 
-  const currentPath = path.relative(process.cwd(), path.join(params.enumPath, 'enums'));
+  const currentPath = sanitizepath(path.relative(process.cwd(), path.join(params.enumPath, 'enums')));
 
   try {
     findAllEnums(currentPath).then((data) => {

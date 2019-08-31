@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { promises as fs } from 'fs';
-import { srcPath } from '../server';
+import { srcPath, rootPath } from '../server';
+import { sanitizepath } from './sanitize-path';
 
 
 export async function findAllModules(dir: string) {
@@ -22,8 +23,12 @@ export async function findAllModules(dir: string) {
 
       if (moduleRe.test(file) && !routingModuleRe.test(file)) {
         fileList.push({
-          name: dir.toString().replace(/\\/g, '/').replace(new RegExp(`^${srcPath}/`), ''),
-          modulePath: dir.toString().replace(/\\/g, '/'),
+          name: sanitizepath(dir.toString())
+                .concat('/', file.replace(/\.ts$/, ''))
+                .replace(new RegExp(`^${srcPath}/`), ''),
+          modulePath: dir
+                      .toString()
+                      .replace(/\\/g, '/'),
           moduleFullPath: filePath.replace(/\\/g, '/'),
           moduleName: file
         });

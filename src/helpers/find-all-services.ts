@@ -25,7 +25,11 @@ export async function findAllServices(modules: any) {
           return {
             servicePath: servicesPath,
             singularName: file,
-            name: servicesPath.toString().replace(/\\/g, '/').replace(new RegExp(`^${srcPath}/`), ''),
+            name: servicesPath
+                  .toString()
+                  .concat('/', file.replace(/\.ts$/, ''))
+                  .replace(/\\/g, '/')
+                  .replace(new RegExp(`^${srcPath}/`), ''),
           };
         })
       );
@@ -39,7 +43,11 @@ export async function findAllServices(modules: any) {
           return {
             servicePath: dataServicesPath,
             singularName: file,
-            name: dataServicesPath.toString().replace(/\\/g, '/').replace(new RegExp(`^${srcPath}/`), ''),
+            name: dataServicesPath
+                  .toString()
+                  .concat('/', file.replace(/\.ts$/, ''))
+                  .replace(/\\/g, '/')
+                  .replace(new RegExp(`^${srcPath}/`), ''),
           };
         })
       );

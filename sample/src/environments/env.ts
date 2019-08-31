@@ -1,1 +1,0 @@
-export const env = {"build":{"date":"2019-08-26T13:39:59.221Z","name":"develop"},"env":"local","platform":"web"};
