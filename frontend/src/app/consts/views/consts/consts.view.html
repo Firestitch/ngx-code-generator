@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="col generator-card">
+    <app-generate-const (generate)="save($event)" [loading]="loading" [error]="error"></app-generate-const>
+  </div>
+  <div class="col" *ngIf="constPath">
+    <mat-card>
+      <mat-card-content>
+        <h2>Preview</h2>
+
+        <fs-label-field>
+          <fs-label>File</fs-label>
+          {{ constPath }}
+        </fs-label-field>
+
+        <fs-label-field>
+          <fs-label>Code</fs-label>
+          <app-generator-code [code]="code"></app-generator-code>
+        </fs-label-field>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

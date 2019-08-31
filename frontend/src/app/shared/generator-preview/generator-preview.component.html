@@ -1,0 +1,29 @@
+<div class="container">
+  <ng-container *ngIf="params?.module?.modulePath; else noModule">
+    <div class="result">
+      <div class="level">
+        <div class="folder">
+          <mat-icon>folder</mat-icon>
+          <span>{{params.module.modulePath}}</span>
+        </div>
+        <div class="level">
+          <ng-container [ngSwitch]="params.interfacePattern">
+            <app-basic-pattern *ngSwitchCase="'basic'" [params]="params"></app-basic-pattern>
+            <app-basic-pattern *ngSwitchCase="'list'" [params]="params"></app-basic-pattern>
+            <app-create-edit-pattern *ngSwitchCase="'create-edit'" [params]="params"></app-create-edit-pattern>
+
+            <ng-container *ngSwitchCase="'list-create-edit'">
+              <app-basic-pattern [params]="params"></app-basic-pattern>
+              <app-create-edit-pattern [params]="params"></app-create-edit-pattern>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noModule>
+    <div>Chose target module</div>
+  </ng-template>
+
+</div>

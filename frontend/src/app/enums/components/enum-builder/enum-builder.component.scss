@@ -1,0 +1,29 @@
+.values-container {
+  display: flex;
+  flex-direction: column;
+
+  .enum-item {
+    .name {
+      width: 40%;
+    }
+
+    .value {
+      width: 40%;
+    }
+
+    .remove-button {
+      float: right;
+    }
+
+    .separator {
+      font-weight: bold;
+      margin: 0 15px;
+    }
+  }
+
+  .more {
+    margin-top: 20px;
+    width: 80px;
+    align-self: flex-end;
+  }
+}

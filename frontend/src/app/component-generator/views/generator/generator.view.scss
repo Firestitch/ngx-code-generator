@@ -1,0 +1,24 @@
+:host {
+  ::ng-deep {
+    .mat-form-field {
+      width: 100%;
+    }
+  }
+}
+
+.container {
+  display: flex;
+
+  .col {
+    padding: 10px;
+    display: inline-block;
+  }
+
+  .generator-card {
+    width: 500px;
+  }
+
+  .result-card {
+    min-height: 100px;
+  }
+}

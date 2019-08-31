@@ -1,0 +1,17 @@
+:host ::ng-deep {
+  .success {
+    color: #00C853;
+  }
+
+  .warning {
+    color: #00B8D4;
+  }
+}
+
+.log-item {
+  margin-bottom: 10px;
+}
+
+.container {
+  padding: 10px;
+}

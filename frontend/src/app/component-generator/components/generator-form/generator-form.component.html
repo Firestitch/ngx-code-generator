@@ -1,0 +1,164 @@
+<form class="form" (ngSubmit)="submit()" #moduleForm="ngForm">
+  <mat-card>
+    <mat-card-content>
+      <app-modules-list [(ngModel)]="model.module" name="module"></app-modules-list>
+
+      <mat-form-field>
+        <mat-select [(ngModel)]="model.interfacePattern"
+                    (selectionChange)="interfacePatterChanged()"
+                    placeholder="Pattern"
+                    name="interfacePattern"
+                    required
+        >
+          <mat-option [value]="'basic'">Basic</mat-option>
+          <mat-option [value]="'list'">List</mat-option>
+          <mat-option [value]="'list-create-edit'">List, Create & Edit</mat-option>
+          <mat-option [value]="'create-edit'">Create & Edit</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!--<mat-form-field *ngIf="(hasListInterface && hasCreateEditInterface) || !hasCreateEditInterface">
+        <mat-select [(ngModel)]="model.componentType"
+                    placeholder="Component Type"
+                    name="componentType"
+                    required
+        >
+          <mat-option [value]="'component'">Component</mat-option>
+          <mat-option [value]="'view'">View</mat-option>
+        </mat-select>
+      </mat-form-field>-->
+
+
+      <ng-container *ngIf="model.interfacePattern === 'basic'">
+        <h2>Component</h2>
+      </ng-container>
+
+      <ng-container *ngIf="hasListInterface">
+        <h2>List Component</h2>
+      </ng-container>
+
+      <mat-form-field *ngIf="model.interfacePattern === 'basic' || hasListInterface">
+        <input matInput
+               [(ngModel)]="model.componentName"
+               placeholder="Component Name"
+               name="componentName"
+               #componentName="ngModel"
+               required>
+        <mat-error *ngIf="componentName.invalid"> Component Name is required </mat-error>
+      </mat-form-field>
+
+      <fs-label-field *ngIf="model.interfacePattern && model.interfacePattern !== 'create-edit'">
+        <fs-label>Options</fs-label>
+        <mat-checkbox [(ngModel)]="model.routableComponent"
+                      name="routableComponent"
+        >
+          Routable
+        </mat-checkbox>
+      </fs-label-field>
+
+      <ng-container *ngIf="hasCreateEditInterface">
+        <h2>Create & Edit Component</h2>
+      </ng-container>
+
+      <ng-container *ngIf="hasCreateEditInterface">
+        <mat-form-field>
+          <input matInput
+                 [(ngModel)]="model.createEditComponentName"
+                 placeholder="Name"
+                 name="createEditComponentName"
+                 #createEditComponentName="ngModel"
+                 required="!isBasicPattern"
+          >
+          <mat-error *ngIf="createEditComponentName.invalid"> Name is required </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select [(ngModel)]="model.createEditInterfacePattern"
+                      placeholder="Interface"
+                      name="createEditInterfacePattern"
+                      required
+          >
+            <mat-option [value]="'full'">Page</mat-option>
+            <mat-option [value]="'dialog'">Dialog</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <fs-label-field *ngIf="model.createEditInterfacePattern === 'full'">
+          <fs-label>Options</fs-label>
+          <mat-checkbox [(ngModel)]="model.routableCreateComponent"
+                        name="routableCreateComponent"
+          >
+            Routable
+          </mat-checkbox>
+        </fs-label-field>
+
+        <ng-container *ngIf="!hasListInterface && model.createEditInterfacePattern === 'dialog'">
+          <mat-form-field>
+            <mat-select [(ngModel)]="model.relatedParentType"
+                        placeholder="Related Parent Type"
+                        name="relatedParentType"
+                        required
+            >
+              <mat-option [value]="'none'">None</mat-option>
+              <mat-option [value]="'component'">Component</mat-option>
+              <mat-option [value]="'view'">View</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="model.relatedParentType === 'component' || model.relatedParentType === 'view'">
+            <input matInput
+                   [(ngModel)]="model.componentName"
+                   placeholder="Related Parent Name"
+                   name="componentName"
+                   #componentName="ngModel"
+            >
+            <mat-hint align="start"><strong>Triggers the opening of the dialog</strong> </mat-hint>
+            <mat-error *ngIf="componentName.invalid"> Name is required </mat-error>
+          </mat-form-field>
+        </ng-container>
+      </ng-container>
+
+
+      <ng-container *ngIf="hasListInterface || hasCreateEditInterface">
+        <h2>Model & Data</h2>
+        <app-services-list [(ngModel)]="model.service"
+                           (ngModelChange)="serviceChanged($event)"
+                           [services]="services"
+                           name="service">
+        </app-services-list>
+
+        <ng-container *ngIf="hasListInterface || hasCreateEditInterface">
+          <mat-form-field>
+            <input matInput
+                   [(ngModel)]="model.singularModelName"
+                   placeholder="Singular Model Name"
+                   name="singularModelName"
+                   #singularModelName="ngModel"
+                   required="!isBasicPattern"
+            >
+            <mat-error *ngIf="singularModelName.invalid"> Singular Model Name is required </mat-error>
+          </mat-form-field>
+
+
+          <mat-form-field>
+            <input matInput
+                   [(ngModel)]="model.pluralModelName"
+                   placeholder="Plural Model Name"
+                   name="pluralModelName"
+                   #pluralModelName="ngModel"
+                   required="true">
+            <mat-error *ngIf="pluralModelName.invalid"> Plural Model Name is required </mat-error>
+          </mat-form-field>
+        </ng-container>
+
+      </ng-container>
+
+      <div class="actions">
+        <button mat-raised-button color="primary"
+                [disabled]="moduleForm.invalid">
+          GENERATE
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</form>

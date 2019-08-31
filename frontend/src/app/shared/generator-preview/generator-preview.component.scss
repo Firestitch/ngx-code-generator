@@ -1,0 +1,34 @@
+:host {
+  ::ng-deep {
+    .result {
+      .level {
+        margin-left: 20px;
+
+        .folder, .file {
+          display: flex;
+          align-items: center;
+
+          span {
+            padding-left: 10px;
+          }
+        }
+
+        .folder {
+          .mat-icon {
+            color: #009dff;
+          }
+        }
+
+        .file {
+          .mat-icon {
+            color: #58b535;
+          }
+        }
+      }
+    }
+
+    .container {
+      padding: 10px;
+    }
+  }
+}

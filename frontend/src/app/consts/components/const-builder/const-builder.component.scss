@@ -1,0 +1,20 @@
+.values-container {
+  display: flex;
+  flex-direction: row;
+
+  fs-label-field {
+    width: 50%;
+    margin: 0;
+  }
+
+  .enum-item {
+    padding: 17px 0 22px 0;
+    margin-bottom: 1.25em;
+  }
+
+  .more {
+    margin-top: 20px;
+    width: 80px;
+    align-self: flex-end;
+  }
+}

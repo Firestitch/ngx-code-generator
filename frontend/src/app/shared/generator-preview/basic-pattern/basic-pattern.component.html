@@ -1,0 +1,29 @@
+<div class="folder">
+  <mat-icon>folder</mat-icon>
+  <ng-container [ngSwitch]="params.routableComponent">
+    <span *ngSwitchCase="false">/components</span>
+    <span *ngSwitchCase="true">/views</span>
+  </ng-container>
+</div>
+
+<div class="level" *ngIf="params.componentName">
+  <div class="folder">
+    <mat-icon>folder</mat-icon>
+    <span>{{params.componentName | dasherize}}</span>
+  </div>
+
+  <div class="level">
+    <div class="file">
+      <mat-icon>insert_drive_file</mat-icon>
+      <span>{{ params.componentName | dasherize }}.component.ts</span>
+    </div>
+    <div class="file">
+      <mat-icon>insert_drive_file</mat-icon>
+      <span>{{ params.componentName | dasherize }}.component.html</span>
+    </div>
+    <div class="file">
+      <mat-icon>insert_drive_file</mat-icon>
+      <span>{{ params.componentName | dasherize }}.component.scss</span>
+    </div>
+  </div>
+</div>

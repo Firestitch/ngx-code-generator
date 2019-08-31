@@ -1,0 +1,19 @@
+<fs-autocomplete
+  [fetch]="fetch"
+  [fetchOnFocus]="false"
+  [ngModel]="module"
+  [displayWith]="displayWith"
+  [placeholder]="loading ? 'Loading Modules...' : 'Module'"
+  (ngModelChange)="selectModule($event)"
+  [required]="true"
+  name="model">
+  <ng-template fsAutocompleteTemplate let-data="data">
+    <span [matTooltip]="data | moduleListItem">{{ data | moduleListItem }}</span>
+  </ng-template>
+
+  <ng-container *ngIf="showCreateButton">
+    <ng-template fsAutocompleteStaticTemplate>
+      <span (click)="openDialog()">Create Module</span>
+    </ng-template>
+  </ng-container>
+</fs-autocomplete>
