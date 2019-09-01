@@ -53,7 +53,8 @@ export let index = (req: Request, res: Response) => {
       --service=${params.service.singularName} \
       --servicePath=/${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
-      --singleModel=${params.singularModelName}`
+      --singleModel=${params.singularModelName} \
+      --titledComponent=${params.titledComponent}`;
     } break;
 
     case PatternType.ListCreateEdit: {
@@ -66,6 +67,8 @@ export let index = (req: Request, res: Response) => {
       --servicePath=/${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
       --singleModel=${params.singularModelName} \
+      --titledComponent=${params.titledComponent} \
+      --titledCreateComponent=${params.titledCreateComponent} \
       --routableCreateComponent=${params.routableCreateComponent}`;
     } break;
 
@@ -87,6 +90,7 @@ export let index = (req: Request, res: Response) => {
       --service=${params.service.singularName} \
       --servicePath=/${params.service.servicePath} \
       --singleModel=${params.singularModelName} \
+      --titledCreateComponent=${params.titledCreateComponent} \
       --routableCreateComponent=${params.routableCreateComponent}`;
     } break;
 

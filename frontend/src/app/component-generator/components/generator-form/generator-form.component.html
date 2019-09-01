@@ -5,7 +5,7 @@
 
       <mat-form-field>
         <mat-select [(ngModel)]="model.interfacePattern"
-                    (selectionChange)="interfacePatterChanged()"
+                    (selectionChange)="interfacePatternChanged()"
                     placeholder="Pattern"
                     name="interfacePattern"
                     required
@@ -16,18 +16,6 @@
           <mat-option [value]="'create-edit'">Create & Edit</mat-option>
         </mat-select>
       </mat-form-field>
-
-      <!--<mat-form-field *ngIf="(hasListInterface && hasCreateEditInterface) || !hasCreateEditInterface">
-        <mat-select [(ngModel)]="model.componentType"
-                    placeholder="Component Type"
-                    name="componentType"
-                    required
-        >
-          <mat-option [value]="'component'">Component</mat-option>
-          <mat-option [value]="'view'">View</mat-option>
-        </mat-select>
-      </mat-form-field>-->
-
 
       <ng-container *ngIf="model.interfacePattern === 'basic'">
         <h2>Component</h2>
@@ -47,13 +35,14 @@
         <mat-error *ngIf="componentName.invalid"> Component Name is required </mat-error>
       </mat-form-field>
 
-      <fs-label-field *ngIf="model.interfacePattern && model.interfacePattern !== 'create-edit'">
+      <fs-label-field *ngIf="listOptions.length">
         <fs-label>Options</fs-label>
-        <mat-checkbox [(ngModel)]="model.routableComponent"
-                      name="routableComponent"
-        >
-          Routable
-        </mat-checkbox>
+        <div *ngFor="let item of listOptions">
+          <mat-checkbox [(ngModel)]="model[item.name]"
+                      [name]="item.name">
+            {{item.value}}
+          </mat-checkbox>
+        </div>
       </fs-label-field>
 
       <ng-container *ngIf="hasCreateEditInterface">
@@ -76,20 +65,22 @@
           <mat-select [(ngModel)]="model.createEditInterfacePattern"
                       placeholder="Interface"
                       name="createEditInterfacePattern"
+                      (ngModelChange)="createEditInterfaceChanged()"
                       required
           >
-            <mat-option [value]="'full'">Page</mat-option>
             <mat-option [value]="'dialog'">Dialog</mat-option>
+            <mat-option [value]="'full'">Page</mat-option>
           </mat-select>
         </mat-form-field>
 
-        <fs-label-field *ngIf="model.createEditInterfacePattern === 'full'">
+        <fs-label-field *ngIf="createEditOptions.length">
           <fs-label>Options</fs-label>
-          <mat-checkbox [(ngModel)]="model.routableCreateComponent"
-                        name="routableCreateComponent"
-          >
-            Routable
-          </mat-checkbox>
+          <div *ngFor="let item of createEditOptions">
+            <mat-checkbox [(ngModel)]="model[item.name]"
+                        [name]="item.name">
+              {{item.value}}
+            </mat-checkbox>
+          </div>
         </fs-label-field>
 
         <ng-container *ngIf="!hasListInterface && model.createEditInterfacePattern === 'dialog'">

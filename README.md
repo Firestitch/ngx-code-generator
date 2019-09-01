@@ -2,10 +2,9 @@
 
 Here is a sample directory structure of the 4 projects you will need
 
-/boilerplate
+/boilerplate (or any Firestitch project codebase)
     /frontend
 /npm-code-generator
-    /frontend (npm-code-generator-frontend)
 /npm-schematics
 
 

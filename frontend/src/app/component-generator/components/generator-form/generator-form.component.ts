@@ -36,17 +36,20 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
     relatedParentType: 'none',
     createEditComponentName: null,
     interfacePattern: null,
-    createEditInterfacePattern: null,
+    createEditInterfacePattern: 'dialog',
     singularComponentName: null,
     pluralComponentName: null,
     singularModelName: null,
     pluralModelName: null,
-    routableComponent: false,
-    routableCreateComponent: false,
+    routableComponent: true,
+    routableCreateComponent: true,
+    titledComponent: true,
+    titledCreateComponent: true
   };
 
   public services = [];
-
+  public createEditOptions = [];
+  public listOptions = [];
   public hasListInterface = false;
   public hasCreateEditInterface = false;
   public hasModel = false;
@@ -68,11 +71,24 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
     });
   }
 
+  public createEditInterfaceChanged() {
+    this.createEditOptions = [];
+    if (this.model.createEditInterfacePattern === 'full') {
+      this.createEditOptions.push({ name:  'routableCreateComponent', value: 'Routable' });
+      this.createEditOptions.push({ name:  'titledCreateComponent', value: 'Set Title' });
+    }
+  }
 
-  public interfacePatterChanged() {
+  public interfacePatternChanged() {
     this.hasListInterface = false;
     this.hasCreateEditInterface = false;
     this.hasModel = false;
+
+    this.listOptions = [];
+    if (this.model.interfacePattern && this.model.interfacePattern !== 'create-edit') {
+      this.listOptions.push({ name:  'routableComponent', value: 'Routable' });
+      this.listOptions.push({ name:  'titledComponent', value: 'Set Title' });
+    }
 
     switch (this.model.interfacePattern) {
       case 'list': {
