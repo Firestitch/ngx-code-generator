@@ -115,32 +115,12 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
 
   public serviceChanged(service) {
     if (service) {
-      const name = service.singularName.replace(/(-(data))?\.(data|service)\.ts$/i, '');
+      const name = service.singularName
+                    .replace(/(-(data))?\.(data|service)\.ts$/i, '')
+                    .replace('-', '_');
 
       this.model.singularModelName = name;
       this.model.pluralModelName = pluralize(name);
     }
   }
-
-  // private _clearModel() {
-  //   this.model.relatedParentType = null;
-  //   this.model.createEditComponentName = null;
-  //   this.model.createEditInterfacePattern = null;
-  //   this.model.c
-  //   return {
-  //     module: null,
-  //     service: null,
-  //     componentName: null,
-  //     relatedParentType: null,
-  //     createEditComponentName: null,
-  //     interfacePattern: null,
-  //     createEditInterfacePattern: null,
-  //     singularComponentName: null,
-  //     pluralComponentName: null,
-  //     singularModelName: null,
-  //     pluralModelName: null,
-  //     componentType: null,
-  //   };
-  // }
-
 }

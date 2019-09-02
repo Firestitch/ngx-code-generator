@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ModuleInterface } from '@libs/modules-list';
 import { FsProgressService } from '@firestitch/progress';
 import { FsMessage } from '@firestitch/message';
+import { kebabCase } from 'lodash';
 
 import * as pluralize from 'pluralize';
 import { ServicesService } from '../../../services';
@@ -40,7 +41,7 @@ export class CreateServiceDialogComponent {
       (res) => {
         const type = (this.model.subdirectory === '/data') ? 'data' : 'service';
         const servicePath = `${this.model.module.modulePath}${this.model.subdirectory}`;
-        const singularName = `${this.model.singularName + '.' + type}`;
+        const singularName = `${kebabCase(this.model.singularName) + '.' + type}`;
         const service = {
           servicePath: servicePath,
           singularName: singularName + '.ts',
