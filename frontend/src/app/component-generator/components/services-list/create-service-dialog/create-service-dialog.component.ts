@@ -44,7 +44,8 @@ export class CreateServiceDialogComponent {
         const service = {
           servicePath: servicePath,
           singularName: singularName + '.ts',
-          name: servicePath.replace(/^src\//, '') + singularName,
+          name: servicePath.replace(/^src\//, '') + '/' + singularName,
+          fullPath: servicePath + '/' + singularName
         };
 
         progressDialog.close();

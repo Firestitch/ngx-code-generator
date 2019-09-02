@@ -82,6 +82,7 @@ export class ServicesListComponent implements ControlValueAccessor {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+
       if (!result) {
         this.serviceChange.emit('');
         return;
