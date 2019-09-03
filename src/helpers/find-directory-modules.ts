@@ -13,11 +13,9 @@ export async function findDirectoryModules(modulePath: string) {
 
   if (level === 0) {
     return await ['/app', '/lib'];
-  } else if (level === 1) {
-    return getChildDirectories(modulePath);
   } else {
-    return getChildDirectories(path.join(modulePath, 'modules'));
-  }
+    return getChildDirectories(modulePath);
+   }
 }
 
 async function getChildDirectories(targetPath: string) {

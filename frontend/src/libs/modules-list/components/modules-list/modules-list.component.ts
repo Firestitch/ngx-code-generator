@@ -103,6 +103,8 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
         return;
       }
 
+      debugger;
+
       this.module = result.module;
       this.selectModule(this.module);
 

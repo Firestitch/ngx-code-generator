@@ -306,6 +306,7 @@ export let generateService = (req: Request, res: Response) => {
 };
 
 export let generateModule = (req: Request, res: Response) => {
+
   const execHandler = (err: any, stdout: any, stderr: any) => {
     if (err) {
       res.status(500).json({
@@ -315,21 +316,16 @@ export let generateModule = (req: Request, res: Response) => {
       const currentPath = path.relative(process.cwd(), srcPath);
 
       findAllModules(currentPath).then((modules) => {
-        // find path for new module
-        const matchedModule = stdout.match(/src.+\.ts/);
 
-        let module = null;
+        const search = params.modulePath.replace(/^\//, '')
+                      .concat(params.name, '/', params.name, '.module');
 
-        // if we found something
-        if (matchedModule[0]) {
-          // replace routing part from name
-          const target = matchedModule[0].replace('-routing.module.ts', '.module.ts');
+        // try to find module that was already created
+        module = modules.find((m: any) => {
+          return m.name === search;
+        });
 
-          // try to find module that was already created
-          module = modules.find((m: any) => {
-            return m.moduleFullPath === target;
-          });
-        }
+        console.log(search, module);
 
         try {
           res.json({

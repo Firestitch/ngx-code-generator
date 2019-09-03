@@ -2,10 +2,15 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as compression from 'compression';
 import * as path from 'path';
-
 import * as baseController from './controllers/base';
 
+const compare = require('node-version-compare');
+const result = compare(process.version, '10.10.0');
 
+if (result < 0) {
+  console.error('Code Genetator requires NodeJs version >= 10.10.0');
+  process.exit();
+}
 
 const app = express();
 app.set('port', process.env.PORT || 3000);
