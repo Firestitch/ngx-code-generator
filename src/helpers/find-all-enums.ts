@@ -2,8 +2,6 @@ import { promises as fs } from 'fs';
 
 export async function findAllEnums(dir: any) {
 
-  console.log('findAllEnums', dir);
-
   const enums: any = [];
   const targetDirStat = await fs.stat(dir);
   const enumsRe = /\.enum\.ts$/;
