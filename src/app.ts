@@ -22,7 +22,6 @@ app.use(
 );
 
 
-
 app.post('/api/generate', baseController.index);
 app.post('/api/generate/service', baseController.generateService);
 app.post('/api/generate/module', baseController.generateModule);

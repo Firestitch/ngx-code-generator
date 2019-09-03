@@ -25,7 +25,6 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
   @Output()
   public generate = new EventEmitter<void>();
 
-
   @ViewChild('moduleForm')
   public form: NgForm;
 
@@ -85,7 +84,7 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
     this.hasModel = false;
 
     this.listOptions = [];
-    if (this.model.interfacePattern && this.model.interfacePattern !== 'create-edit') {
+    if (this.model.interfacePattern && this.model.interfacePattern !== 'create-edit' && this.model.interfacePattern !== 'tabs') {
       this.listOptions.push({ name:  'routableComponent', value: 'Routable' });
       this.listOptions.push({ name:  'titledComponent', value: 'Set Title' });
     }
@@ -105,6 +104,11 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
       case 'create-edit': {
         this.hasCreateEditInterface = true;
         this.hasModel = true;
+      } break;
+
+      case 'tabs': {
+        this.model.routableComponent = false;
+        this.model.componentName = 'tabs';
       } break;
     }
   }

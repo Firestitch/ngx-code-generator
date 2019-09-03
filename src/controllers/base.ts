@@ -96,7 +96,11 @@ export let index = (req: Request, res: Response) => {
     } break;
 
     case PatternType.Basic: {
-      schema = 'base';
+      schema = 'basic';
+    }
+
+    case PatternType.Tabs: {
+      schema = 'tabs';
     }
   }
 

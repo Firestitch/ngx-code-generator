@@ -11,13 +11,14 @@
                     required
         >
           <mat-option [value]="'basic'">Basic</mat-option>
+          <mat-option [value]="'tabs'">Tabs</mat-option>
           <mat-option [value]="'list'">List</mat-option>
           <mat-option [value]="'list-create-edit'">List, Create & Edit</mat-option>
           <mat-option [value]="'create-edit'">Create & Edit</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <ng-container *ngIf="model.interfacePattern === 'basic'">
+      <ng-container *ngIf="model.interfacePattern === 'basic' || model.interfacePattern === 'tabs'">
         <h2>Component</h2>
       </ng-container>
 
@@ -25,7 +26,7 @@
         <h2>List Component</h2>
       </ng-container>
 
-      <mat-form-field *ngIf="model.interfacePattern === 'basic' || hasListInterface">
+      <mat-form-field *ngIf="model.interfacePattern === 'basic' || model.interfacePattern === 'tabs' || hasListInterface">
         <input matInput
                [(ngModel)]="model.componentName"
                placeholder="Component Name"
