@@ -1,0 +1,16 @@
+<mat-form-field class="example-full-width">
+
+  <input type="text"
+         placeholder="Pick one"
+         #input
+         matInput
+         [(ngModel)]="parentPath"
+         [matAutocomplete]="auto"
+  >
+
+  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="select($event)">
+    <mat-option *ngFor="let dir of directories" [value]="dir">
+      {{dir}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

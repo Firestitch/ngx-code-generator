@@ -1,17 +1,17 @@
 <div class="container">
   <h2 mat-dialog-title> Create Module </h2>
-  <!--<form>-->
   <div class="form">
+
+    <app-parent-directory [(ngModel)]="model.modulePath" name="modulePath"></app-parent-directory>
+
     <mat-form-field>
       <input matInput placeholder="Module Name"
-             [(ngModel)]="model.name">
+             [(ngModel)]="model.name" name="name">
     </mat-form-field>
 
     <section>
       <mat-checkbox [(ngModel)]="model.routing">Add routing file</mat-checkbox>
     </section>
-
-    <!--</form>-->
   </div>
   <button mat-button color="primary" (click)="generate()">CREATE</button>
   <button mat-button mat-dialog-close>CANCEL</button>

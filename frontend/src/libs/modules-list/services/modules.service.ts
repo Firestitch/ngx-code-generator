@@ -16,4 +16,12 @@ export class ModulesService {
   public generateModule(params) {
     return this._http.post('/generate/module', params);
   }
+
+  public getModulesFor(currentPath) {
+    return this._http.get('/get-modules-for', {
+      params: {
+        currentPath: currentPath,
+      },
+    });
+  }
 }

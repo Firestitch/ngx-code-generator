@@ -15,7 +15,7 @@ import { FsMessage } from '@firestitch/message';
 import { of } from 'rxjs';
 import FuzzySearch from 'fuzzy-search';
 
-import { ModuleInterface } from '../../interfaces/';
+import { ModuleInterface } from '../../interfaces';
 import { CreateModuleDialogComponent } from './create-module-dialog/';
 import { ModulesService } from '../../services/modules.service';
 
@@ -103,12 +103,13 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
         return;
       }
 
-      this.module = result;
-
+      this.module = result.module;
       this.selectModule(this.module);
 
-      this.modules.push(result);
-      this.moduleChange.emit(result);
+      this.modules = result.modules;
+      this._initFuzzer();
+
+      this.moduleChange.emit(this.module);
     });
   }
 
@@ -126,10 +127,14 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
       .subscribe((response: any) => {
         this.loading = false;
         this.modules = response.modules;
-        this.fuzzer = new FuzzySearch(this.modules, ['moduleFullPath']);
+        this._initFuzzer();
       },
         (response) => {
           this._message.error(response.error && response.error.message || (response.body && response.body.error) || response.message);
         });
+  }
+
+  private _initFuzzer() {
+    this.fuzzer = new FuzzySearch(this.modules, ['moduleFullPath']);
   }
 }

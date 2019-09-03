@@ -1,5 +1,4 @@
 import { promises as fs } from 'fs';
-import { stripRoot } from './strip-root';
 
 export async function findAllEnums(dir: any) {
 

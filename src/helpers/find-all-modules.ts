@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { promises as fs } from 'fs';
-import { srcPath, rootPath } from '../server';
+import { srcPath } from '../server';
 import { sanitizepath } from './sanitize-path';
 
 

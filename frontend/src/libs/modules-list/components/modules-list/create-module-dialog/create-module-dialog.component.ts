@@ -19,7 +19,7 @@ import { ModulesService } from '../../../services/modules.service';
 
 export class CreateModuleDialogComponent implements OnInit {
   public model = {
-    module: null,
+    modulePath: null,
     name: null,
     routing: true
   };
@@ -34,28 +34,17 @@ export class CreateModuleDialogComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.model.module = this.data.rootModule;
+    // this.model.module = this.data.rootModule;
   }
 
   public generate() {
     const progressDialog = this._progressService.open();
 
     this._generatorService.generateModule(this.model)
-      .subscribe((res) => {
-        const modulePath = this.model.module.modulePath + '/' + this.model.name;
-        const moduleName = this.model.name + '.module';
-
-        const module = {
-          moduleName: moduleName + '.ts',
-          modulePath: modulePath,
-          moduleFullPath: modulePath + '/' + moduleName,
-          name: modulePath.replace(/^src\//, '') + '/' + moduleName
-        };
-
+      .subscribe((response: any) => {
         progressDialog.close();
         this._message.success('Successfully Generated');
-
-        this.dialogRef.close(module);
+        this.dialogRef.close(response);
       }, (response) => {
         progressDialog.close();
         this._message.error(response.error && response.error.message || (response.body && response.body.error) || response.message);

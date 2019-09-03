@@ -7,6 +7,7 @@ import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import { srcPath, rootPath } from '../server';
 import { sanitizepath } from '../helpers/sanitize-path';
 import { PatternType } from '../enums/pattern-type.enum';
+import { findDirectoryModules } from '../helpers/find-directory-modules';
 
 /**
  * GET /
@@ -311,9 +312,37 @@ export let generateModule = (req: Request, res: Response) => {
         message: fixErrorResponseMessage(stderr)
       });
     } else {
-      res.json({
-        message: stdout
-      })
+      const currentPath = path.relative(process.cwd(), srcPath);
+
+      findAllModules(currentPath).then((modules) => {
+        // find path for new module
+        const matchedModule = stdout.match(/src.+\.ts/);
+
+        let module = null;
+
+        // if we found something
+        if (matchedModule[0]) {
+          // replace routing part from name
+          const target = matchedModule[0].replace('-routing.module.ts', '.module.ts');
+
+          // try to find module that was already created
+          module = modules.find((m: any) => {
+            return m.moduleFullPath === target;
+          });
+        }
+
+        try {
+          res.json({
+            module: module,
+            modules: modules
+          });
+
+        } catch (err) {
+          res.status(500).json({
+            message: err
+          });
+        }
+      });
     }
     console.log(`${stdout}`);
     console.log(`${stderr}`);
@@ -332,8 +361,7 @@ export let generateModule = (req: Request, res: Response) => {
 
   const command = `\
   --name=${params.name} \
-  --path=/${params.module.modulePath} \
-  --module=/${params.module.moduleName} \
+  --path=${params.modulePath} \
   --routing=${params.routing}`;
 
   const cmd = `ng g @firestitch/schematics:module ${command}`;
@@ -376,6 +404,26 @@ export let enumsList = (req: Request, res: Response) => {
 
   try {
     findAllEnums(currentPath).then((data) => {
+      res.json(data);
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: e
+    });
+  }
+};
+
+export let getModulesFor = (req: Request, res: Response) => {
+  const params = req.query;
+
+  if (!params.currentPath) {
+    res.status(400).json({
+      message: 'Name is required'
+    });
+  }
+
+  try {
+    findDirectoryModules(params.currentPath).then((data) => {
       res.json(data);
     });
   } catch (e) {

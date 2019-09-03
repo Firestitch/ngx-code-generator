@@ -26,6 +26,7 @@ app.post('/api/generate/const', baseController.createConst);
 app.get('/api/generate/enums-list', baseController.enumsList);
 app.get('/api/generate/enum-keys-list', baseController.enumKeysList);
 app.get('/api/modules', baseController.modulesList);
+app.get('/api/get-modules-for', baseController.getModulesFor);
 app.get('/api/services', baseController.servicesList);
 app.get('*', (req, res) => {
   res.redirect('/');
