@@ -225,7 +225,7 @@ export let createConst = (req: Request, res: Response) => {
   --enumName=${params.enumData.name} \
   --enumPath=/${params.enum.enumPath} \
   --keys=${keys.join()} \
-  --values=${values.join()}`;
+  --values="${values.join()}"`;
 
   const schema = 'const';
 

@@ -13,6 +13,7 @@ import { NgForm } from '@angular/forms';
 import * as pluralize from 'pluralize';
 
 import { ConstService } from '../../services';
+import { classify } from '@angular-devkit/core/src/utils/strings';
 
 
 @Component({
@@ -58,7 +59,7 @@ export class GenerateConstComponent implements OnInit, AfterViewInit {
   }
 
   public loadEnums() {
-    if (!this.model.module || !this.model.module.modulePath) { return; }
+    if (!this.model.module) { return; }
 
     this.model.module.modulePath = this.model.module.modulePath;
 
@@ -71,7 +72,7 @@ export class GenerateConstComponent implements OnInit, AfterViewInit {
   public enumSelected(event) {
     if (!this.model.name && event && event.enumFile) {
       const name = event.enumFile.replace('.enum.ts', '');
-      this.model.name = pluralize(name);
+      this.model.name = classify(pluralize(name));
     }
   }
 

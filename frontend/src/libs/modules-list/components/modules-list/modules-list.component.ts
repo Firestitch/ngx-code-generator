@@ -36,7 +36,7 @@ import { ModulesService } from '../../services/modules.service';
 export class ModulesListComponent implements OnInit, OnChanges, ControlValueAccessor {
 
   @Input() public modules: ModuleInterface[];
-
+  @Input() public fetchOnFocus = true;
   @Input() public module: ModuleInterface;
   @Input() public showCreateButton = true;
   @Output() public moduleChange = new EventEmitter();

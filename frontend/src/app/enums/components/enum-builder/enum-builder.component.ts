@@ -3,7 +3,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { capitalize } from '@angular-devkit/core/src/utils/strings';
+import { underscore } from '@angular-devkit/core/src/utils/strings';
+import { upperFirst } from 'lodash';
 
 
 @Component({
@@ -52,12 +53,13 @@ export class EnumBuilderComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  public capitalizeName(item) {
-    item.name = capitalize(item.name);
+  public underscoreName(item) {
 
     if (!item.value && item.name) {
-      item.value = item.name.toLowerCase();
+      item.value = underscore(item.name);
     }
+
+    item.name = upperFirst(item.name);
   }
 
   public registerOnChange(fn) { this.onChange = fn;  }

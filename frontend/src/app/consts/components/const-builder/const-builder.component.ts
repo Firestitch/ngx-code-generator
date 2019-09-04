@@ -5,6 +5,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ConstService } from '../../services';
 import { delay } from 'rxjs/operators';
+import { startCase, lowerFirst } from 'lodash';
 
 
 @Component({
@@ -71,6 +72,8 @@ export class ConstBuilderComponent implements OnInit, OnChanges, ControlValueAcc
 
         this.items = [];
         this.enumData.members.forEach((member, index) => {
+
+          member = startCase(lowerFirst(member));
           this.items.push(member);
 
           this.constValue[index] = member;

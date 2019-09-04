@@ -1,7 +1,7 @@
 <ng-container *ngIf="!loading">
   <fs-autocomplete
     [fetch]="fetch"
-    [fetchOnFocus]="false"
+    [fetchOnFocus]="true"
     [ngModel]="service"
     [displayWith]="displayWith"
     placeholder="Enum"

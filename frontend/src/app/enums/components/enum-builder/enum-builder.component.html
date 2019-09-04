@@ -4,7 +4,7 @@
     <mat-form-field class="name">
       <input matInput
              [(ngModel)]="item.name"
-             (blur)="capitalizeName(item)"
+             (blur)="underscoreName(item)"
              placeholder="Name"
              name="Name"
              required>
