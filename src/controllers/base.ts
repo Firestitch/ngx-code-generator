@@ -97,11 +97,11 @@ export let index = (req: Request, res: Response) => {
 
     case PatternType.Basic: {
       schema = 'basic';
-    }
+    } break;
 
     case PatternType.Tabs: {
       schema = 'tabs';
-    }
+    } break;
   }
 
   const cmd = `ng g @firestitch/schematics:${schema} ${command}`;
