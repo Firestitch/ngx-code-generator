@@ -3,22 +3,24 @@
     <mat-card-content>
       <app-modules-list [(ngModel)]="model.module" name="module"></app-modules-list>
 
-      <mat-form-field>
-        <input matInput
-               [(ngModel)]="model.name"
-               placeholder="Name"
-               name="componentName"
-               #name="ngModel"
-               required>
-        <mat-error *ngIf="name.invalid"> Name is required </mat-error>
-      </mat-form-field>
+      <ng-container *ngIf="model.module">
+        <mat-form-field>
+          <input matInput
+                [(ngModel)]="model.name"
+                placeholder="Name"
+                name="componentName"
+                #name="ngModel"
+                required>
+          <mat-error *ngIf="name.invalid"> Name is required </mat-error>
+        </mat-form-field>
 
-      <app-enum-builder [(ngModel)]="model.enums" name="enums"></app-enum-builder>
+        <app-enum-builder [(ngModel)]="model.enums" name="enums"></app-enum-builder>
 
-      <div class="actions">
-        <button mat-raised-button color="primary"
-                [disabled]="moduleForm.invalid">GENERATE</button>
-      </div>
+        <div class="actions">
+          <button mat-raised-button color="primary"
+                  [disabled]="moduleForm.invalid">GENERATE</button>
+        </div>
+      </ng-container>
     </mat-card-content>
   </mat-card>
 </form>

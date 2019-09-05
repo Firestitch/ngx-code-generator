@@ -1,4 +1,4 @@
-<h2>Values</h2>
+<h2>Enum Members</h2>
 <div class="values-container">
   <div class="enum-item" *ngFor="let item of items">
     <mat-form-field class="name">
@@ -16,7 +16,7 @@
       <input matInput
              [(ngModel)]="item.value"
              (keydown.Tab)="moreItems()"
-             placeholder="Value"
+             placeholder="Textual Value"
              name="Value"
              required>
     </mat-form-field>
