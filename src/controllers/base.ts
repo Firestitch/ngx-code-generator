@@ -43,6 +43,7 @@ export let index = (req: Request, res: Response) => {
   --name=${params.componentName} \
   --module=${params.module.moduleName} \
   --path=/${params.module.modulePath} \
+  --includedModuleExports=${params.includedModuleExports} \
   --routableComponent=${params.routableComponent}`;
 
   let schema = '';

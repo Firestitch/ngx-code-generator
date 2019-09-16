@@ -75,6 +75,7 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
     if (this.model.createEditInterfacePattern === 'full') {
       this.createEditOptions.push({ name:  'routableCreateComponent', value: 'Routable' });
       this.createEditOptions.push({ name:  'titledCreateComponent', value: 'Set Title' });
+      this.createEditOptions.push({ name:  'includedModuleExports', value: 'Include in Module Exports' });
     }
   }
 
@@ -87,6 +88,7 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
     if (this.model.interfacePattern && this.model.interfacePattern !== 'create-edit' && this.model.interfacePattern !== 'tabs') {
       this.listOptions.push({ name:  'routableComponent', value: 'Routable' });
       this.listOptions.push({ name:  'titledComponent', value: 'Set Title' });
+      this.listOptions.push({ name:  'includedModuleExports', value: 'Include in Module Exports' });
     }
 
     switch (this.model.interfacePattern) {
