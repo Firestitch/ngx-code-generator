@@ -26,6 +26,12 @@
     "@angular/router": "^6.0.3",
     "@firestitch/message": "^7.1.9",
     "@firestitch/progress": "^7.0.1",
+    "@firestitch/prompt": "^7.2.1",
+    "@firestitch/autocomplete": "^7.2.1",
+    "@firestitch/form": "^7.6.8",
+    "@firestitch/common": "^7.0.2",
+    "lodash-es": "^4.17.15",
+    "date-fns": "2.0.0-alpha.2",
     "@ngx-loading-bar/core": "^4.2.0",
     "@ngx-loading-bar/http-client": "^4.2.0",
     "angular-in-memory-web-api": "^0.6.1",
@@ -61,6 +67,6 @@
     "protractor": "~5.3.0",
     "ts-node": "~5.0.1",
     "tslint": "^5.9.1",
-    "typescript": "~2.7.2"
+    "typescript": "2.9.2"
   }
 }

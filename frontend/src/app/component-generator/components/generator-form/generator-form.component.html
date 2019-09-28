@@ -8,17 +8,21 @@
                     (selectionChange)="interfacePatternChanged()"
                     placeholder="Pattern"
                     name="interfacePattern"
-                    required
-        >
-          <mat-option [value]="'basic'">Basic</mat-option>
-          <mat-option [value]="'tabs'">Tabs</mat-option>
-          <mat-option [value]="'list'">List</mat-option>
-          <mat-option [value]="'list-create-edit'">List, Create & Edit</mat-option>
-          <mat-option [value]="'create-edit'">Create & Edit</mat-option>
+                    required>
+         <mat-optgroup label="Generic Components">
+            <mat-option [value]="'basic'">Blank</mat-option>
+            <mat-option [value]="'dialog'">Dialog</mat-option>
+            <mat-option [value]="'tabs'">Tabs</mat-option>
+          </mat-optgroup>
+          <mat-optgroup label="Data & Model Components">
+            <mat-option [value]="'list'">List</mat-option>
+            <mat-option [value]="'list-create-edit'">List, Create & Edit</mat-option>
+            <mat-option [value]="'create-edit'">Create & Edit</mat-option>
+          </mat-optgroup>
         </mat-select>
       </mat-form-field>
 
-      <ng-container *ngIf="model.interfacePattern === 'basic' || model.interfacePattern === 'tabs'">
+      <ng-container *ngIf="model.interfacePattern === 'basic' || model.interfacePattern === 'dialog' || model.interfacePattern === 'tabs'">
         <h2>Component</h2>
       </ng-container>
 
@@ -26,13 +30,14 @@
         <h2>List Component</h2>
       </ng-container>
 
-      <mat-form-field *ngIf="model.interfacePattern === 'basic' || model.interfacePattern === 'tabs' || hasListInterface">
+      <mat-form-field *ngIf="model.interfacePattern === 'basic' || model.interfacePattern === 'dialog' || model.interfacePattern === 'tabs' || hasListInterface">
         <input matInput
                [(ngModel)]="model.componentName"
                placeholder="Name"
                name="componentName"
                #componentName="ngModel"
-               required>
+               required
+               autocomplete="off">
         <mat-error *ngIf="componentName.invalid"> Component Name is required </mat-error>
       </mat-form-field>
 
@@ -57,8 +62,8 @@
                  placeholder="Name"
                  name="createEditComponentName"
                  #createEditComponentName="ngModel"
-                 required="!isBasicPattern"
-          >
+                 required
+                 autocomplete="off">
           <mat-error *ngIf="createEditComponentName.invalid"> Name is required </mat-error>
         </mat-form-field>
 
@@ -67,8 +72,7 @@
                       placeholder="Interface"
                       name="createEditInterfacePattern"
                       (ngModelChange)="createEditInterfaceChanged()"
-                      required
-          >
+                      required>
             <mat-option [value]="'dialog'">Dialog</mat-option>
             <mat-option [value]="'full'">Page</mat-option>
           </mat-select>
@@ -89,8 +93,7 @@
             <mat-select [(ngModel)]="model.relatedParentType"
                         placeholder="Related Parent Type"
                         name="relatedParentType"
-                        required
-            >
+                        required>
               <mat-option [value]="'none'">None</mat-option>
               <mat-option [value]="'component'">Component</mat-option>
               <mat-option [value]="'view'">View</mat-option>
@@ -103,7 +106,7 @@
                    placeholder="Related Parent Name"
                    name="componentName"
                    #componentName="ngModel"
-            >
+                   autocomplete="off">
             <mat-hint align="start"><strong>Triggers the opening of the dialog</strong> </mat-hint>
             <mat-error *ngIf="componentName.invalid"> Name is required </mat-error>
           </mat-form-field>
@@ -126,8 +129,8 @@
                    placeholder="Singular Model Name"
                    name="singularModelName"
                    #singularModelName="ngModel"
-                   required="!isBasicPattern"
-            >
+                   required
+                   autocomplete="off">
             <mat-error *ngIf="singularModelName.invalid"> Singular Model Name is required </mat-error>
           </mat-form-field>
 
@@ -138,7 +141,8 @@
                    placeholder="Plural Model Name"
                    name="pluralModelName"
                    #pluralModelName="ngModel"
-                   required="true">
+                   required="true"
+                   autocomplete="off">
             <mat-error *ngIf="pluralModelName.invalid"> Plural Model Name is required </mat-error>
           </mat-form-field>
         </ng-container>

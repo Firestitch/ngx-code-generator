@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { FsMessageModule } from '@firestitch/message';
 import { FsProgressModule } from '@firestitch/progress';
+import { FsPromptModule } from '@firestitch/prompt';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -22,6 +23,7 @@ import { ApiUrlInterceptor } from './interceptors';
       toastTimeout: 3
     }),
     FsProgressModule.forRoot(),
+    FsPromptModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true }

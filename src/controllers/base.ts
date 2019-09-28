@@ -47,7 +47,7 @@ export let index = (req: Request, res: Response) => {
   --routableComponent=${params.routableComponent}`;
 
   let schema = '';
-
+console.log(params.interfacePattern);
   switch (params.interfacePattern) {
     case PatternType.List: {
       schema = 'list';
@@ -98,6 +98,10 @@ export let index = (req: Request, res: Response) => {
 
     case PatternType.Basic: {
       schema = 'basic';
+    } break;
+
+    case PatternType.Dialog: {
+      schema = 'dialog';
     } break;
 
     case PatternType.Tabs: {

@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
-  Input,
   OnInit,
   Output,
   ViewChild
@@ -23,7 +22,7 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
   public formChanged = new EventEmitter<any>();
 
   @Output()
-  public generate = new EventEmitter<void>();
+  public generate = new EventEmitter<any>();
 
   @ViewChild('moduleForm')
   public form: NgForm;
@@ -54,7 +53,7 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
   public hasModel = false;
 
   constructor(
-    private _servicesService: ServicesService,
+    private _servicesService: ServicesService
   ) {}
 
   public ngOnInit() {
@@ -84,12 +83,9 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
     this.hasCreateEditInterface = false;
     this.hasModel = false;
 
-    this.listOptions = [];
-    if (this.model.interfacePattern && this.model.interfacePattern !== 'create-edit' && this.model.interfacePattern !== 'tabs') {
-      this.listOptions.push({ name:  'routableComponent', value: 'Routable' });
-      this.listOptions.push({ name:  'titledComponent', value: 'Set Title' });
-      this.listOptions.push({ name:  'includedModuleExports', value: 'Include in Module Exports' });
-    }
+    let hasRoutable = !!this.model.interfacePattern;
+    let hasTitle = !!this.model.interfacePattern;
+    let hasExports = !!this.model.interfacePattern;
 
     switch (this.model.interfacePattern) {
       case 'list': {
@@ -111,12 +107,33 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
       case 'tabs': {
         this.model.routableComponent = false;
         this.model.componentName = 'tabs';
+        hasRoutable = false;
       } break;
+
+      case 'dialog': {
+        this.model.routableComponent = false;
+        this.model.titledComponent = false;
+        hasRoutable = false;
+        hasTitle = false;
+      } break;
+    }
+
+    this.listOptions = [];
+    if (hasRoutable) {
+      this.listOptions.push({ name:  'routableComponent', value: 'Routable' });
+    }
+
+    if (hasTitle) {
+      this.listOptions.push({ name:  'titledComponent', value: 'Set Title' });
+    }
+
+    if (hasExports) {
+      this.listOptions.push({ name:  'includedModuleExports', value: 'Include in Module Exports' });
     }
   }
 
   public submit() {
-    this.generate.emit();
+    this.generate.emit(this.model);
   }
 
   public serviceChanged(service) {

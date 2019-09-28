@@ -3,6 +3,7 @@ export enum PatternType {
   ListCreateEdit = 'list-create-edit',
   CreateEdit = 'create-edit',
   Basic = 'basic',
+  Dialog = 'dialog',
   Tabs = 'tabs',
   CreateEditDialog = 'create-edit-dialog',
   CreateEditFull = 'create-edit-full',
