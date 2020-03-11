@@ -42,7 +42,8 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
     routableComponent: true,
     routableCreateComponent: true,
     titledComponent: true,
-    titledCreateComponent: true
+    titledCreateComponent: true,
+    includedModuleExports: false
   };
 
   public services = [];
