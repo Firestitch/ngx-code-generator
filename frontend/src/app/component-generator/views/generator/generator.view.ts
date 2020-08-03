@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FsMessage } from '@firestitch/message';
 import { FsProgressService } from '@firestitch/progress';
 import { FsPrompt } from '@firestitch/prompt';
-import { startCase } from 'lodash';
+import { camelCase, capitalize } from 'lodash';
 
 
 @Component({
@@ -51,7 +51,7 @@ export class GeneratorView {
             template: `<pre><code>constructor(private _dialog: MatDialog) {}
 
 public open() {
-  const dialogRef = this._dialog.open(${startCase(model.componentName)}Component, {
+  const dialogRef = this._dialog.open(${capitalize(camelCase(model.componentName))}Component, {
     data: { }
   });
 
