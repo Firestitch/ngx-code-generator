@@ -46,6 +46,40 @@
 
   </ng-container>
 
+  <ng-container *ngIf="params.createEditInterfacePattern === 'dialog-create-page-edit'">
+
+    <ng-container *ngIf="!params.routableComponent && params.routableCreateComponent">
+      <div class="folder">
+        <mat-icon>folder</mat-icon>
+        <span>/views</span>
+      </div>
+      <div class="level">
+        <ng-template [ngTemplateOutlet]="createEdit"></ng-template>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="(!params.routableComponent && !params.routableCreateComponent) || (params.routableComponent && params.routableCreateComponent)">
+      <div class="level">
+        <ng-template [ngTemplateOutlet]="createEdit"></ng-template>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="params.routableComponent && !params.routableCreateComponent">
+      <div class="folder">
+        <mat-icon>folder</mat-icon>
+        <span>/components</span>
+      </div>
+      <div class="level">
+        <ng-template [ngTemplateOutlet]="createEdit"></ng-template>
+      </div>
+
+      <div class="level">
+        <ng-template [ngTemplateOutlet]="createDialog"></ng-template>
+      </div>
+    </ng-container>
+
+  </ng-container>
+
   <ng-container *ngIf="params.createEditInterfacePattern === 'dialog'">
     <ng-container *ngIf="!params.routableComponent">
       <div class="level">
@@ -83,6 +117,28 @@
     <div class="file">
       <mat-icon>insert_drive_file</mat-icon>
       <span>{{ params.createEditComponentName | dasherize }}.component.scss</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #createDialog>
+  <div class="folder" *ngIf="params.createEditComponentName">
+    <mat-icon>folder</mat-icon>
+    <span>/{{params.createEditComponentName + '-create' | dasherize}}</span>
+  </div>
+
+  <div class="level" *ngIf="params.createEditComponentName">
+    <div class="file">
+      <mat-icon>insert_drive_file</mat-icon>
+      <span>{{ params.createEditComponentName + '-create' | dasherize }}.component.ts</span>
+    </div>
+    <div class="file">
+      <mat-icon>insert_drive_file</mat-icon>
+      <span>{{ params.createEditComponentName + '-create' | dasherize }}.component.html</span>
+    </div>
+    <div class="file">
+      <mat-icon>insert_drive_file</mat-icon>
+      <span>{{ params.createEditComponentName + '-create' | dasherize }}.component.scss</span>
     </div>
   </div>
 </ng-template>
