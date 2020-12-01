@@ -10,6 +10,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { ServicesService } from '../../services';
 import * as pluralize from 'pluralize';
+import { camelize } from 'tslint/lib/utils';
 
 
 @Component({
@@ -140,11 +141,10 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
   public serviceChanged(service) {
     if (service) {
       const name = service.singularName
-                    .replace(/(-(data))?\.(data|service)\.ts$/i, '')
-                    .replace('-', '_');
+                    .replace(/(-(data))?\.(data|service)\.ts$/i, '');
 
-      this.model.singularModelName = name;
-      this.model.pluralModelName = pluralize(name);
+      this.model.singularModelName = camelize(name);
+      this.model.pluralModelName = camelize(pluralize(name));
     }
   }
 }
