@@ -19,12 +19,14 @@
       <mat-form-field>
         <input matInput placeholder="Singular Name"
                [(ngModel)]="model.singularName"
-               (ngModelChange)="changedSingularName()">
+               (ngModelChange)="changedSingularName()"
+               (blur)="toCamelCase()">
       </mat-form-field>
 
       <mat-form-field>
         <input matInput placeholder="Plural Name"
-               [(ngModel)]="model.pluralName">
+               [(ngModel)]="model.pluralName"
+               (blur)="toCamelCase()">
       </mat-form-field>
     <!--</form>-->
   </div>

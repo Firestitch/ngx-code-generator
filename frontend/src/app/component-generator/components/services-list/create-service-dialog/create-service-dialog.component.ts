@@ -7,6 +7,7 @@ import { kebabCase } from 'lodash';
 
 import * as pluralize from 'pluralize';
 import { ServicesService } from '../../../services';
+import { camelize } from '@angular-devkit/core/src/utils/strings';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { ServicesService } from '../../../services';
 export class CreateServiceDialogComponent {
   public model = {
     module: null,
-    subdirectory: null,
+    subdirectory: '/data',
     singularName: null,
     pluralName: null
   };
@@ -85,6 +86,11 @@ export class CreateServiceDialogComponent {
     } else {
       this.model.subdirectory = null;
     }
+  }
+
+  public toCamelCase() {
+    this.model.singularName = camelize(this.model.singularName);
+    this.model.pluralName = camelize(this.model.pluralName);
   }
 
 }
