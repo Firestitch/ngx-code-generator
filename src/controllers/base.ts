@@ -47,7 +47,6 @@ export let index = (req: Request, res: Response) => {
   --routableComponent=${params.routableComponent}`;
 
   let schema = '';
-console.log(params.interfacePattern);
   switch (params.interfacePattern) {
     case PatternType.List: {
       schema = 'list';
@@ -56,7 +55,7 @@ console.log(params.interfacePattern);
       --servicePath=/${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
       --singleModel=${params.singularModelName} \
-      --titledComponent=${params.titledComponent}`;
+      --titledComponent=${params.titledComponent || false}`;
     } break;
 
     case PatternType.ListCreateEdit: {
@@ -69,8 +68,8 @@ console.log(params.interfacePattern);
       --servicePath=/${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
       --singleModel=${params.singularModelName} \
-      --titledComponent=${params.titledComponent} \
-      --titledCreateComponent=${params.titledCreateComponent} \
+      --titledComponent=${params.titledComponent || false} \
+      --titledCreateComponent=${params.titledCreateComponent || false} \
       --routableCreateComponent=${params.routableCreateComponent}`;
     } break;
 
@@ -92,7 +91,7 @@ console.log(params.interfacePattern);
       --service=${params.service.singularName} \
       --servicePath=/${params.service.servicePath} \
       --singleModel=${params.singularModelName} \
-      --titledCreateComponent=${params.titledCreateComponent} \
+      --titledCreateComponent=${params.titledCreateComponent || false} \
       --routableCreateComponent=${params.routableCreateComponent}`;
     } break;
 
