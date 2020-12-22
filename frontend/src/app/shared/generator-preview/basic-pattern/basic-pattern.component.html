@@ -27,3 +27,26 @@
     </div>
   </div>
 </div>
+
+
+<div class="level" *ngIf="params.createEditInterfacePattern === 'dialog-create-page-edit' && params.createEditComponentName">
+  <div class="folder">
+    <mat-icon>folder</mat-icon>
+    <span>{{params.createEditComponentName | dasherize}}</span>
+  </div>
+
+  <div class="level">
+    <div class="file">
+      <mat-icon>insert_drive_file</mat-icon>
+      <span>{{ params.createEditComponentName | dasherize }}.component.ts</span>
+    </div>
+    <div class="file">
+      <mat-icon>insert_drive_file</mat-icon>
+      <span>{{ params.createEditComponentName | dasherize }}.component.html</span>
+    </div>
+    <div class="file">
+      <mat-icon>insert_drive_file</mat-icon>
+      <span>{{ params.createEditComponentName | dasherize }}.component.scss</span>
+    </div>
+  </div>
+</div>
