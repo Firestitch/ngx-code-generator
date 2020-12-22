@@ -1,6 +1,6 @@
 {
   "name": "@firestitch/codegenerator",
-  "version": "7.3.10",
+  "version": "7.3.11",
   "description": "",
   "main": "index.js",
   "engines": {
