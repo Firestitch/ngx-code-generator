@@ -108,7 +108,7 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
 
       case 'tabs': {
         this.model.routableComponent = false;
-        this.model.componentName = 'tabs';
+        this.model.componentName = 'nav';
         hasRoutable = false;
       } break;
 
