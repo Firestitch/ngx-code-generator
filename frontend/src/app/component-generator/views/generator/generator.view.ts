@@ -51,7 +51,7 @@ export class GeneratorView {
             template: `<pre><code>constructor(private _dialog: MatDialog) {}
 
 public open() {
-  const dialogRef = this._dialog.open(${upperFirst(camelCase(model.componentName))}Component, {
+  const dialogRef = this._dialog.open(NAMEOFCOMPONENT, {
     data: { }
   });
 
