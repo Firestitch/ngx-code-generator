@@ -44,7 +44,8 @@ export let index = (req: Request, res: Response) => {
   --module=${params.module.moduleName} \
   --path=/${params.module.modulePath} \
   --includedModuleExports=${params.includedModuleExports} \
-  --routableComponent=${params.routableComponent}`;
+  --routableComponent=${params.routableComponent} \
+  --titledComponent=${params.titledComponent || false}`;
 
   let schema = '';
   switch (params.interfacePattern) {
