@@ -38,7 +38,7 @@
     "core-js": "^2.5.4",
     "fuse.js": "^3.4.5",
     "fuzzy-search": "^3.0.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "ngx-pipes": "^2.3.5",
     "ngx-toastr": "^10.1.0",
     "pluralize": "^7.0.0",
