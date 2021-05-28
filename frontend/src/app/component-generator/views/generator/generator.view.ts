@@ -4,6 +4,7 @@ import { FsMessage } from '@firestitch/message';
 import { FsProgressService } from '@firestitch/progress';
 import { FsPrompt } from '@firestitch/prompt';
 import { camelCase, upperFirst } from 'lodash';
+import { camelize } from '@angular-devkit/core/src/utils/strings';
 
 
 @Component({
@@ -51,15 +52,15 @@ export class GeneratorView {
             template: `<pre><code>constructor(private _dialog: MatDialog) {}
 
 public open() {
-  const dialogRef = this._dialog.open(NAMEOFCOMPONENT, {
-    data: { }
+  const dialogRef = this._dialog.open(${upperFirst(camelize(this.formData.componentName + 'Component'))}, {
+    data: { },
   });
 
   dialogRef.afterClosed()
   .pipe(
-    takeUntil(this._destroy$)
+    takeUntil(this._destroy$),
   )
-  .subscribe(response => {
+  .subscribe((response) => {
 
   });
 }</code></pre>`.replace(' ', '&nbsp;')
