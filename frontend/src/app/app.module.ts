@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { MatTabsModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { FakeBackendModule } from '@libs/fake-backend';
+
 import { CoreModule } from './core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     CoreModule,
     MatTabsModule,
+    FakeBackendModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

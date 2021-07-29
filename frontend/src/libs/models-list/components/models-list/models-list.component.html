@@ -1,0 +1,14 @@
+<fs-autocomplete
+  [fetch]="fetch"
+  [fetchOnFocus]="fetchOnFocus"
+  [ngModel]="module"
+  [displayWith]="displayWith"
+  [placeholder]="loading ? 'Loading Models...' : 'Model'"
+  (ngModelChange)="selectModule($event)"
+  [required]="true"
+  name="model">
+  <ng-template fsAutocompleteTemplate let-data="data">
+    <span>{{ data.name }}</span>
+  </ng-template>
+
+</fs-autocomplete>

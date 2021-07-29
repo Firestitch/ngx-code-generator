@@ -15,6 +15,10 @@ export const routes: Routes = [
     path: 'consts',
     loadChildren: './consts/consts.module#ConstsModule',
   },
+  {
+    path: 'interfaces',
+    loadChildren: './interfaces/interfaces.module#InterfacesModule',
+  }
 ];
 
 

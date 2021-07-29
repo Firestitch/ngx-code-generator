@@ -21,6 +21,10 @@ export class AppComponent {
     {
       path: '/consts',
       label: 'Consts',
+    },
+    {
+      path: '/interfaces',
+      label: 'Interfaces',
     }
   ];
 }

@@ -39,6 +39,7 @@
     "@types/compression": "0.0.36",
     "@types/consolidate": "0.0.34",
     "@types/errorhandler": "0.0.32",
+    "angular-in-memory-web-api": "^0.11.0",
     "app-root-path": "^2.0.1",
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
