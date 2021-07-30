@@ -4,14 +4,11 @@ const CREATE = 'CREATE';
 const UPDATE = 'UPDATE';
 
 @Directive({
-  selector: '[highlightStatus]'
+  selector: '[highlightStatus]',
 })
-
 export class HighlightStatusDirective implements OnChanges {
   @Input() text: string;
-  constructor(private el: ElementRef) {
-
-  }
+  constructor(private el: ElementRef) {}
 
   public ngOnChanges() {
     if (this.text.indexOf(CREATE) !== -1 || this.text.indexOf(UPDATE) !== -1) {

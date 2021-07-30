@@ -1,0 +1,28 @@
+<ng-container *ngIf="!loading">
+  <fs-autocomplete
+    [fetch]="fetch"
+    [fetchOnFocus]="false"
+    [ngModel]="service"
+    [displayWith]="displayWith"
+    placeholder="Service"
+    (ngModelChange)="selectService($event)"
+    [required]="true"
+    name="model"
+  >
+    <ng-template fsAutocompleteTemplate let-data="data">
+      <span [matTooltip]="data | serviceListItem">{{
+        data | serviceListItem
+      }}</span>
+    </ng-template>
+
+    <ng-template fsAutocompleteStaticTemplate>
+      <div (click)="openDialog()">Create Service</div>
+    </ng-template>
+  </fs-autocomplete>
+</ng-container>
+<div *ngIf="loading">
+  Loading services...
+  <div class="spinner">
+    <mat-spinner [diameter]="13"></mat-spinner>
+  </div>
+</div>

@@ -6,8 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { FsAutocompleteModule } from '@firestitch/autocomplete';
 
-import { ModelsListComponent, } from './components/models-list';
-
+import { ModelsListComponent } from './components/models-list';
 
 @NgModule({
   imports: [
@@ -17,13 +16,7 @@ import { ModelsListComponent, } from './components/models-list';
     ReactiveFormsModule,
     FsAutocompleteModule,
   ],
-  declarations: [
-    ModelsListComponent,
-  ],
-  exports: [
-    ModelsListComponent,
-  ]
+  declarations: [ModelsListComponent],
+  exports: [ModelsListComponent],
 })
-export class ModelsAutocompleteModule {
-}
-
+export class ModelsAutocompleteModule {}

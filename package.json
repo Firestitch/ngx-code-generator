@@ -26,8 +26,8 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "postinstall": "ngcc --properties es2015 browser module main",
-    "build:frontend": "nx build generator-frontend --prod",
-    "build:backend": "nx build generator-backend --prod",
+    "build:frontend": "nx build code-generator --prod",
+    "build:backend": "nx build api --prod",
     "cleanup-dist": "rimraf dist"
   },
   "bin": {
@@ -37,7 +37,7 @@
     "@angular/animations": "^12.1.0",
     "@angular/cdk": "^12.1.4",
     "@angular/common": "^12.1.0",
-    "@angular/compiler": "^12.1.0",
+    "@angular/compililer": "^12.1.0",
     "@angular/core": "^12.1.0",
     "@angular/forms": "^12.1.0",
     "@angular/material": "^12.1.4",

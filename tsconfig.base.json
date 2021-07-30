@@ -27,6 +27,7 @@
       "@codegenerator/modules-autocomplete": [
         "libs/modules-autocomplete/src/index.ts"
       ],
+      "@codegenerator/schematics": ["libs/schematics/src/index.ts"],
       "@codegenerator/util-pipes": ["libs/util-pipes/src/index.ts"]
     }
   },

@@ -1,0 +1,48 @@
+<h2>Enum Members</h2>
+<div class="values-container">
+  <div class="enum-item" *ngFor="let item of items">
+    <mat-form-field class="name">
+      <input
+        matInput
+        [(ngModel)]="item.name"
+        (blur)="underscoreName(item)"
+        placeholder="Name"
+        name="Name"
+        required
+      />
+    </mat-form-field>
+
+    <span class="separator"> = </span>
+
+    <mat-form-field class="value">
+      <input
+        matInput
+        [(ngModel)]="item.value"
+        (keydown.Tab)="moreItems()"
+        placeholder="Textual Value"
+        name="Value"
+        required
+      />
+    </mat-form-field>
+
+    <button
+      mat-icon-button
+      class="remove-button"
+      tabIndex="-1"
+      (click)="removeItem(item)"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+
+  <button
+    mat-flat-button
+    class="more"
+    color="primary"
+    type="button"
+    *ngIf="items.length === 0"
+    (click)="moreItems()"
+  >
+    Add more
+  </button>
+</div>

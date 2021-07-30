@@ -1,0 +1,41 @@
+<div class="container">
+  <h2 mat-dialog-title>Create Service</h2>
+  <!--<form>-->
+  <div class="form">
+    <app-modules-list
+      [(module)]="model.module"
+      (moduleChange)="moduleChanged()"
+      [showCreateButton]="false"
+    >
+    </app-modules-list>
+
+    <mat-form-field *ngIf="!hidePath">
+      <mat-select [(ngModel)]="model.subdirectory" placeholder="Type">
+        <mat-option [value]="'/data'">Data</mat-option>
+        <mat-option [value]="'/services'">Generic</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Singular Name"
+        [(ngModel)]="model.singularName"
+        (ngModelChange)="changedSingularName()"
+        (blur)="toCamelCase()"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Plural Name"
+        [(ngModel)]="model.pluralName"
+        (blur)="toCamelCase()"
+      />
+    </mat-form-field>
+    <!--</form>-->
+  </div>
+  <button mat-button color="primary" (click)="generate()">CREATE</button>
+  <button mat-button mat-dialog-close>CANCEL</button>
+</div>

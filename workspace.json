@@ -1,6 +1,152 @@
 {
   "version": 2,
   "projects": {
+    "api": {
+      "root": "apps/api",
+      "sourceRoot": "apps/api/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist",
+            "main": "apps/api/src/main.ts",
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "assets": ["apps/api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/api/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/api"],
+          "options": {
+            "jestConfig": "apps/api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "code-generator": {
+      "projectType": "application",
+      "root": "apps/code-generator",
+      "sourceRoot": "apps/code-generator/src",
+      "prefix": "codegenerator",
+      "targets": {
+        "build": {
+          "executor": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/public",
+            "index": "apps/code-generator/src/index.html",
+            "main": "apps/code-generator/src/main.ts",
+            "polyfills": "apps/code-generator/src/polyfills.ts",
+            "tsConfig": "apps/code-generator/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/code-generator/src/favicon.ico",
+              "apps/code-generator/src/assets"
+            ],
+            "styles": ["apps/code-generator/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/code-generator/src/environments/environment.ts",
+                  "with": "apps/code-generator/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "executor": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "code-generator:build:production"
+            },
+            "development": {
+              "browserTarget": "code-generator:build:development"
+            }
+          },
+          "options": {
+            "proxyConfig": "apps/code-generator/proxy.config.json"
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "executor": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "code-generator:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/code-generator/src/**/*.ts",
+              "apps/code-generator/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/code-generator"],
+          "options": {
+            "jestConfig": "apps/code-generator/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "fake-backend": {
       "projectType": "library",
       "root": "libs/fake-backend",
@@ -26,56 +172,6 @@
         }
       }
     },
-    "generator-backend": {
-      "root": "apps/generator-backend",
-      "sourceRoot": "apps/generator-backend/src",
-      "projectType": "application",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist",
-            "main": "apps/generator-backend/src/main.ts",
-            "tsConfig": "apps/generator-backend/tsconfig.app.json",
-            "assets": ["apps/generator-backend/src/assets"]
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/generator-backend/src/environments/environment.ts",
-                  "with": "apps/generator-backend/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "executor": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "generator-backend:build"
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/generator-backend/**/*.ts"]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/generator-backend"],
-          "options": {
-            "jestConfig": "apps/generator-backend/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "generator-code": {
       "projectType": "library",
       "root": "libs/generator-code",
@@ -97,128 +193,6 @@
               "libs/generator-code/src/**/*.ts",
               "libs/generator-code/src/**/*.html"
             ]
-          }
-        }
-      }
-    },
-    "generator-frontend": {
-      "projectType": "application",
-      "root": "apps/generator-frontend",
-      "sourceRoot": "apps/generator-frontend/src",
-      "prefix": "codegenerator",
-      "targets": {
-        "build": {
-          "executor": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/public",
-            "index": "apps/generator-frontend/src/index.html",
-            "main": "apps/generator-frontend/src/main.ts",
-            "polyfills": "apps/generator-frontend/src/polyfills.ts",
-            "tsConfig": "apps/generator-frontend/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "apps/generator-frontend/src/favicon.ico",
-              "apps/generator-frontend/src/assets"
-            ],
-            "styles": ["apps/generator-frontend/src/styles.scss"],
-            "scripts": []
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "1mb",
-                  "maximumError": "2mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "apps/generator-frontend/src/environments/environment.ts",
-                  "with": "apps/generator-frontend/src/environments/environment.prod.ts"
-                }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "executor": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "browserTarget": "generator-frontend:build:production"
-            },
-            "development": {
-              "browserTarget": "generator-frontend:build:development"
-            }
-          },
-          "options": {
-            "proxyConfig": "apps/generator-frontend/proxy.config.json"
-          },
-          "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "executor": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "generator-frontend:build"
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/generator-frontend/src/**/*.ts",
-              "apps/generator-frontend/src/**/*.html"
-            ]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/generator-frontend"],
-          "options": {
-            "jestConfig": "apps/generator-frontend/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
-    "generator-frontend-e2e": {
-      "root": "apps/generator-frontend-e2e",
-      "sourceRoot": "apps/generator-frontend-e2e/src",
-      "projectType": "application",
-      "targets": {
-        "e2e": {
-          "executor": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/generator-frontend-e2e/cypress.json",
-            "tsConfig": "apps/generator-frontend-e2e/tsconfig.e2e.json",
-            "devServerTarget": "generator-frontend:serve:development"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "generator-frontend:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/generator-frontend-e2e/**/*.{js,ts}"]
           }
         }
       }
@@ -323,6 +297,38 @@
         }
       }
     },
+    "schematics": {
+      "root": "libs/schematics",
+      "sourceRoot": "libs/schematics/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/schematics",
+            "tsConfig": "libs/schematics/tsconfig.lib.json",
+            "packageJson": "libs/schematics/package.json",
+            "main": "libs/schematics/src/index.ts",
+            "assets": ["libs/schematics/*.md"]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/schematics/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/schematics"],
+          "options": {
+            "jestConfig": "libs/schematics/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "util-pipes": {
       "projectType": "library",
       "root": "libs/util-pipes",
@@ -352,7 +358,7 @@
   "cli": {
     "defaultCollection": "@nrwl/node"
   },
-  "defaultProject": "generator-backend",
+  "defaultProject": "api",
   "generators": {
     "@nrwl/angular:application": {
       "style": "scss",

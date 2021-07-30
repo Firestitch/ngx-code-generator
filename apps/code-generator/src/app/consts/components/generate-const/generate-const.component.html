@@ -1,0 +1,56 @@
+<form class="form" (ngSubmit)="submit()" #moduleForm="ngForm">
+  <mat-card>
+    <mat-card-content>
+      <div class="mat-error" *ngIf="error">
+        {{ error }}
+      </div>
+      <app-modules-list
+        [(ngModel)]="model.module"
+        (ngModelChange)="loadEnums()"
+        name="module"
+      >
+      </app-modules-list>
+
+      <ng-container *ngIf="model.module">
+        <app-enums-list
+          [(ngModel)]="model.enum"
+          (ngModelChange)="enumSelected($event)"
+          [enums]="enums"
+          name="enum"
+        >
+        </app-enums-list>
+
+        <mat-form-field>
+          <input
+            matInput
+            [(ngModel)]="model.name"
+            placeholder="Constant Name"
+            name="componentName"
+            #name="ngModel"
+            required
+          />
+          <mat-error *ngIf="name.invalid"> Name is required </mat-error>
+        </mat-form-field>
+
+        <app-const-builder
+          *ngIf="model.enum"
+          [(ngModel)]="model.consts"
+          [enum]="model.enum"
+          (enumDataChange)="setEnumData($event)"
+          name="enums"
+        >
+        </app-const-builder>
+
+        <div class="actions">
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="moduleForm.invalid"
+          >
+            GENERATE
+          </button>
+        </div>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+</form>

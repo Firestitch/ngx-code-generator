@@ -5,7 +5,7 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -18,7 +18,6 @@ import FuzzySearch from 'fuzzy-search';
 import { ModuleInterface } from '../../interfaces';
 import { ModelsService } from '../../services/models.service';
 
-
 @Component({
   selector: 'app-models-list',
   templateUrl: './models-list.component.html',
@@ -28,12 +27,13 @@ import { ModelsService } from '../../services/models.service';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ModelsListComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
-export class ModelsListComponent implements OnInit, OnChanges, ControlValueAccessor {
-
+export class ModelsListComponent
+  implements OnInit, OnChanges, ControlValueAccessor
+{
   @Input() public models: ModuleInterface[];
   @Input() public fetchOnFocus = true;
   @Input() public module: ModuleInterface;
@@ -49,7 +49,7 @@ export class ModelsListComponent implements OnInit, OnChanges, ControlValueAcces
   constructor(
     private _modulesService: ModelsService,
     private _dialog: MatDialog,
-    private _message: FsMessage,
+    private _message: FsMessage
   ) {}
 
   public ngOnInit() {
@@ -71,7 +71,7 @@ export class ModelsListComponent implements OnInit, OnChanges, ControlValueAcces
         return of(this.models);
       }
     }
-  }
+  };
 
   public displayWith = (data) => {
     if (data && data.name) {
@@ -79,7 +79,7 @@ export class ModelsListComponent implements OnInit, OnChanges, ControlValueAcces
     }
 
     return '-';
-  }
+  };
 
   public selectModule(event) {
     this.writeValue(event);
@@ -95,20 +95,29 @@ export class ModelsListComponent implements OnInit, OnChanges, ControlValueAcces
     this.onTouch(value);
   }
 
-  public registerOnChange(fn) { this.onChange = fn;  }
-  public registerOnTouched(fn) { this.onTouch = fn; }
+  public registerOnChange(fn) {
+    this.onChange = fn;
+  }
+  public registerOnTouched(fn) {
+    this.onTouch = fn;
+  }
 
   private _loadModels() {
-    this._modulesService.list()
-      .subscribe((response: any) => {
+    this._modulesService.list().subscribe(
+      (response: any) => {
         this.loading = false;
         this.models = Object.values(response.data.models);
 
         this._initFuzzer();
       },
-        (response) => {
-          this._message.error(response.error && response.error.message || (response.body && response.body.error) || response.message);
-        });
+      (response) => {
+        this._message.error(
+          (response.error && response.error.message) ||
+            (response.body && response.body.error) ||
+            response.message
+        );
+      }
+    );
   }
 
   private _initFuzzer() {

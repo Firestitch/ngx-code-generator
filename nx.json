@@ -27,21 +27,17 @@
     ]
   },
   "projects": {
-    "fake-backend": {
+    "api": {
       "tags": []
     },
-    "generator-backend": {
+    "code-generator": {
+      "tags": []
+    },
+    "fake-backend": {
       "tags": []
     },
     "generator-code": {
       "tags": []
-    },
-    "generator-frontend": {
-      "tags": []
-    },
-    "generator-frontend-e2e": {
-      "tags": [],
-      "implicitDependencies": ["generator-frontend"]
     },
     "generator-logs": {
       "tags": []
@@ -53,6 +49,9 @@
       "tags": []
     },
     "modules-autocomplete": {
+      "tags": []
+    },
+    "schematics": {
       "tags": []
     },
     "util-pipes": {
