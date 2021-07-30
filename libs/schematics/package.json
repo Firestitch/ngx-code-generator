@@ -1,4 +1,13 @@
 {
   "name": "@codegenerator/schematics",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "tsc -p tsconfig.schematics.json",
+    "postbuild": "npm-run-all copy:json copy:files",
+    "clean": "rimraf ../../dist/schematics",
+    "copy:files": "copyfiles -u 1 \"src/**/files/**/*\" ../../dist/schematics",
+    "copy:json": "copyfiles -u 1 \"src/**/*.json\" ../../dist/schematics"
+  }
 }

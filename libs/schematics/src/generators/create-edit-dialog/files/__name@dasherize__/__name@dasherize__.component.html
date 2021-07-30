@@ -1,0 +1,33 @@
+<form fsForm [submit]="save" *fsSkeletonForm="<%= camelize(singleModel) %>">
+  <fs-dialog>
+    <h1 mat-dialog-title>{{<%= camelize(singleModel) %>.id ? '<%= capitalize(startCase(singleModel)) %>' : 'Create <%= capitalize(startCase(singleModel)) %>'}}</h1>
+    <div mat-dialog-content>
+
+      <div fxLayout="column">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Name"
+            [(ngModel)]="<%= camelize(singleModel) %>.name"
+            name="name">
+        </mat-form-field>
+
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <button
+        mat-button
+        type="submit"
+        color="primary">
+        {{<%= camelize(singleModel) %>.id ? 'Save' : 'Create'}}
+      </button>
+
+      <button
+        mat-button
+        type="button"
+        [mat-dialog-close]="undefined">
+        Cancel
+      </button>
+    </div>
+  </fs-dialog>
+</form>

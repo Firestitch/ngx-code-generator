@@ -1,0 +1,31 @@
+<form fsForm [submit]="save">
+  <fs-dialog>
+    <h1 mat-dialog-title>Dialog Title</h1>
+    <mat-dialog-content>
+      <div fxLayout="column">
+        <mat-form-field>
+          <input
+            placeholder="Input"
+            [(ngModel)]="input"
+            name="input"
+            matInput
+            [required]="true">
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button
+        type="submit"
+        mat-button
+        color="primary">
+        Save
+      </button>
+      <button
+        type="button"
+        mat-button
+        [mat-dialog-close]="null">
+        Cancel
+      </button>
+    </mat-dialog-actions>
+  </fs-dialog>
+</form>

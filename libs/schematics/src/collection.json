@@ -1,0 +1,49 @@
+{
+  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "list": {
+      "description": "Create simple list component",
+      "factory": "./generators/list/index#create"
+    },
+    "create-edit-page": {
+      "description": "A blank schematic.",
+      "factory": "./generators/create-edit-page/index#create"
+    },
+    "create-edit-dialog": {
+      "description": "A blank schematic.",
+      "factory": "./generators/create-edit-dialog/index#create"
+    },
+    "service": {
+      "description": "A blank schematic service.",
+      "factory": "./generators/service/index#create"
+    },
+    "module": {
+      "description": "A blank schematic.",
+      "factory": "./generators/module/index#create"
+    },
+    "basic": {
+      "description": "A basic empty component",
+      "factory": "./generators/basic/index#create"
+    },
+    "dialog": {
+      "description": "A basic dialog component",
+      "factory": "./generators/dialog/index#create"
+    },
+    "enum": {
+      "description": "Generate enum",
+      "factory": "./generators/enum/index#create"
+    },
+    "const": {
+      "description": "Generate const",
+      "factory": "./generators/const/index#create"
+    },
+    "resolve": {
+      "description": "A basic description",
+      "factory": "./generators/resolve/index#create"
+    },
+    "tabs": {
+      "description": "Tab Component",
+      "factory": "./generators/tabs/index#create"
+    }
+  }
+}
