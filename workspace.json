@@ -1,0 +1,372 @@
+{
+  "version": 2,
+  "projects": {
+    "fake-backend": {
+      "projectType": "library",
+      "root": "libs/fake-backend",
+      "sourceRoot": "libs/fake-backend/src",
+      "prefix": "codegenerator",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/fake-backend"],
+          "options": {
+            "jestConfig": "libs/fake-backend/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/fake-backend/src/**/*.ts",
+              "libs/fake-backend/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "generator-backend": {
+      "root": "apps/generator-backend",
+      "sourceRoot": "apps/generator-backend/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist",
+            "main": "apps/generator-backend/src/main.ts",
+            "tsConfig": "apps/generator-backend/tsconfig.app.json",
+            "assets": ["apps/generator-backend/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/generator-backend/src/environments/environment.ts",
+                  "with": "apps/generator-backend/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "generator-backend:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/generator-backend/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/generator-backend"],
+          "options": {
+            "jestConfig": "apps/generator-backend/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "generator-code": {
+      "projectType": "library",
+      "root": "libs/generator-code",
+      "sourceRoot": "libs/generator-code/src",
+      "prefix": "codegenerator",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/generator-code"],
+          "options": {
+            "jestConfig": "libs/generator-code/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/generator-code/src/**/*.ts",
+              "libs/generator-code/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "generator-frontend": {
+      "projectType": "application",
+      "root": "apps/generator-frontend",
+      "sourceRoot": "apps/generator-frontend/src",
+      "prefix": "codegenerator",
+      "targets": {
+        "build": {
+          "executor": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/public",
+            "index": "apps/generator-frontend/src/index.html",
+            "main": "apps/generator-frontend/src/main.ts",
+            "polyfills": "apps/generator-frontend/src/polyfills.ts",
+            "tsConfig": "apps/generator-frontend/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/generator-frontend/src/favicon.ico",
+              "apps/generator-frontend/src/assets"
+            ],
+            "styles": ["apps/generator-frontend/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/generator-frontend/src/environments/environment.ts",
+                  "with": "apps/generator-frontend/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "executor": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "generator-frontend:build:production"
+            },
+            "development": {
+              "browserTarget": "generator-frontend:build:development"
+            }
+          },
+          "options": {
+            "proxyConfig": "apps/generator-frontend/proxy.config.json"
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "executor": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "generator-frontend:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/generator-frontend/src/**/*.ts",
+              "apps/generator-frontend/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/generator-frontend"],
+          "options": {
+            "jestConfig": "apps/generator-frontend/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "generator-frontend-e2e": {
+      "root": "apps/generator-frontend-e2e",
+      "sourceRoot": "apps/generator-frontend-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/generator-frontend-e2e/cypress.json",
+            "tsConfig": "apps/generator-frontend-e2e/tsconfig.e2e.json",
+            "devServerTarget": "generator-frontend:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "generator-frontend:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/generator-frontend-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "generator-logs": {
+      "projectType": "library",
+      "root": "libs/generator-logs",
+      "sourceRoot": "libs/generator-logs/src",
+      "prefix": "codegenerator",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/generator-logs"],
+          "options": {
+            "jestConfig": "libs/generator-logs/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/generator-logs/src/**/*.ts",
+              "libs/generator-logs/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "generator-preview": {
+      "projectType": "library",
+      "root": "libs/generator-preview",
+      "sourceRoot": "libs/generator-preview/src",
+      "prefix": "codegenerator",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/generator-preview"],
+          "options": {
+            "jestConfig": "libs/generator-preview/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/generator-preview/src/**/*.ts",
+              "libs/generator-preview/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "models-autocomplete": {
+      "projectType": "library",
+      "root": "libs/models-autocomplete",
+      "sourceRoot": "libs/models-autocomplete/src",
+      "prefix": "codegenerator",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/models-autocomplete"],
+          "options": {
+            "jestConfig": "libs/models-autocomplete/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/models-autocomplete/src/**/*.ts",
+              "libs/models-autocomplete/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "modules-autocomplete": {
+      "projectType": "library",
+      "root": "libs/modules-autocomplete",
+      "sourceRoot": "libs/modules-autocomplete/src",
+      "prefix": "codegenerator",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/modules-autocomplete"],
+          "options": {
+            "jestConfig": "libs/modules-autocomplete/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/modules-autocomplete/src/**/*.ts",
+              "libs/modules-autocomplete/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "util-pipes": {
+      "projectType": "library",
+      "root": "libs/util-pipes",
+      "sourceRoot": "libs/util-pipes/src",
+      "prefix": "codegenerator",
+      "targets": {
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/util-pipes"],
+          "options": {
+            "jestConfig": "libs/util-pipes/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/util-pipes/src/**/*.ts",
+              "libs/util-pipes/src/**/*.html"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/node"
+  },
+  "defaultProject": "generator-backend",
+  "generators": {
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  }
+}

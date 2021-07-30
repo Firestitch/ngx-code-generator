@@ -6,6 +6,7 @@ npm-debug.log
 # *.js
 # *.map
 # *.d.ts
+tsconfig.base.json
 
 # JetBrains
 .idea
@@ -30,7 +31,19 @@ Desktop.ini
 # Ngc generated files
 **/*.ngfactory.ts
 
+# NX
+nx.json
+workspace.json
+
+# Support
+.eslintrc.json
+.prettierignore
+.prettierrc
+jest.*
+
 # Library files
+apps/
+libs/
 src/
 build/
 demo/

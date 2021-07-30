@@ -1,0 +1,34 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@codegenerator/fake-backend": ["libs/fake-backend/src/index.ts"],
+      "@codegenerator/generator-code": ["libs/generator-code/src/index.ts"],
+      "@codegenerator/generator-logs": ["libs/generator-logs/src/index.ts"],
+      "@codegenerator/generator-preview": [
+        "libs/generator-preview/src/index.ts"
+      ],
+      "@codegenerator/models-autocomplete": [
+        "libs/models-autocomplete/src/index.ts"
+      ],
+      "@codegenerator/modules-autocomplete": [
+        "libs/modules-autocomplete/src/index.ts"
+      ],
+      "@codegenerator/util-pipes": ["libs/util-pipes/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
