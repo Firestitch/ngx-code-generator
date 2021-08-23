@@ -15,6 +15,10 @@ import { sanitizepath } from '../helpers/sanitize-path';
 import { PatternType } from '../enums/pattern-type.enum';
 import { findDirectoryModules } from '../helpers/find-directory-modules';
 
+const executor = process.env.NODE_ENV === 'development'
+  ? '$(which schematics)'
+  : 'ng g';
+
 /**
  * GET /
  * Home page.
@@ -126,7 +130,7 @@ export let index = (req: Request, res: Response) => {
       break;
   }
 
-  const cmd = `ng g @firestitch/codegenerator:${schema} ${command}`;
+  const cmd = `${executor} @firestitch/codegenerator:${schema} ${command}`;
   console.log(cmd);
   exec(cmd, execHandler);
 };
@@ -194,7 +198,7 @@ export let createEnum = (req: Request, res: Response) => {
   --keys=${keys.join()} \
   --values=${values.join()}`;
 
-  const cmd = `ng g @firestitch/codegenerator:enum ${command}`;
+  const cmd = `${executor} @firestitch/codegenerator:enum ${command}`;
   console.log(cmd);
   exec(cmd, execHandler);
 };
@@ -265,7 +269,7 @@ export let createConst = (req: Request, res: Response) => {
 
   const schema = 'const';
 
-  const cmd = `ng g @firestitch/codegenerator:${schema} ${command}`;
+  const cmd = `${executor} @firestitch/codegenerator:${schema} ${command}`;
   console.log(cmd);
   exec(cmd, { cwd: rootPath }, execHandler);
 };
@@ -337,7 +341,7 @@ export let generateService = (req: Request, res: Response) => {
   --pluralName=${params.pluralName} \
   --menuService`;
 
-  const cmd = `ng g @firestitch/codegenerator:service ${command}`;
+  const cmd = `${executor} @firestitch/codegenerator:service ${command}`;
   console.log(cmd);
   exec(cmd, execHandler);
 };
@@ -395,7 +399,7 @@ export let generateModule = (req: Request, res: Response) => {
   --path=${params.modulePath} \
   --routing=${params.routing}`;
 
-  const cmd = `ng g @firestitch/codegenerator:module ${command}`;
+  const cmd = `${executor} @firestitch/codegenerator:module ${command}`;
   exec(cmd, execHandler);
   console.log(cmd);
 };
