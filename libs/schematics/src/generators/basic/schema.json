@@ -17,6 +17,10 @@
       "type": "boolean",
       "description": "Component or View type"
     },
+    "routeObserver": {
+      "type": "boolean",
+      "description": "Add RouteObserver to component"
+    },
     "name": {
       "type": "string",
       "description": "Name of component for create"

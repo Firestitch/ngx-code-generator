@@ -1,12 +1,18 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,<% if(titledComponent) { %>
+  ChangeDetectorRef,<% if(titledComponent || routeObserver) { %>
   OnInit,<% } %>
-} from '@angular/core';<% if(titledComponent) { %>
+} from '@angular/core';<%if (routeObserver) { %>
+import { ActivatedRoute } from '@angular/router';<% } %><% if(routeObserver) { %>
 
-import { FsNavService } from '@firestitch/nav';<% } %>
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';<% } %><% if(titledComponent || routeObserver) { %>
 
+<% if(titledComponent) { %>import { FsNavService } from '@firestitch/nav';<% } %>
+<% if(routeObserver) { %>import { RouteObserver } from '@firestitch/core';<% } %>
+<% } else { %>
+<% } %>
 
 @Component({<%if(type==='component'){%>
   selector: 'app-<%=dasherize(name)%>',<%}%>
@@ -14,18 +20,33 @@ import { FsNavService } from '@firestitch/nav';<% } %>
   styleUrls: ['./<%=dasherize(name)%>.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class <%= classify(name) %>Component<% if (titledComponent) { %> implements OnInit <%}%>{
+export class <%= classify(name) %>Component<% if (titledComponent || routeObserver) { %> implements OnInit <%}%>{
+<%if (routeObserver) { %>
+  public data: any;
 
+  private _routeObserver$ = new RouteObserver(this._route, 'data');
+  private _destroy$ = new Subject<void>();
+  <% } %>
   constructor(
     private _cdRef: ChangeDetectorRef,<% if (titledComponent) { %>
-    private _navService: FsNavService,<% } %>
-  ) {
+    private _navService: FsNavService,<% } %><% if(routeObserver) { %>
+    private _route: ActivatedRoute,<% } %>
+  ) {}<% if (titledComponent || routeObserver) { %>
 
-  }
-<% if (titledComponent) { %>
   public ngOnInit(): void {
-    this._setTitle();
-  }
+    <% if(titledComponent && !routeObserver) { %>this._setTitle();<%} else {%>this._waitRouteData();<% } %>
+  }<% } %><% if(routeObserver) { %>
+
+  private _waitRouteData(): void {
+    this._routeObserver$
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe((data) => {
+        this.data = data;<% if(titledComponent) { %>
+        this._setTitle();<% } %>
+      });
+  }<% } %><% if (titledComponent) { %>
 
   private _setTitle(): void {
     this._navService.setTitle('<%= capitalize(name) %>');

@@ -24,6 +24,7 @@ import { Config } from './config';
 import { getComponentPath } from '../../utils/build-correct-path';
 import { ExpansionType } from '../../utils/models/expansion-type';
 import { getWorkspace } from '../../utils/get-workspace';
+import { coerceTypes } from '../../utils/coerce-types';
 
 
 function filterTemplates(options: any): Rule {
@@ -43,8 +44,9 @@ function filterTemplates(options: any): Rule {
 export function create(options: any): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const workspace = getWorkspace(tree);
-    const config: Config = { ...options };
+    const config: Config = coerceTypes<Config>(options);
 
+    console.log(config);
     if (!config.project) {
       config.project = Object.keys(workspace.projects)[0];
     }

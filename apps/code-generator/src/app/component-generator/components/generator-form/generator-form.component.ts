@@ -39,6 +39,7 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
     singularModelName: null,
     pluralModelName: null,
     routableComponent: true,
+    routeObserver: null,
     routableCreateComponent: true,
     titledComponent: true,
     titledCreateComponent: true,
@@ -137,6 +138,10 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
     this.listOptions = [];
     if (hasRoutable) {
       this.listOptions.push({ name: 'routableComponent', value: 'Routable' });
+    }
+
+    if (this.model.routableComponent) {
+      this.listOptions.push({ name: 'routeObserver', value: 'Route Observer' });
     }
 
     if (hasTitle) {

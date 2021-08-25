@@ -68,7 +68,9 @@
       <fs-label-field *ngIf="listOptions.length">
         <fs-label>Options</fs-label>
         <div *ngFor="let item of listOptions">
-          <mat-checkbox [(ngModel)]="model[item.name]" [name]="item.name">
+          <mat-checkbox [(ngModel)]="model[item.name]"
+                        (ngModelChange)="interfacePatternChanged()"
+                        [name]="item.name">
             {{ item.value }}
           </mat-checkbox>
         </div>
