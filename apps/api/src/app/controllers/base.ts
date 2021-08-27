@@ -272,7 +272,7 @@ export let createConst = (req: Request, res: Response) => {
 
   const cmd = `${executor} @firestitch/codegenerator:${schema} ${command}`;
   console.log(cmd);
-  exec(cmd, { cwd: rootPath }, execHandler);
+  exec(cmd, { }, execHandler);
 };
 
 export let modulesList = (req: Request, res: Response) => {

@@ -32,6 +32,16 @@
           >
             GENERATE
           </button>
+
+          <button
+            type="button"
+            mat-raised-button
+            color="primary"
+            [disabled]="generateConstDisabled"
+            (click)="generateConst()"
+          >
+            GENERATE CONST
+          </button>
         </div>
       </ng-container>
     </mat-card-content>

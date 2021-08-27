@@ -2,7 +2,9 @@
   <div class="col generator-card">
     <app-enum-form
       (generate)="save($event)"
+      (navigateConstPage)="navigateToConstPage()"
       [loading]="loading"
+      [successfulGeneration]="successfulGeneration"
     ></app-enum-form>
   </div>
   <div class="col" *ngIf="enumPath">

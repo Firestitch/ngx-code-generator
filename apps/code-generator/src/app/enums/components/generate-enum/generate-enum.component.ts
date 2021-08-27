@@ -13,19 +13,23 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-enum-form',
   templateUrl: './generate-enum.component.html',
+  styleUrls: ['./generate-enum.component.scss'],
 })
 export class GenerateEnumComponent implements OnInit, AfterViewInit {
   @Input()
   public loading = false;
 
   @Input()
-  public error = '';
+  public successfulGeneration = false;
 
   @Output()
   public formChanged = new EventEmitter<any>();
 
   @Output()
   public generate = new EventEmitter<any>();
+
+  @Output()
+  public navigateConstPage = new EventEmitter<void>();
 
   @ViewChild('moduleForm', { static: true })
   public form: NgForm;
@@ -40,6 +44,10 @@ export class GenerateEnumComponent implements OnInit, AfterViewInit {
 
   constructor() {}
 
+  public get generateConstDisabled(): boolean {
+    return !this.successfulGeneration;
+  }
+
   public ngOnInit() {}
 
   public ngAfterViewInit() {
@@ -52,6 +60,10 @@ export class GenerateEnumComponent implements OnInit, AfterViewInit {
     if (this.form.valid && this._checkEnumsValidation()) {
       this.generate.emit(this.model);
     }
+  }
+
+  public generateConst(): void {
+    this.navigateConstPage.emit();
   }
 
   private _checkEnumsValidation() {

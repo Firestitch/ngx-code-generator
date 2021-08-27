@@ -64,6 +64,9 @@ export class EnumsListComponent implements ControlValueAccessor {
   public selectEnum(event) {
     this.writeValue(event);
 
+    this.onChange(event);
+    this.onTouch(event);
+
     if (event) {
       this.enumChange.emit(this.selectedEnum);
     }
@@ -71,8 +74,6 @@ export class EnumsListComponent implements ControlValueAccessor {
 
   public writeValue(value) {
     this.selectedEnum = value;
-    this.onChange(value);
-    this.onTouch(value);
   }
 
   public registerOnChange(fn) {

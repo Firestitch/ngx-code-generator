@@ -24,6 +24,9 @@ export class GenerateConstComponent implements OnInit, AfterViewInit {
   public loading = false;
 
   @Input()
+  public externalParams: Record<string, unknown>;
+
+  @Input()
   public error = '';
 
   @Output()
@@ -47,7 +50,20 @@ export class GenerateConstComponent implements OnInit, AfterViewInit {
 
   constructor(public constsService: ConstService) {}
 
-  public ngOnInit() {}
+  public ngOnInit(): void {
+    if (this.externalParams) {
+      if (this.externalParams.modulePath && this.externalParams.moduleName) {
+        this.model.module = {
+          modulePath: this.externalParams.modulePath,
+          name: this.externalParams.moduleName,
+        };
+      }
+
+      this.model.name = this.externalParams.enumName;
+
+      this.loadEnums();
+    }
+  }
 
   public ngAfterViewInit() {
     this.form.valueChanges.subscribe((values) => {
@@ -60,12 +76,16 @@ export class GenerateConstComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.model.module.modulePath = this.model.module.modulePath;
-
     this.constsService
       .getEnumsForModule(this.model.module.modulePath)
       .subscribe((response) => {
         this.enums = response;
+
+        if (this.externalParams.enumPath) {
+          this.model.enum = this.enums.find((item) => {
+            return item.enumFullPath === this.externalParams.enumPath;
+          });
+        }
       });
   }
 
