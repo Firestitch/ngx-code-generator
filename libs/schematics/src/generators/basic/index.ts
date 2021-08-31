@@ -46,7 +46,6 @@ export function create(options: any): Rule {
     const workspace = getWorkspace(tree);
     const config: Config = coerceTypes<Config>(options);
 
-    console.log(config);
     if (!config.project) {
       config.project = Object.keys(workspace.projects)[0];
     }
