@@ -39,19 +39,19 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
   public save = () => {
     return this._<%= camelize(serviceName) %>.save(this.<%= camelize(singleModel) %>)
       .pipe(
-        tap((response) => {
+        tap((<%= camelize(singleModel) %>) => {
           this._message.success('Saved Changes');
           if (this.<%= camelize(singleModel) %>.id) {
-            this._routeObserver.next({
+            this._routeObserver$.next({
               ...this.<%= camelize(singleModel) %>,
-              ...response,
+              ...<%= camelize(singleModel) %>,
             });
           } else {
-            this._router.navigate(['../', response.id], { relativeTo: this._route });
+            this._router.navigate(['../', <%= camelize(singleModel) %>.id], { relativeTo: this._route });
           }
         }),
       );
-  }
+  };
 
   public ngOnDestroy(): void {
     this._destroy$.next();
@@ -71,8 +71,8 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this._destroy$),
       )
-      .subscribe((data) => {
-        this.<%= camelize(singleModel) %> = data || {};<% if(titledComponent) { %>
+      .subscribe((<%= camelize(singleModel) %>) => {
+        this.<%= camelize(singleModel) %> = <%= camelize(singleModel) %> || {};<% if(titledComponent) { %>
         this._setTitle();<% } %>
 
         this._cdRef.markForCheck();
