@@ -66,8 +66,7 @@ export let index = (req: Request, res: Response) => {
       --service=${params.service.singularName} \
       --servicePath=/${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
-      --singleModel=${params.singularModelName} \
-      --titledComponent=${params.titledComponent || false}`;
+      --singleModel=${params.singularModelName}`;
       }
       break;
 
@@ -82,7 +81,6 @@ export let index = (req: Request, res: Response) => {
       --servicePath=/${params.service.servicePath} \
       --pluralModel=${params.pluralModelName} \
       --singleModel=${params.singularModelName} \
-      --titledComponent=${params.titledComponent || false} \
       --titledCreateComponent=${params.titledCreateComponent || false} \
       --routableCreateComponent=${params.routableCreateComponent}`;
       }

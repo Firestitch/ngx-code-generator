@@ -1,12 +1,22 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';<% if (mode === 'full') { %>
-import { Router, ActivatedRoute } from '@angular/router';<% } %>
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';<% if (mode === 'full') { %>
+import { Router, ActivatedRoute } from '@angular/router';<% } %><% if (mode !== 'full' && routeObserver) { %>
+import { ActivatedRoute } from '@angular/router';<% } %>
 
 import { FsListComponent, FsListConfig } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';<% if (titledComponent) { %>
-import { FsNavService } from '@firestitch/nav';
-<% } %>
+import { FsNavService } from '@firestitch/nav';<% } %><% if(routeObserver) { %>
+import { RouteObserver } from '@firestitch/core';
 
-import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';<% } else { %>
+
+import { map } from 'rxjs/operators';<% } %>
 
 import { <%= classify(serviceName) %> } from '<%= relativeServicePath %>';
 
@@ -27,19 +37,28 @@ export class <%= classify(name) %>Component implements OnInit {
   @ViewChild(FsListComponent)
   public listComponent: FsListComponent;
 
-  public listConfig: FsListConfig;
+  public listConfig: FsListConfig;<%if (routeObserver) { %>
+  public data: any;
+
+  private _routeObserver$ = new RouteObserver(this._route, 'data');
+  private _destroy$ = new Subject<void>();<% } %>
 
   constructor(
     private _cdRef: ChangeDetectorRef,
     private _<%= camelize(serviceName) %>: <%= classify(serviceName) %>,<% if (titledComponent) { %>
     private _navService: FsNavService,<% } %><% if (mode === 'full') { %>
     private _route: ActivatedRoute,
-    private _router: Router,<% } %>
+    private _router: Router,<% } %><% if(routeObserver) { %>
+    private _route: ActivatedRoute,<% } %>
   ) {}
 
-  public ngOnInit(): void {<% if (titledComponent) { %>
-    this._setTitle();
-<% } %>
+  public ngOnInit(): void {<% if(titledComponent) { %>
+    this._setTitle();<% } %><% if(routeObserver) { %>
+    this._waitRouteData();<% } %>
+    this._initListConfig();
+  }
+
+  private _initListConfig(): void {
     this.listConfig = {
       filters: [
         {
@@ -88,7 +107,18 @@ export class <%= classify(name) %>Component implements OnInit {
         },
       },
     };
-  }<% if (titledComponent) { %>
+  }<% if(routeObserver) { %>
+
+  private _waitRouteData(): void {
+    this._routeObserver$
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe((data) => {
+        this.data = data;<% if(titledComponent) { %>
+        this._setTitle();<% } %>
+      });
+  }<% } %><% if (titledComponent) { %>
 
   private _setTitle(): void {
     this._navService.setTitle('<%= capitalize(name) %>');

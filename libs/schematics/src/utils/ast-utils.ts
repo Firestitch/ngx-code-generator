@@ -11,7 +11,7 @@ import { insertImport, addRoutesArrayDeclaration } from './route-utils';
 import { camelize, classify } from '@angular-devkit/core/src/utils/strings';
 import { ModuleOptions } from './find-module';
 import { createClassDeclaration } from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import { ClassDeclaration, MethodDeclaration } from 'typescript';
+import { ClassDeclaration, Identifier, MethodDeclaration, TypeReferenceNode } from 'typescript';
 import { NoopChange } from '@schematics/angular/utility/change';
 
 
@@ -228,10 +228,20 @@ function getLastPublicMethod(source: ts.SourceFile): number {
 
 
 function insertDestroyDeclaration(source): Change {
+  const propertyDeclarations = findNodes(source, ts.SyntaxKind.PropertyDeclaration);
+
+  const existingDeclaration = propertyDeclarations
+    .some((property: ts.PropertyDeclaration) => {
+      return (property?.name as ts.Identifier).text === '_destroy$';
+    });
+
+  if (existingDeclaration) {
+    return new NoopChange();
+  }
 
   let insertPosition: number;
 
-  const publicProperties = findNodes(source, ts.SyntaxKind.PropertyDeclaration)
+  const publicProperties = propertyDeclarations
     .filter((method) => {
       return method.modifiers
         .some((modifier) => {
@@ -258,13 +268,52 @@ function insertDestroyDeclaration(source): Change {
       source,
       insertPosition,
       `\n
-  private _destroy$ = new Subject<void>();\n
-`
+  private _destroy$ = new Subject<void>();`
     );
   } else {
     return new NoopChange();
   }
 }
+
+function insertConstructorMember(
+  source,
+  modifier: 'public' | 'protected' | 'private',
+  name: string,
+  type: string,
+): Change {
+  const componentClass = findNodes(source, ts.SyntaxKind.ClassDeclaration)
+    .find((node: ts.ClassDeclaration) => {
+      return node.decorators.length
+    });
+
+  const classConstructor: ts.ConstructorTypeNode
+    = findNodes(componentClass, ts.SyntaxKind.Constructor).pop() as ts.ConstructorTypeNode;
+
+  const hasExistingMember = classConstructor.parameters
+    .some((param) => {
+      const existingName = param.name.getText() === name;
+      const existingType = (param.type as ts.TypeReferenceNode).typeName.getText() === type;
+
+      return existingName || existingType;
+    });
+
+  if (hasExistingMember) {
+    return new NoopChange();
+  }
+
+  const insertPosition = classConstructor.parameters.end;
+  let declaration = '';
+
+  if (classConstructor.parameters.length) {
+    declaration += classConstructor.parameters.hasTrailingComma ? '\n' : ',\n';
+  }
+
+  declaration += `    ${modifier} ${name}: ${type},`;
+
+
+  return new InsertChange(source, insertPosition, declaration);
+}
+
 
 /**
  * Helper for sorting nodes.
@@ -627,30 +676,23 @@ export function addDialogToComponentMetadata(
     if (existingDialog) {
       dialogVarName = existingDialog.name.text
     } else {
-      const position = classConstructor.parameters.end;
-      let declaration = '';
-
-      if (classConstructor.parameters.length) {
-        declaration += classConstructor.parameters.hasTrailingComma ? '\n' : ',\n';
-      }
-
-      declaration += `    private _${dialogVarName}: MatDialog,
-    private _route: ActivatedRoute,
-    private _router: Router,`;
-
       changes.push(
-        new InsertChange(componentPath, position, declaration),
-        insertImport(
+        insertConstructorMember(
           source,
-          componentPath || '',
-          'ActivatedRoute',
-          '@angular/router',
-          false,
+          'private',
+          `_${dialogVarName}`,
+          'MatDialog'
+        ),
+        insertConstructorMember(
+          source,
+          'private',
+          '_route',
+          'ActivatedRoute'
         ),
         insertImport(
           source,
           componentPath || '',
-          'Router',
+          'ActivatedRoute',
           '@angular/router',
           false,
         ),

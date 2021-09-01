@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FsMessage } from '@firestitch/message';
 
 import { Subject, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, takeUntil } from 'rxjs/operators';
 
 import { <%= classify(serviceName) %> } from '<%= relativeServicePath %>';
 
@@ -30,19 +30,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    of(this._data.<%= camelize(singleModel) %>)
-      .pipe(
-        switchMap((<%= camelize(singleModel) %>) => {
-          return <%= camelize(singleModel) %>.id
-            ? this._<%= camelize(serviceName) %>.get(this._data.<%= camelize(singleModel) %>.id)
-            : of(<%= camelize(singleModel) %>);
-        }),
-        takeUntil(this._destroy$),
-      )
-      .subscribe((<%= camelize(singleModel) %>) => {
-        this.<%= camelize(singleModel) %> = { ...<%= camelize(singleModel) %> };
-        this._cdRef.markForCheck();
-      });
+    this._fetchData();
   }
 
   public ngOnDestroy(): void {
@@ -59,5 +47,22 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
         }),
       );
   };
+
+  private _fetchData(): void {
+    of(this._data.<%= camelize(singleModel) %>)
+      .pipe(
+        switchMap((<%= camelize(singleModel) %>) => {
+          return <%= camelize(singleModel) %>.id
+            ? this._<%= camelize(serviceName) %>.get(this._data.<%= camelize(singleModel) %>.id)
+            : of(<%= camelize(singleModel) %>);
+        }),
+        takeUntil(this._destroy$),
+      )
+      .subscribe((<%= camelize(singleModel) %>) => {
+        this.<%= camelize(singleModel) %> = { ...<%= camelize(singleModel) %> };
+
+        this._cdRef.markForCheck();
+      });
+  }
 
 }

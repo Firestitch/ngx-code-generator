@@ -20,7 +20,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
 
   public <%= camelize(singleModel) %>: any = null;
 
-  private _routeObserver = new RouteObserver(this._route, '<%= camelize(singleModel) %>');
+  private _routeObserver$ = new RouteObserver(this._route, '<%= camelize(singleModel) %>');
   private _destroy$ = new Subject();
 
   constructor(
@@ -33,17 +33,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this._routeObserver
-      .observer$
-      .pipe(
-        takeUntil(this._destroy$),
-      )
-      .subscribe((response) => {
-        this.<%= camelize(singleModel) %> = response || {};<% if(titledComponent) { %>
-        this._setTitle();<% } %>
-
-        this._cdRef.markForCheck();
-      });
+    this._waitRouteData();
   }
 
   public save = () => {
@@ -72,9 +62,21 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
     if (this.<%= camelize(singleModel) %>.id) {
       this._navService.setTitle(this.<%= camelize(singleModel) %>.name, '<%= capitalize(singleModel)%>');
     } else {
-
+      this._navService.setTitle('Create <%= capitalize(singleModel)%>');
     }
-    this._navService.setTitle('Create <%= capitalize(singleModel)%>');
   }<% } %>
+
+  private _waitRouteData(): void {
+    this._routeObserver$
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe((data) => {
+        this.<%= camelize(singleModel) %> = data || {};<% if(titledComponent) { %>
+        this._setTitle();<% } %>
+
+        this._cdRef.markForCheck();
+      });
+  }
 
 }

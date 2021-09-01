@@ -28,6 +28,7 @@ import { ListOptions } from './schema';
 import { Config } from './config';
 import { getServiceClassName } from '../../utils/get-service-class-name';
 import { addDeclarationToModule } from '../../utils/ast-utils';
+import { coerceTypes } from '../../utils/coerce-types';
 
 
 export function getWorkspacePath(host: Tree): string {
@@ -63,7 +64,7 @@ function filterTemplates(options: any): Rule {
 export function create(options: ListOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const workspace = getWorkspace(tree);
-    const config: Config = { ...options };
+    const config: Config = coerceTypes(options )
 
     if (!config.project) {
       config.project = Object.keys(workspace.projects)[0];
