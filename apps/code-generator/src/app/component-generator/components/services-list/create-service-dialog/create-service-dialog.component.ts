@@ -80,19 +80,19 @@ export class CreateServiceDialogComponent {
    * @todo
    */
   public setDefaultSubDirectory() {
-    const moduleServices = this.data.services.find(
-      (s) => s.module === this.model.module.moduleName
-    );
-    this.hidePath = moduleServices && !!moduleServices.services.length;
-
-    if (this.hidePath) {
-      this.model.subdirectory =
-        moduleServices.services[0].servicePath.indexOf('shared/services') !== -1
-          ? '/shared/services'
-          : '/services';
-    } else {
-      this.model.subdirectory = null;
-    }
+    // const moduleServices = this.data.services.find(
+    //   (s) => s.module === this.model.module.moduleName
+    // );
+    // this.hidePath = moduleServices && !!moduleServices.services.length;
+    //
+    // if (this.hidePath) {
+    //   this.model.subdirectory =
+    //     moduleServices.services[0].servicePath.indexOf('shared/services') !== -1
+    //       ? '/shared/services'
+    //       : '/services';
+    // } else {
+    //   this.model.subdirectory = null;
+    // }
   }
 
   public toCamelCase() {
