@@ -9,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { FsAutocompleteModule } from '@firestitch/autocomplete';
 
@@ -29,6 +30,7 @@ import { ModuleListItemPipe } from './pipes';
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatCheckboxModule,
     FormsModule,
     ReactiveFormsModule,
     FsAutocompleteModule,
