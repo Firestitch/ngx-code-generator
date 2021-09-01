@@ -29,6 +29,7 @@ import { Config } from './config';
 import { getServiceClassName } from '../../utils/get-service-class-name';
 import { addDeclarationToModule } from '../../utils/ast-utils';
 import { coerceTypes } from '../../utils/coerce-types';
+import { converPathToAlias } from '../../utils/conver-path-to-alias';
 
 
 export function getWorkspacePath(host: Tree): string {
@@ -92,7 +93,7 @@ export function create(options: ListOptions): Rule {
 
     config.serviceName = getServiceClassName(tree, config.servicePath + '/' + config.service) || '';
 
-    config.relativeServicePath = buildRelativePathForService(config);
+    config.relativeServicePath = converPathToAlias(buildRelativePathForService(config));
 
     const templateSource = apply(url('./files'), [
       filterTemplates(config),

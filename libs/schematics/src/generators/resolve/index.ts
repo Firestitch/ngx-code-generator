@@ -23,6 +23,7 @@ import { buildRelativePath } from '../../utils/find-module';
 import { ExpansionType } from '../../utils/models/expansion-type';
 import { getWorkspace } from '../../utils/get-workspace';
 import { getServiceClassName } from '../../utils/get-service-class-name';
+import { converPathToAlias } from '../../utils/conver-path-to-alias';
 
 export function create(options: any): Rule {
   return (tree: Tree, _context: SchematicContext) => {
@@ -34,7 +35,7 @@ export function create(options: any): Rule {
 
     options.componentPath = options.path + resolveFolder;
     options.routingModule = options.module.replace('.module.ts', '-routing.module.ts');
-    options.relativeServicePath = buildRelativePathForService(options);
+    options.relativeServicePath = converPathToAlias(buildRelativePathForService(options));
     options.serviceName = getServiceClassName(
       tree,
       options.servicePath + '/' + options.service
