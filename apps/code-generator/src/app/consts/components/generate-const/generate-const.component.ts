@@ -59,7 +59,7 @@ export class GenerateConstComponent implements OnInit, AfterViewInit {
         };
       }
 
-      this.model.name = classify(pluralize(this.externalParams.enumName));
+      this.model.name = classify(pluralize(this.externalParams.enumName || ''));
 
       this.loadEnums();
     }

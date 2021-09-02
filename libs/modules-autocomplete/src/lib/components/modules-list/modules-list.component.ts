@@ -41,11 +41,11 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
   @Input() public showCreateButton = true;
   @Output() public moduleChange = new EventEmitter();
 
-  public onChange: any = () => {};
-  public onTouch: any = () => {};
-
   public loading = true;
   public fuzzer: FuzzySearch;
+
+  private static readonly _LOCAL_STORAGE_KEY = 'codegen-module';
+  private _userMadeChoice = false;
 
   constructor(
     private _modulesService: ModulesService,
@@ -55,6 +55,7 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
 
   public ngOnInit() {
     this._loadModules();
+    this._initFromLocalStorage();
   }
 
   public ngOnChanges(changes) {
@@ -83,6 +84,7 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
   }
 
   public selectModule(event) {
+    this._saveToLocalStorage(event);
     this.writeValue(event);
 
     if (event) {
@@ -119,6 +121,8 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
     this.onTouch(value);
   }
 
+  public onChange: any = () => {};
+  public onTouch: any = () => {};
   public registerOnChange(fn) { this.onChange = fn;  }
   public registerOnTouched(fn) { this.onTouch = fn; }
 
@@ -137,4 +141,19 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
   private _initFuzzer() {
     this.fuzzer = new FuzzySearch(this.modules, ['moduleFullPath']);
   }
+
+  private _initFromLocalStorage(): void {
+    setTimeout(() => {
+      const module = localStorage.getItem(ModulesListComponent._LOCAL_STORAGE_KEY);
+
+      if (module && !this.module) {
+        this.selectModule(JSON.parse(module));
+      }
+    }, 0);
+  }
+
+  private _saveToLocalStorage(value: ModuleInterface): void {
+    localStorage.setItem(ModulesListComponent._LOCAL_STORAGE_KEY, JSON.stringify(value));
+  }
+
 }
