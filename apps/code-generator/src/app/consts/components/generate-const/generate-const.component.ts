@@ -59,7 +59,7 @@ export class GenerateConstComponent implements OnInit, AfterViewInit {
         };
       }
 
-      this.model.name = this.externalParams.enumName;
+      this.model.name = classify(pluralize(this.externalParams.enumName));
 
       this.loadEnums();
     }
@@ -90,7 +90,7 @@ export class GenerateConstComponent implements OnInit, AfterViewInit {
   }
 
   public enumSelected(event) {
-    if (!this.model.name && event && event.enumFile) {
+    if (event && event.enumFile) {
       const name = event.enumFile.replace('.enum.ts', '');
       this.model.name = classify(pluralize(name));
     }
