@@ -106,7 +106,8 @@ export let index = (req: Request, res: Response) => {
       --servicePath=/${params.service.servicePath} \
       --singleModel=${params.singularModelName} \
       --titledCreateComponent=${params.titledCreateComponent || false} \
-      --routableCreateComponent=${params.routableCreateComponent}`;
+      --routableCreateComponent=${params.routableCreateComponent} \
+      --titledComponent=${params.titledComponent || false}`;
       }
       break;
 
