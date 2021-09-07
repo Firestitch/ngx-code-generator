@@ -7,7 +7,7 @@ export function coerceTypes<T extends any>(target: T): T {
 
       if (value === 'true' || value === 'false') {
         value = value === 'true';
-      } else if (!isNaN(+(value as number))) {
+      } else if (!isNaN(parseInt(value, 10))) {
         value = parseInt(value as string, 10);
       } else if (value === 'undefined') {
         value = undefined;
