@@ -35,10 +35,21 @@ import { ModulesService } from '../../services/modules.service';
 })
 export class ModulesListComponent implements OnInit, OnChanges, ControlValueAccessor {
 
-  @Input() public modules: ModuleInterface[];
-  @Input() public fetchOnFocus = true;
-  @Input() public module: ModuleInterface;
-  @Input() public showCreateButton = true;
+  @Input()
+  public modules: ModuleInterface[];
+
+  @Input()
+  public fetchOnFocus = true;
+
+  @Input()
+  public module: ModuleInterface;
+
+  @Input()
+  public showCreateButton = true;
+
+  @Input()
+  public namespace: string;
+
   @Output() public moduleChange = new EventEmitter();
 
   public loading = true;
@@ -52,6 +63,10 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
     private _dialog: MatDialog,
     private _message: FsMessage,
   ) {}
+
+  public get localStorageKey(): string {
+    return this.namespace || ModulesListComponent._LOCAL_STORAGE_KEY;
+  }
 
   public ngOnInit() {
     this._loadModules();
@@ -144,7 +159,7 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
 
   private _initFromLocalStorage(): void {
     setTimeout(() => {
-      const module = localStorage.getItem(ModulesListComponent._LOCAL_STORAGE_KEY);
+      const module = localStorage.getItem(this.localStorageKey);
 
       if (module && !this.module) {
         this.selectModule(JSON.parse(module));
@@ -153,7 +168,7 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
   }
 
   private _saveToLocalStorage(value: ModuleInterface): void {
-    localStorage.setItem(ModulesListComponent._LOCAL_STORAGE_KEY, JSON.stringify(value));
+    localStorage.setItem(this.localStorageKey, JSON.stringify(value));
   }
 
 }

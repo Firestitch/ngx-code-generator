@@ -766,8 +766,8 @@ export function addDialogToComponentMetadata(
       .pipe(
         takeUntil(this._destroy$),
       )
-      .subscribe((response) => {
-        if (response) {
+      .subscribe((${camelize(singleModelName)}) => {
+        if (${camelize(singleModelName)}) {
           this.listComponent.reload();
         }
       });

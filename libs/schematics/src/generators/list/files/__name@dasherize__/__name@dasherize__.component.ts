@@ -53,7 +53,7 @@ export class <%= classify(name) %>Component implements OnInit {
   ) {}
 
   public ngOnInit(): void {<% if(titledComponent) { %>
-    this._setTitle();<% } %><% if(routeObserver) { %>
+    this._initTitle();<% } %><% if(routeObserver) { %>
     this._waitRouteData();<% } %>
     this._initListConfig();
   }
@@ -70,7 +70,7 @@ export class <%= classify(name) %>Component implements OnInit {
       actions: [
         {
           label: 'Create',
-          click: (event) => {<% if (mode === 'full') { %>
+          click: () => {<% if (mode === 'full') { %>
             this._router.navigate(['create'], { relativeTo: this._route });<%} if (mode === 'dialog' || mode === 'dialog-create-page-edit') {%>
             this.openDialog({});<%}%>
           },
@@ -116,11 +116,11 @@ export class <%= classify(name) %>Component implements OnInit {
       )
       .subscribe((data) => {
         this.data = data;<% if(titledComponent) { %>
-        this._setTitle();<% } %>
+        this._initTitle();<% } %>
       });
   }<% } %><% if (titledComponent) { %>
 
-  private _setTitle(): void {
+  private _initTitle(): void {
     this._navService.setTitle('<%= capitalize(name) %>');
   }<% } %>
 

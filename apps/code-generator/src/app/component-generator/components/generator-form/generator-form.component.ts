@@ -170,4 +170,11 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
       this.model.pluralModelName = camelCase(pluralize(name));
     }
   }
+
+  public componentNameChange(): void {
+    if (this.model.interfacePattern === 'list-create-edit') {
+      this.model.createEditComponentName = pluralize.singular(this.model.componentName);
+    }
+  }
+
 }

@@ -58,7 +58,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
     this._destroy$.complete();
   }
 <% if(titledComponent) { %>
-  private _setTitle(): void {
+  private _initTitle(): void {
     if (this.<%= camelize(singleModel) %>.id) {
       this._navService.setTitle(this.<%= camelize(singleModel) %>.name, '<%= capitalize(singleModel)%>');
     } else {
@@ -73,7 +73,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
       )
       .subscribe((<%= camelize(singleModel) %>) => {
         this.<%= camelize(singleModel) %> = <%= camelize(singleModel) %> || {};<% if(titledComponent) { %>
-        this._setTitle();<% } %>
+        this._initTitle();<% } %>
 
         this._cdRef.markForCheck();
       });

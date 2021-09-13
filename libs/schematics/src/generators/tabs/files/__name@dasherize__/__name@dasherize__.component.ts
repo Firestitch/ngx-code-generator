@@ -30,7 +30,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {<% if(titledComponent) { %>
-    this._waitNavigationFinish();<% } %><% if(routeObserver) { %>
+    this._initNavigationEnd();<% } %><% if(routeObserver) { %>
     this._waitRouteData();<% } %>
     this._setLinks();
   }
@@ -53,21 +53,21 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
     ];
   }
 
-  private _setTitle(): void {
+  private _initTitle(): void {
     this._navService.setTitle('Title');
     // if (this.data) {
     //   this._navService.setTitle('Title', this.data.name);
     // }
   }
 
-  private _waitNavigationFinish(): void  {
+  private _initNavigationEnd(): void  {
     this._router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
         takeUntil(this._destroy$),
       )
       .subscribe(() => {
-        this._setTitle();
+        this._initTitle();
 
         this._cdRef.markForCheck();
       });
@@ -80,7 +80,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
       )
       .subscribe((data) => {
         this.data = data;<% if(titledComponent) { %>
-        this._setTitle();<% } %>
+        this._initTitle();<% } %>
       });
   }<% } %>
 

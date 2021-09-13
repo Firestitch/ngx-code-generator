@@ -34,7 +34,7 @@ export class <%= classify(name) %>Component<% if (titledComponent || routeObserv
   ) {}<% if (titledComponent || routeObserver) { %>
 
   public ngOnInit(): void {
-    <% if(titledComponent && !routeObserver) { %>this._setTitle();<%} else {%>this._waitRouteData();<% } %>
+    <% if(titledComponent && !routeObserver) { %>this._initTitle();<%} else {%>this._waitRouteData();<% } %>
   }<% } %><% if(routeObserver) { %>
 
   private _waitRouteData(): void {
@@ -44,11 +44,11 @@ export class <%= classify(name) %>Component<% if (titledComponent || routeObserv
       )
       .subscribe((data) => {
         this.data = data;<% if(titledComponent) { %>
-        this._setTitle();<% } %>
+        this._initTitle();<% } %>
       });
   }<% } %><% if (titledComponent) { %>
 
-  private _setTitle(): void {
+  private _initTitle(): void {
     this._navService.setTitle('<%= capitalize(name) %>');
   }<% } %>
 

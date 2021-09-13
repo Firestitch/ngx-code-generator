@@ -177,7 +177,6 @@ export function create(options: ListOptions): Rule {
         mergeWith(templateSource),
         addDeclarationToNgModule(config, config.includedModuleExports),
         importModulesToNgModule(config, [
-          ['MatCardModule', '@angular/material/card'],
           ['FsListModule', '@firestitch/list'],
         ]),
         isRoutingExists && config.type === 'view' ? addDeclarationToRoutingModule(config) : noop(),

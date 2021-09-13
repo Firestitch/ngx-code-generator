@@ -54,6 +54,7 @@
         <input
           matInput
           [(ngModel)]="model.componentName"
+          (ngModelChange)="componentNameChange()"
           placeholder="Name"
           name="componentName"
           #componentName="ngModel"
