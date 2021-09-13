@@ -44,10 +44,6 @@ export class GenerateEnumComponent implements OnInit, AfterViewInit {
 
   constructor() {}
 
-  public get generateConstDisabled(): boolean {
-    return !this.successfulGeneration;
-  }
-
   public ngOnInit() {}
 
   public ngAfterViewInit() {
