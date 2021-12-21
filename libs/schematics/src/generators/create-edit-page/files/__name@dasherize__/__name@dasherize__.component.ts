@@ -33,7 +33,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this._waitRouteData();
+    this._initRouteObserver();
   }
 
   public save = () => {
@@ -66,7 +66,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
     }
   }<% } %>
 
-  private _waitRouteData(): void {
+  private _initRouteObserver(): void {
     this._routeObserver$
       .pipe(
         takeUntil(this._destroy$),

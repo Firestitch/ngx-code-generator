@@ -54,7 +54,7 @@ export class <%= classify(name) %>Component implements OnInit {
 
   public ngOnInit(): void {<% if(titledComponent) { %>
     this._initTitle();<% } %><% if(routeObserver) { %>
-    this._waitRouteData();<% } %>
+    this._initRouteObserver();<% } %>
     this._initListConfig();
   }
 
@@ -109,7 +109,7 @@ export class <%= classify(name) %>Component implements OnInit {
     };
   }<% if(routeObserver) { %>
 
-  private _waitRouteData(): void {
+  private _initRouteObserver(): void {
     this._routeObserver$
       .pipe(
         takeUntil(this._destroy$),

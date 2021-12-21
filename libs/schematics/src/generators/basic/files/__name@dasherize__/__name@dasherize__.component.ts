@@ -34,10 +34,10 @@ export class <%= classify(name) %>Component<% if (titledComponent || routeObserv
   ) {}<% if (titledComponent || routeObserver) { %>
 
   public ngOnInit(): void {
-    <% if(titledComponent && !routeObserver) { %>this._initTitle();<%} else {%>this._waitRouteData();<% } %>
+    <% if(titledComponent && !routeObserver) { %>this._initTitle();<%} else {%>this._initRouteObserver();<% } %>
   }<% } %><% if(routeObserver) { %>
 
-  private _waitRouteData(): void {
+  private _initRouteObserver(): void {
     this._routeObserver$
       .pipe(
         takeUntil(this._destroy$),

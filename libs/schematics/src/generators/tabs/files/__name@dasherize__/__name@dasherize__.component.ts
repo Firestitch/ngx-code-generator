@@ -31,7 +31,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
 
   public ngOnInit(): void {<% if(titledComponent) { %>
     this._initNavigationEnd();<% } %><% if(routeObserver) { %>
-    this._waitRouteData();<% } %>
+    this._initRouteObserver();<% } %>
     this._setLinks();
   }
 
@@ -73,7 +73,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
       });
   }<% if(routeObserver) { %>
 
-  private _waitRouteData(): void {
+  private _initRouteObserver(): void {
     this._routeObserver$
       .pipe(
         takeUntil(this._destroy$),
