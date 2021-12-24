@@ -117,6 +117,8 @@ export class <%= classify(name) %>Component implements OnInit {
       .subscribe((data) => {
         this.data = data;<% if(titledComponent) { %>
         this._initTitle();<% } %>
+
+        this._cdRef.markForCheck();
       });
   }<% } %><% if (titledComponent) { %>
 

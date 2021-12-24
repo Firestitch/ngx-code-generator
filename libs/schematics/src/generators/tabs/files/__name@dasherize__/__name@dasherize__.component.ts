@@ -81,6 +81,8 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.data = data;<% if(titledComponent) { %>
         this._initTitle();<% } %>
+
+        this._cdRef.markForCheck();
       });
   }<% } %>
 
