@@ -37,6 +37,7 @@
             type="button"
             mat-raised-button
             color="basic"
+            [disabled]="!canGenerateConst"
             (click)="generateConst()"
           >
             GENERATE CONST

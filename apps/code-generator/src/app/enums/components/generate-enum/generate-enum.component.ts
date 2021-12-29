@@ -22,6 +22,9 @@ export class GenerateEnumComponent implements OnInit, AfterViewInit {
   @Input()
   public successfulGeneration = false;
 
+  @Input()
+  public canGenerateConst = false;
+
   @Output()
   public formChanged = new EventEmitter<any>();
 

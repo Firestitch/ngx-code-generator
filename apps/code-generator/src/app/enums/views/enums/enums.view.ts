@@ -27,6 +27,10 @@ export class EnumsView {
     private _router: Router,
   ) {}
 
+  public get canGenerateConst(): boolean {
+    return !!(this.enumName && this.enumPath && this.modulePath && this.moduleName);
+  }
+
   public save(data) {
     this.enumPath = '';
     this.code = '';
