@@ -1,20 +1,56 @@
-# Running Code Gen and Schematics From Source
+# Running Code Generator and Schematics From Source
 
-Here is a sample directory structure of the 4 projects you will need
+## Installation
 
-/boilerplate (or any Firestitch project codebase)
-    /frontend
-/npm-code-generator
-/npm-schematics
+1. Clone repo `git clone git@github.com:Firestitch/ngx-code-generator.git`
+2. `npm install`
+3. At this step we have to build our package for future using inside this project
+`npm run package`
+4. When package build finishes we need to start using `dist` folder as schematic source
+   - `cd dist`
+   - `npm link`
+   - `cd ..`
+   - `npm link @firestitch/codegenerator`
+   
+5. All done!
+
+## Development
+
+In `/apps` folder we have 3 different projects:
+- api
+- code-generator
+- playground
 
 
-1. Install a Firestitich codebase and run `npm i` in the frontend directory
-2. Run `npm i` in /npm-code-generator
-3. Run `npm i` in /npm-code-generator/frontend
-4. Run `npm i` in /npm-code-schematics
-5. cd npm-code-schematics && npm link
-6. cd /boilerplate/frontend && npm link @firestitch/schematics
-7. cd npm-code-generator && npm link
-8. cd /boilerplate/frontend && npm link @firestitch/codegenerator
+### Api Project
 
+This project constains backend part of code generator. It receives API calls from CodeGenerator in browser
+and run schematics with passed parameters.
+
+Its just simple NodeJS server
+
+### Code-generator
+
+This is frontend part of code generator. Contains Angular application
+
+### Playground
+
+Playground is a sandbox project where actual code generator can be tested.
+
+## Where is Schematics code?
+
+Schematics code placed in `/libs/schematics`
+
+
+## How to run Dev Server?
+
+Dev server is not single application and you have to start 3 different servers
+
+1. `nx serve code-generator`
+2. `nx serve api`
+3. `npm run watch:schematics`
+
+## Build & Publish
+
+Use `npm run package` for build and `npm run package:publish` for publishing your changes
 
