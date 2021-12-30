@@ -11,23 +11,14 @@
             [(ngModel)]="<%= camelize(singleModel) %>.name"
             name="name">
         </mat-form-field>
-
       </div>
     </div>
-    <div mat-dialog-actions>
-      <button
-        mat-button
-        type="submit"
-        color="primary">
-        {{<%= camelize(singleModel) %>.id ? 'Save' : 'Create'}}
-      </button>
 
-      <button
-        mat-button
-        type="button"
-        [mat-dialog-close]="undefined">
-        Cancel
-      </button>
+    <div mat-dialog-actions>
+      <fs-form-dialog-actions
+        [create]="!<%= camelize(singleModel) %>.id"
+        [close]="<%= camelize(singleModel) %>.id">
+      </fs-form-dialog-actions>
     </div>
   </fs-dialog>
 </form>
