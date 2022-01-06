@@ -764,12 +764,11 @@ export function addDialogToComponentMetadata(
     dialogRef
       .afterClosed()
       .pipe(
+        filter((${camelize(singleModelName)}) => !!${camelize(singleModelName)}),
         takeUntil(this._destroy$),
       )
       .subscribe((${camelize(singleModelName)}) => {
-        if (${camelize(singleModelName)}) {
-          this.listComponent.reload();
-        }
+        this.listComponent.reload();
       });
   }\n`;
 
@@ -793,6 +792,13 @@ export function addDialogToComponentMetadata(
       source,
       componentPath || '',
       `takeUntil`,
+      'rxjs/operators',
+      false,
+    ),
+    insertImport(
+      source,
+      componentPath || '',
+      `filter`,
       'rxjs/operators',
       false,
     ),
