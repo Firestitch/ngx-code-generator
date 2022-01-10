@@ -69,7 +69,7 @@
             "tsConfig": "apps/code-generator/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "apps/code-generator/src/favicon.ico",
+              "apps/code-generator/src/favicon.png",
               "apps/code-generator/src/assets"
             ],
             "styles": ["apps/code-generator/src/styles.scss"],
@@ -315,7 +315,7 @@
             "tsConfig": "apps/playground/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "apps/playground/src/favicon.ico",
+              "apps/playground/src/favicon.png",
               "apps/playground/src/assets"
             ],
             "styles": ["apps/playground/src/styles.scss"],
