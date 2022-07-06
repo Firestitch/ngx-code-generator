@@ -11,7 +11,8 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ConstService } from '../../services';
 import { delay } from 'rxjs/operators';
-import { startCase, lowerFirst } from 'lodash';
+import { startCase, capitalize } from 'lodash-es';
+
 
 @Component({
   selector: 'app-const-builder',
@@ -73,11 +74,12 @@ export class ConstBuilderComponent
         delay(100) // crutch
       )
       .subscribe((resource) => {
+        debugger;
         this.enumData = resource;
 
         this.items = [];
         this.enumData.members.forEach((member, index) => {
-          member = startCase(lowerFirst(member));
+          member = capitalize(startCase(member));
           this.items.push(member);
 
           this.constValue[index] = member;

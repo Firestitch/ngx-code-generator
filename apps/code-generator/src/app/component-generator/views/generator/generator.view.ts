@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FsMessage } from '@firestitch/message';
 import { FsProgressService } from '@firestitch/progress';
 import { FsPrompt } from '@firestitch/prompt';
-import { camelCase, upperFirst } from 'lodash';
+import { upperFirst } from 'lodash-es';
 import { camelize } from '@angular-devkit/core/src/utils/strings';
 
 @Component({

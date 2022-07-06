@@ -1,7 +1,7 @@
 import { Component, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { underscore } from '@angular-devkit/core/src/utils/strings';
-import { upperFirst } from 'lodash';
+import { upperFirst } from 'lodash-es';
+import { camelCase } from 'camel-case';
 
 @Component({
   selector: 'app-enum-builder',
@@ -48,7 +48,7 @@ export class EnumBuilderComponent implements OnInit, ControlValueAccessor {
 
   public underscoreName(item) {
     if (!item.value && item.name) {
-      item.value = underscore(item.name);
+      item.value = camelCase(item.name);
     }
 
     item.name = upperFirst(item.name);
