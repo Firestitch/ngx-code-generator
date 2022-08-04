@@ -196,7 +196,7 @@ export let createEnum = (req: Request, res: Response) => {
   --name=${params.name} \
   --path=/${params.module.modulePath} \
   --keys=${keys.join()} \
-  --values=${values.join()}`;
+  --values="${values.join()}"`;
 
   const cmd = `${executor} @firestitch/codegenerator:enum ${command}`;
   console.log(cmd);
