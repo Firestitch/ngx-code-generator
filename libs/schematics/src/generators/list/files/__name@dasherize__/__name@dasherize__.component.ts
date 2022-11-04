@@ -27,7 +27,7 @@ import { <%= classify(serviceName) %> } from '<%= relativeServicePath %>';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })<% } %><% if (!routableComponent) { %>
 @Component({
-  selector: 'app-<%=name%>',
+  selector: 'app-<%=dasherize(name)%>',
   templateUrl: './<%=dasherize(name)%>.component.html',
   styleUrls: ['./<%=dasherize(name)%>.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

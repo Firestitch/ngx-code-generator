@@ -520,7 +520,7 @@ function addDialogToComponent(host: Tree, options: OptionsInterface) {
   const source = ts.createSourceFile(componentFullPath, sourceText, ts.ScriptTarget.Latest, true);
 
   const relativePathToComponent = options.parentType === 'component'
-    ? `../${options.name}`
+    ? `../${dasherize(options.name)}`
     : '../../components';
 
   const changes = addDialogToComponentMetadata(

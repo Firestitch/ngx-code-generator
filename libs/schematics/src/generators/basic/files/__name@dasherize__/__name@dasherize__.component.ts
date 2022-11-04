@@ -20,7 +20,7 @@ import { takeUntil } from 'rxjs/operators';<% } %><% if(titledComponent || route
   styleUrls: ['./<%=dasherize(name)%>.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class <%= classify(name) %>Component<% if (titledComponent || routeObserver) { %> implements OnInit <%}%>{
+export class <%= classify(name) %>Component<% if (titledComponent || routeObserver) { %> implements OnInit <%}%> {
 <%if (routeObserver) { %>
   public data: any;
 
