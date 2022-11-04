@@ -2,18 +2,21 @@
   "version": 2,
   "projects": {
     "api": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "root": "apps/api",
       "sourceRoot": "apps/api/src",
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/node:build",
+          "executor": "@nrwl/webpack:webpack",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": ["apps/api/src/assets"]
+            "assets": ["apps/api/src/assets"],
+            "target": "node",
+            "compiler": "tsc"
           },
           "configurations": {
             "production": {
@@ -30,7 +33,7 @@
           }
         },
         "serve": {
-          "executor": "@nrwl/node:execute",
+          "executor": "@nrwl/node:node",
           "options": {
             "buildTarget": "api:build",
             "args": ["--root", "apps/playground"]
@@ -40,19 +43,21 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/api/**/*.ts"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/apps/api"],
           "options": {
-            "jestConfig": "apps/api/jest.config.js",
+            "jestConfig": "apps/api/jest.config.ts",
             "passWithNoTests": true
           }
         }
       }
     },
     "code-generator": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "projectType": "application",
       "root": "apps/code-generator",
       "sourceRoot": "apps/code-generator/src",
@@ -136,19 +141,21 @@
               "apps/code-generator/src/**/*.ts",
               "apps/code-generator/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/apps/code-generator"],
           "options": {
-            "jestConfig": "apps/code-generator/jest.config.js",
+            "jestConfig": "apps/code-generator/jest.config.ts",
             "passWithNoTests": true
           }
         }
       }
     },
     "fake-backend": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "projectType": "library",
       "root": "libs/fake-backend",
       "sourceRoot": "libs/fake-backend/src",
@@ -158,7 +165,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/fake-backend"],
           "options": {
-            "jestConfig": "libs/fake-backend/jest.config.js",
+            "jestConfig": "libs/fake-backend/jest.config.ts",
             "passWithNoTests": true
           }
         },
@@ -169,11 +176,13 @@
               "libs/fake-backend/src/**/*.ts",
               "libs/fake-backend/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
     "generator-code": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "projectType": "library",
       "root": "libs/generator-code",
       "sourceRoot": "libs/generator-code/src",
@@ -183,7 +192,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/generator-code"],
           "options": {
-            "jestConfig": "libs/generator-code/jest.config.js",
+            "jestConfig": "libs/generator-code/jest.config.ts",
             "passWithNoTests": true
           }
         },
@@ -194,11 +203,13 @@
               "libs/generator-code/src/**/*.ts",
               "libs/generator-code/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
     "generator-logs": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "projectType": "library",
       "root": "libs/generator-logs",
       "sourceRoot": "libs/generator-logs/src",
@@ -208,7 +219,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/generator-logs"],
           "options": {
-            "jestConfig": "libs/generator-logs/jest.config.js",
+            "jestConfig": "libs/generator-logs/jest.config.ts",
             "passWithNoTests": true
           }
         },
@@ -219,11 +230,13 @@
               "libs/generator-logs/src/**/*.ts",
               "libs/generator-logs/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
     "generator-preview": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "projectType": "library",
       "root": "libs/generator-preview",
       "sourceRoot": "libs/generator-preview/src",
@@ -233,7 +246,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/generator-preview"],
           "options": {
-            "jestConfig": "libs/generator-preview/jest.config.js",
+            "jestConfig": "libs/generator-preview/jest.config.ts",
             "passWithNoTests": true
           }
         },
@@ -244,11 +257,13 @@
               "libs/generator-preview/src/**/*.ts",
               "libs/generator-preview/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
     "models-autocomplete": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "projectType": "library",
       "root": "libs/models-autocomplete",
       "sourceRoot": "libs/models-autocomplete/src",
@@ -258,7 +273,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/models-autocomplete"],
           "options": {
-            "jestConfig": "libs/models-autocomplete/jest.config.js",
+            "jestConfig": "libs/models-autocomplete/jest.config.ts",
             "passWithNoTests": true
           }
         },
@@ -269,11 +284,13 @@
               "libs/models-autocomplete/src/**/*.ts",
               "libs/models-autocomplete/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
     "modules-autocomplete": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "projectType": "library",
       "root": "libs/modules-autocomplete",
       "sourceRoot": "libs/modules-autocomplete/src",
@@ -283,7 +300,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/modules-autocomplete"],
           "options": {
-            "jestConfig": "libs/modules-autocomplete/jest.config.js",
+            "jestConfig": "libs/modules-autocomplete/jest.config.ts",
             "passWithNoTests": true
           }
         },
@@ -294,11 +311,13 @@
               "libs/modules-autocomplete/src/**/*.ts",
               "libs/modules-autocomplete/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
     "playground": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "projectType": "application",
       "root": "apps/playground",
       "sourceRoot": "apps/playground/src",
@@ -379,19 +398,21 @@
               "apps/playground/src/**/*.ts",
               "apps/playground/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/apps/playground"],
           "options": {
-            "jestConfig": "apps/playground/jest.config.js",
+            "jestConfig": "apps/playground/jest.config.ts",
             "passWithNoTests": true
           }
         }
       }
     },
     "playground-e2e": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "root": "apps/playground-e2e",
       "sourceRoot": "apps/playground-e2e/src",
       "projectType": "application",
@@ -413,17 +434,19 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/playground-e2e/**/*.{js,ts}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     },
     "schematics": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "root": "libs/schematics",
       "sourceRoot": "libs/schematics/src",
       "projectType": "library",
       "targets": {
         "build": {
-          "executor": "@nrwl/node:package",
+          "executor": "@nrwl/js:tsc",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/libs/schematics",
@@ -437,19 +460,21 @@
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["libs/schematics/**/*.ts"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/schematics"],
           "options": {
-            "jestConfig": "libs/schematics/jest.config.js",
+            "jestConfig": "libs/schematics/jest.config.ts",
             "passWithNoTests": true
           }
         }
       }
     },
     "util-pipes": {
+      "$schema": "../../node_modules/nx/schemas/project-schema.json",
       "projectType": "library",
       "root": "libs/util-pipes",
       "sourceRoot": "libs/util-pipes/src",
@@ -459,7 +484,7 @@
           "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/util-pipes"],
           "options": {
-            "jestConfig": "libs/util-pipes/jest.config.js",
+            "jestConfig": "libs/util-pipes/jest.config.ts",
             "passWithNoTests": true
           }
         },
@@ -470,29 +495,11 @@
               "libs/util-pipes/src/**/*.ts",
               "libs/util-pipes/src/**/*.html"
             ]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
       }
     }
   },
-  "cli": {
-    "defaultCollection": "@nrwl/node"
-  },
-  "defaultProject": "api",
-  "generators": {
-    "@nrwl/angular:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    },
-    "@nrwl/angular:library": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest"
-    },
-    "@nrwl/angular:component": {
-      "style": "scss"
-    }
-  }
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }

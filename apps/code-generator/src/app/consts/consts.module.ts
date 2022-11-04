@@ -23,30 +23,28 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    GeneratorCodeModule,
-    NgArrayPipesModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    MatProgressSpinnerModule,
-    MatCardModule,
-    MatButtonModule,
-    MatInputModule,
-    FsLabelModule,
-    FsAutocompleteModule,
-    ConstsRoutingModule,
-
-    ModulesAutocompleteModule,
-  ],
-  declarations: [
-    ConstsView,
-    ConstBuilderComponent,
-    GenerateConstComponent,
-    EnumsListComponent,
-  ],
-  entryComponents: [],
-  providers: [],
+    imports: [
+        CommonModule,
+        FormsModule,
+        GeneratorCodeModule,
+        NgArrayPipesModule,
+        MatTooltipModule,
+        MatFormFieldModule,
+        MatProgressSpinnerModule,
+        MatCardModule,
+        MatButtonModule,
+        MatInputModule,
+        FsLabelModule,
+        FsAutocompleteModule,
+        ConstsRoutingModule,
+        ModulesAutocompleteModule,
+    ],
+    declarations: [
+        ConstsView,
+        ConstBuilderComponent,
+        GenerateConstComponent,
+        EnumsListComponent,
+    ],
+    providers: []
 })
 export class ConstsModule {}

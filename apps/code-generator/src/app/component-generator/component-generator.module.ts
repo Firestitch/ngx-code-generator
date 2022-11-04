@@ -29,37 +29,34 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
-  imports: [
-    FormsModule,
-    NgArrayPipesModule,
-    GeneratorPreviewModule,
-    GeneratorLogsModule,
-    MatTooltipModule,
-    ComponentGeneratorRoutingModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatSelectModule,
-    MatInputModule,
-    FsLabelModule,
-    FsAutocompleteModule,
-    MatProgressSpinnerModule,
-    MatDialogModule,
-    MatTabsModule,
-    MatCheckboxModule,
-    CommonModule,
-    ModulesAutocompleteModule,
-  ],
-  declarations: [
-    GeneratorView,
-    GeneratorFormComponent,
-
-    ServicesListComponent,
-    CreateServiceDialogComponent,
-
-    ServiceListItemPipe,
-  ],
-  entryComponents: [CreateServiceDialogComponent],
-  providers: [ServicesService],
+    imports: [
+        FormsModule,
+        NgArrayPipesModule,
+        GeneratorPreviewModule,
+        GeneratorLogsModule,
+        MatTooltipModule,
+        ComponentGeneratorRoutingModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatCardModule,
+        MatSelectModule,
+        MatInputModule,
+        FsLabelModule,
+        FsAutocompleteModule,
+        MatProgressSpinnerModule,
+        MatDialogModule,
+        MatTabsModule,
+        MatCheckboxModule,
+        CommonModule,
+        ModulesAutocompleteModule,
+    ],
+    declarations: [
+        GeneratorView,
+        GeneratorFormComponent,
+        ServicesListComponent,
+        CreateServiceDialogComponent,
+        ServiceListItemPipe,
+    ],
+    providers: [ServicesService]
 })
 export class ComponentGeneratorModule {}

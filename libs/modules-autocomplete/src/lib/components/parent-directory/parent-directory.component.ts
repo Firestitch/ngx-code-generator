@@ -47,7 +47,7 @@ export class ParentDirectoryComponent implements OnInit, AfterViewInit, ControlV
   @ViewChild('input', { static: true })
   public inputRef: ElementRef;
 
-  private _destroy$ = new Subject();
+  private _destroy$ = new Subject<void>();
 
   constructor(
     private _message: FsMessage,

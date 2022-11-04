@@ -22,31 +22,28 @@ import { ModuleListItemPipe } from './pipes';
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatTooltipModule,
-    MatAutocompleteModule,
-    MatDialogModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FsAutocompleteModule,
-  ],
-  declarations: [
-    ModulesListComponent,
-    CreateModuleDialogComponent,
-    ModuleListItemPipe,
-    ParentDirectoryComponent,
-  ],
-  entryComponents: [
-    CreateModuleDialogComponent,
-  ],
-  exports: [
-    ModulesListComponent,
-  ]
+    imports: [
+        CommonModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
+        MatDialogModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FsAutocompleteModule,
+    ],
+    declarations: [
+        ModulesListComponent,
+        CreateModuleDialogComponent,
+        ModuleListItemPipe,
+        ParentDirectoryComponent,
+    ],
+    exports: [
+        ModulesListComponent,
+    ]
 })
 export class ModulesAutocompleteModule {
 }

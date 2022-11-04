@@ -9,5 +9,45 @@
     "clean": "rimraf ../../dist/schematics",
     "copy:files": "copyfiles -u 1 \"src/**/files/**/*\" ../../dist/schematics",
     "copy:json": "copyfiles -u 1 \"src/**/*.json\" ../../dist/schematics"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "executor": "@nrwl/js:tsc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "dist/libs/schematics",
+          "tsConfig": "libs/schematics/tsconfig.lib.json",
+          "packageJson": "libs/schematics/package.json",
+          "main": "libs/schematics/src/index.ts",
+          "assets": [
+            "libs/schematics/*.md"
+          ]
+        }
+      },
+      "lint": {
+        "executor": "@nrwl/linter:eslint",
+        "options": {
+          "lintFilePatterns": [
+            "libs/schematics/**/*.ts"
+          ]
+        },
+        "outputs": [
+          "{options.outputFile}"
+        ]
+      },
+      "test": {
+        "executor": "@nrwl/jest:jest",
+        "outputs": [
+          "{workspaceRoot}/coverage/libs/schematics"
+        ],
+        "options": {
+          "jestConfig": "libs/schematics/jest.config.ts",
+          "passWithNoTests": true
+        }
+      }
+    }
   }
 }

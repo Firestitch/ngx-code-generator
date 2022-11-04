@@ -283,7 +283,7 @@ function insertConstructorMember(
 ): Change {
   const componentClass = findNodes(source, ts.SyntaxKind.ClassDeclaration)
     .find((node: ts.ClassDeclaration) => {
-      return node.decorators.length
+      return node.modifiers.length
     });
 
   const classConstructor: ts.ConstructorTypeNode

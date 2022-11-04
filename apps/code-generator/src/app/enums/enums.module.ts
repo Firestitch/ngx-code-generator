@@ -18,24 +18,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgArrayPipesModule,
-    GeneratorCodeModule,
-    MatTooltipModule,
-    MatCardModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatIconModule,
-    FsLabelModule,
-    EnumsRoutingModule,
-
-    ModulesAutocompleteModule,
-  ],
-  declarations: [EnumsView, EnumBuilderComponent, GenerateEnumComponent],
-  entryComponents: [],
-  providers: [],
+    imports: [
+        CommonModule,
+        FormsModule,
+        NgArrayPipesModule,
+        GeneratorCodeModule,
+        MatTooltipModule,
+        MatCardModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatIconModule,
+        FsLabelModule,
+        EnumsRoutingModule,
+        ModulesAutocompleteModule,
+    ],
+    declarations: [EnumsView, EnumBuilderComponent, GenerateEnumComponent],
+    providers: []
 })
 export class EnumsModule {}
