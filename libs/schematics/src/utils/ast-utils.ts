@@ -663,7 +663,7 @@ export function addDialogToComponentMetadata(
 
   const componentClass = findNodes(source, ts.SyntaxKind.ClassDeclaration)
     .find((node: any) => {
-      return node.decorators.length
+      return node.modifiers.length
     });
 
   const classConstructor: any = findNodes(componentClass, ts.SyntaxKind.Constructor).pop();
