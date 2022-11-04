@@ -768,7 +768,7 @@ export function addDialogToComponentMetadata(
         takeUntil(this._destroy$),
       )
       .subscribe((${camelize(singleModelName)}) => {
-        this.listComponent.reload();
+        this.list.reload();
       });
   }\n`;
 

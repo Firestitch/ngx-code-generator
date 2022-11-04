@@ -2,9 +2,9 @@
   <form fsForm [submit]="save" *fsSkeletonForm="<%= camelize(singleModel) %>">
       <div fxLayout="column">
         <mat-form-field>
+          <mat-label>Name</mat-label>
           <input
             matInput
-            placeholder="Name"
             [(ngModel)]="<%= camelize(singleModel) %>.name"
             name="name">
         </mat-form-field>

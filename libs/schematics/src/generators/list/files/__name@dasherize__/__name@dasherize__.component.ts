@@ -35,7 +35,7 @@ import { <%= classify(serviceName) %> } from '<%= relativeServicePath %>';
 export class <%= classify(name) %>Component implements OnInit {
 
   @ViewChild(FsListComponent)
-  public listComponent: FsListComponent;
+  public list: FsListComponent;
 
   public listConfig: FsListConfig;<%if (routeObserver) { %>
   public data: any;
@@ -85,7 +85,6 @@ export class <%= classify(name) %>Component implements OnInit {
             title: 'Confirm',
             template: 'Are you sure you would like to delete this record?',
           },
-          menu: true,
           label: 'Delete',
         },
       ],
