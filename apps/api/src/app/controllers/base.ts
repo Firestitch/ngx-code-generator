@@ -394,9 +394,11 @@ export let generateModule = (req: Request, res: Response) => {
     return;
   }
 
+  const modulePath = path.join(srcPath, params.modulePath)
+
   const command = `\
   --name=${params.name} \
-  --path=${params.modulePath} \
+  --path=${modulePath} \
   --routing=${params.routing}`;
 
   const cmd = `${executor} @firestitch/codegenerator:module ${command}`;

@@ -27,9 +27,6 @@ export function create(options: any): Rule {
       options.project = Object.keys(workspace.projects)[0];
     }
 
-    const level = options.path.split('/')
-      .filter((val) => !!val).length;
-
     const pathParts = options.path.split('/');
 
     const newPath = pathParts
@@ -40,7 +37,6 @@ export function create(options: any): Rule {
       }, []);
 
     options.path = [
-      'src',
       ...pathParts.slice(0, 2),
       ...newPath,
     ]
