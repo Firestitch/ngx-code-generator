@@ -99,17 +99,16 @@ export function create(options: any): Rule {
     const rule = chain([
       branchAndMerge(chain([
         mergeWith(templateSource),
-        addDeclarationToNgModule(customOptions, !!options.includedModuleExports),
         importModulesToNgModule(customOptions, [
           ['FormsModule', '@angular/forms'],
           ['MatDialogModule', '@angular/material/dialog'],
-          ['FlexLayoutModule', '@angular/flex-layout'],
           ['MatButtonModule', '@angular/material/button'],
           ['FsListModule', '@firestitch/list'],
           ['FsDialogModule', '@firestitch/dialog'],
           ['FsFormModule', '@firestitch/form'],
           ['FsSkeletonModule', '@firestitch/skeleton'],
         ]),
+        addDeclarationToNgModule(customOptions, !!options.includedModuleExports),
         addToParent ? addDialogToParentComponent(options) : noop(),
         updateIndexFile(options, ExpansionType.Component),
         routable ? addResolverSchematic(options) : noop(),

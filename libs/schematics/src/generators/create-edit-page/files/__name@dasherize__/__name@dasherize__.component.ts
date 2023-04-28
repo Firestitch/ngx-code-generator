@@ -18,7 +18,7 @@ import { <%= classify(serviceName) %> } from '<%= relativeServicePath %>';
 })
 export class <%= classify(name) %>Component implements OnInit, OnDestroy {
 
-  public <%= camelize(singleModel) %>: any = null;
+  public <%= camelize(singleModel) %>: any;
 
   private _routeObserver$ = new RouteObserver(this._route, '<%= camelize(singleModel) %>');
   private _destroy$ = new Subject();

@@ -51,19 +51,17 @@ export class GeneratorView {
               template: `<pre><code>constructor(private _dialog: MatDialog) {}
 
 public open() {
-  const dialogRef = this._dialog.open(${upperFirst(
+  this._dialog.open(${upperFirst(
     camelize(this.formData.componentName + 'Component')
   )}, {
     data: { },
-  });
-
-  dialogRef.afterClosed()
-  .pipe(
-    takeUntil(this._destroy$),
-  )
-  .subscribe((response) => {
-
-  });
+  })
+    .afterClosed()
+    .pipe(
+      takeUntil(this._destroy$),
+    )
+    .subscribe((response) => {
+    });
 }</code></pre>`.replace(' ', '&nbsp;'),
             })
             .subscribe(() => {});
