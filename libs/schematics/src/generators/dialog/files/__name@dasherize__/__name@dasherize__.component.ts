@@ -19,6 +19,10 @@ export class <%= classify(name) %>Component {
     private _cdRef: ChangeDetectorRef,
   ) {}
 
+  public close(value?): void {
+    this._dialogRef.close(value);
+  }
+
   public save = () => {
     return of(true)
       .pipe(

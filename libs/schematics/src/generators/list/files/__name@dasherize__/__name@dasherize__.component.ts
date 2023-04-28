@@ -58,6 +58,10 @@ export class <%= classify(name) %>Component implements OnInit {
     this._initListConfig();
   }
 
+  public reload(): void {
+    this.list.reload();
+  }
+
   private _initListConfig(): void {
     this.listConfig = {
       filters: [

@@ -2,16 +2,15 @@
   <fs-dialog>
     <h1 mat-dialog-title>Dialog Title</h1>
     <mat-dialog-content>
-      <div fxLayout="column">
-        <mat-form-field>
-          <mat-label>Input</mat-label>
+      <!-- 
+        <mat-form-field class="full-width">
+          <mat-label>Name</mat-label>
           <input
-            [(ngModel)]="input"
-            name="input"
             matInput
-            [required]="true">
-        </mat-form-field>
-      </div>
+            [(ngModel)]="<%= camelize(singleModel) %>.name"
+            name="name">
+        </mat-form-field> 
+      -->
     </mat-dialog-content>
     <mat-dialog-actions>
       <fs-form-dialog-actions

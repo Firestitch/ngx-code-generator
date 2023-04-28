@@ -757,19 +757,15 @@ export function addDialogToComponentMetadata(
   }
 
   const toInsert = `\n\n  public ${dialogMethodName}(${camelize(singleModelName)}: any): void {
-    const dialogRef = this._${dialogVarName}.open(${classify(singleName)}Component, {
+    this._${dialogVarName}.open(${classify(singleName)}Component, {
       data: { ${camelize(singleModelName)} },
-    });
-
-    dialogRef
+    })
       .afterClosed()
       .pipe(
-        filter((${camelize(singleModelName)}) => !!${camelize(singleModelName)}),
+        filter((response) => !!response),
         takeUntil(this._destroy$),
       )
-      .subscribe((${camelize(singleModelName)}) => {
-        this.list.reload();
-      });
+      .subscribe(() => this.reload());
   }\n`;
 
   changes.push(
@@ -813,7 +809,6 @@ export function addDialogToComponentMetadata(
   );
   return changes;
 }
-
 
 /**
  * Custom function to insert a declaration (component, pipe, directive)

@@ -55,6 +55,10 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
       );
   };
 
+  public close(value?): void {
+    this._dialogRef.close(value);
+  }
+
   private _fetchData(): void {
     of(this._data.<%= camelize(singleModel) %>)
       .pipe(

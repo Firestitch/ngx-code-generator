@@ -2,17 +2,15 @@
   <fs-dialog>
     <h1 mat-dialog-title>{{<%= camelize(singleModel) %>.id ? '<%= capitalize(startCase(singleModel)) %>' : 'Create <%= capitalize(startCase(singleModel)) %>'}}</h1>
     <div mat-dialog-content>
-
-      <div fxLayout="column">
-        <mat-form-field>
+      <!-- 
+        <mat-form-field class="full-width">
           <mat-label>Name</mat-label>
-
           <input
             matInput
             [(ngModel)]="<%= camelize(singleModel) %>.name"
             name="name">
-        </mat-form-field>
-      </div>
+        </mat-form-field> 
+      -->
     </div>
 
     <div mat-dialog-actions>

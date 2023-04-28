@@ -1,14 +1,14 @@
 <mat-card>
   <form fsForm [submit]="save" *fsSkeletonForm="<%= camelize(singleModel) %>">
-      <div fxLayout="column">
-        <mat-form-field>
+      <!-- 
+        <mat-form-field class="full-width">
           <mat-label>Name</mat-label>
           <input
             matInput
             [(ngModel)]="<%= camelize(singleModel) %>.name"
             name="name">
-        </mat-form-field>
-      </div>
+        </mat-form-field> 
+      -->
 
       <button
         mat-raised-button
