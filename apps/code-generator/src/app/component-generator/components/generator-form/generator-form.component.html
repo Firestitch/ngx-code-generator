@@ -7,10 +7,10 @@
       ></app-modules-list>
 
       <mat-form-field>
+        <mat-label>Pattern</mat-label>
         <mat-select
           [(ngModel)]="model.interfacePattern"
           (selectionChange)="interfacePatternChanged()"
-          placeholder="Pattern"
           name="interfacePattern"
           required
         >
@@ -51,11 +51,11 @@
           hasListInterface
         "
       >
+        <mat-label>Name</mat-label>
         <input
           matInput
           [(ngModel)]="model.componentName"
           (ngModelChange)="componentNameChange()"
-          placeholder="Name"
           name="componentName"
           #componentName="ngModel"
           required
@@ -83,10 +83,12 @@
 
       <ng-container *ngIf="hasCreateEditInterface">
         <mat-form-field>
+          <mat-label>
+            Name
+          </mat-label>
           <input
             matInput
             [(ngModel)]="model.createEditComponentName"
-            placeholder="Name"
             name="createEditComponentName"
             #createEditComponentName="ngModel"
             required
@@ -98,9 +100,11 @@
         </mat-form-field>
 
         <mat-form-field>
+          <mat-label>
+            Interface
+          </mat-label>
           <mat-select
             [(ngModel)]="model.createEditInterfacePattern"
-            placeholder="Interface"
             name="createEditInterfacePattern"
             (ngModelChange)="createEditInterfaceChanged()"
             required
@@ -128,9 +132,11 @@
           "
         >
           <mat-form-field>
+            <mat-label>
+              Related Parent Type
+            </mat-label>
             <mat-select
               [(ngModel)]="model.relatedParentType"
-              placeholder="Related Parent Type"
               name="relatedParentType"
               required
             >
@@ -146,10 +152,12 @@
               model.relatedParentType === 'view'
             "
           >
+            <mat-label>
+              Related Parent Name
+            </mat-label>
             <input
               matInput
               [(ngModel)]="model.componentName"
-              placeholder="Related Parent Name"
               name="componentName"
               #componentName="ngModel"
               autocomplete="off"
@@ -176,10 +184,12 @@
 
         <ng-container *ngIf="hasListInterface || hasCreateEditInterface">
           <mat-form-field>
+            <mat-label>
+              Singular Model Name
+            </mat-label>
             <input
               matInput
               [(ngModel)]="model.singularModelName"
-              placeholder="Singular Model Name"
               name="singularModelName"
               #singularModelName="ngModel"
               required
@@ -191,10 +201,12 @@
           </mat-form-field>
 
           <mat-form-field>
+            <mat-label>
+              Plural Model Name
+            </mat-label>
             <input
               matInput
               [(ngModel)]="model.pluralModelName"
-              placeholder="Plural Model Name"
               name="pluralModelName"
               #pluralModelName="ngModel"
               required="true"

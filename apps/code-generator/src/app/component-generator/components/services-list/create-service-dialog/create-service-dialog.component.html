@@ -11,16 +11,21 @@
     </app-modules-list>
 
     <mat-form-field *ngIf="!hidePath">
-      <mat-select [(ngModel)]="model.subdirectory" placeholder="Type">
+      <mat-label>
+        Type
+      </mat-label>
+      <mat-select [(ngModel)]="model.subdirectory">
         <mat-option [value]="'/data'">Data</mat-option>
         <mat-option [value]="'/services'">Generic</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field>
+      <mat-label>
+        Singular Name
+      </mat-label>
       <input
         matInput
-        placeholder="Singular Name"
         [(ngModel)]="model.singularName"
         (ngModelChange)="changedSingularName()"
         (blur)="toCamelCase()"
@@ -28,9 +33,11 @@
     </mat-form-field>
 
     <mat-form-field>
+      <mat-label>
+        Plural Name
+      </mat-label>
       <input
         matInput
-        placeholder="Plural Name"
         [(ngModel)]="model.pluralName"
         (blur)="toCamelCase()"
       />

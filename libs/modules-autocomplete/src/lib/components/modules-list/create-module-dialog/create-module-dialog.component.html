@@ -5,7 +5,11 @@
     <app-parent-directory [(ngModel)]="model.modulePath" name="modulePath"></app-parent-directory>
 
     <mat-form-field>
-      <input matInput placeholder="Module Name"
+      <mat-label>
+        Module Name
+      </mat-label>
+
+      <input matInput
              [(ngModel)]="model.name" name="name">
     </mat-form-field>
 

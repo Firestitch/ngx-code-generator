@@ -2,11 +2,13 @@
 <div class="values-container">
   <div class="enum-item" *ngFor="let item of items">
     <mat-form-field class="name">
+      <mat-label>
+        Name
+      </mat-label>
       <input
         matInput
         [(ngModel)]="item.name"
         (blur)="underscoreName(item)"
-        placeholder="Name"
         name="Name"
         required
       />
@@ -15,11 +17,13 @@
     <span class="separator"> = </span>
 
     <mat-form-field class="value">
+      <mat-label>
+        Textual Value
+      </mat-label>
       <input
         matInput
         [(ngModel)]="item.value"
         (keydown.Tab)="moreItems()"
-        placeholder="Textual Value"
         name="Value"
         required
       />

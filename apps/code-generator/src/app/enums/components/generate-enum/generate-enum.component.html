@@ -8,10 +8,12 @@
 
       <ng-container *ngIf="model.module">
         <mat-form-field>
+          <mat-label>
+            Name
+          </mat-label>
           <input
             matInput
             [(ngModel)]="model.name"
-            placeholder="Name"
             name="componentName"
             #name="ngModel"
             required

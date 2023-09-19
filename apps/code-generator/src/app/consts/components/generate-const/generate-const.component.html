@@ -21,10 +21,12 @@
         </app-enums-list>
 
         <mat-form-field>
+          <mat-label>
+            Constant Name
+          </mat-label>
           <input
             matInput
             [(ngModel)]="model.name"
-            placeholder="Constant Name"
             name="componentName"
             #name="ngModel"
             required
