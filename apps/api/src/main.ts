@@ -13,17 +13,12 @@ const args = require('minimist')(process.argv.slice(2));
  * Start Express server.
  */
 
-const targetProject = args.project || '';
-let angularJSONRoot, angularJSONSource;
+const [configRootPath, configSrcPath] = getAngularProjectPaths(args.project || '');
 
-if (targetProject !== '') {
-  [angularJSONRoot, angularJSONSource] = getAngularProjectPaths();
-}
-
-export const rootPath = args.root || angularJSONRoot || '';
+export const rootPath = args.root || configRootPath || '';
 const defaultSrcPath = rootPath ? rootPath + '/src' : 'src'
 
-export const srcPath = angularJSONSource || defaultSrcPath;
+export const srcPath = configSrcPath || defaultSrcPath;
 
 const server = app.listen(app.get('port'), () => {
   console.log(
@@ -34,9 +29,17 @@ const server = app.listen(app.get('port'), () => {
   console.log('  Press CTRL-C to stop\n');
 });
 
-function getAngularProjectPaths(): [string, string] {
+function getAngularProjectPaths(targetProject: string): [string, string] {
   const rawAngularJSON = fs.readFileSync('angular.json');
   const angularJSONData = JSON.parse(rawAngularJSON.toString())
+  if (!targetProject) {
+    targetProject = angularJSONData.defaultProject;
+
+    if (!targetProject) {
+      targetProject = Object.keys(angularJSONData.projects)[0];
+    }
+  }
+
   const projectData = angularJSONData.projects[targetProject];
 
   if (!projectData) {
