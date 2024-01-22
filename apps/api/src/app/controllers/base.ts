@@ -50,10 +50,10 @@ export let index = (req: Request, res: Response) => {
   --name=${params.componentName} \
   --module=${params.module.moduleName} \
   --path=/${params.module.modulePath} \
-  --includedModuleExports=${params.includedModuleExports} \
-  --routableComponent=${params.routableComponent} \
-  --routeObserver=${params.routeObserver} \
-  --titledComponent=${params.titledComponent || false}`;
+  --included-module-exports=${params.includedModuleExports} \
+  --routable-component=${params.routableComponent} \
+  --route-observer=${params.routeObserver} \
+  --titled-component=${params.titledComponent || false}`;
 
   let schema = '';
   switch (params.interfacePattern) {
@@ -62,9 +62,9 @@ export let index = (req: Request, res: Response) => {
         schema = 'list';
         command += `\
       --service=${params.service.singularName} \
-      --servicePath=/${params.service.servicePath} \
-      --pluralModel=${params.pluralModelName} \
-      --singleModel=${params.singularModelName}`;
+      --service-path=/${params.service.servicePath} \
+      --plural-model=${params.pluralModelName} \
+      --single-model=${params.singularModelName}`;
       }
       break;
 
@@ -73,14 +73,14 @@ export let index = (req: Request, res: Response) => {
         schema = 'list';
         command += `\
       --mode=${params.createEditInterfacePattern}\
-      --parentName=${params.componentName} \
-      --singleName=${params.createEditComponentName} \
+      --parent-name=${params.componentName} \
+      --single-name=${params.createEditComponentName} \
       --service=${params.service.singularName} \
-      --servicePath=/${params.service.servicePath} \
-      --pluralModel=${params.pluralModelName} \
-      --singleModel=${params.singularModelName} \
-      --titledCreateComponent=${params.titledCreateComponent || false} \
-      --routableCreateComponent=${params.routableCreateComponent}`;
+      --service-path=/${params.service.servicePath} \
+      --plural-model=${params.pluralModelName} \
+      --single-model=${params.singularModelName} \
+      --titled-create-component=${params.titledCreateComponent || false} \
+      --routable-create-component=${params.routableCreateComponent}`;
       }
       break;
 
@@ -95,17 +95,17 @@ export let index = (req: Request, res: Response) => {
         command = `\
       --mode=${params.createEditInterfacePattern}\
       --module=/${params.module.moduleFullPath} \
-      --secondLevel=true \
+      --second-level=true \
       --path=/${params.module.modulePath} \
-      --parentName=${params.componentName} \
-      --parentType=${params.relatedParentType} \
+      --parent-name=${params.componentName} \
+      --parent-type=${params.relatedParentType} \
       --name=${params.createEditComponentName} \
       --service=${params.service.singularName} \
-      --servicePath=/${params.service.servicePath} \
-      --singleModel=${params.singularModelName} \
-      --titledCreateComponent=${params.titledCreateComponent || false} \
-      --routableCreateComponent=${params.routableCreateComponent} \
-      --titledComponent=${params.titledComponent || false}`;
+      --service-path=/${params.service.servicePath} \
+      --single-model=${params.singularModelName} \
+      --titled-create-component=${params.titledCreateComponent || false} \
+      --routable-create-component=${params.routableCreateComponent} \
+      --titled-component=${params.titledComponent || false}`;
       }
       break;
 
@@ -260,8 +260,8 @@ export let createConst = (req: Request, res: Response) => {
   const command = `\
   --name=${params.name} \
   --path=/${params.module.modulePath} \
-  --enumName=${params.enumData.name} \
-  --enumPath=/${params.enum.enumPath} \
+  --enum-name=${params.enumData.name} \
+  --enum-path=/${params.enum.enumPath} \
   --keys=${keys.join()} \
   --values="${values.join()}"`;
 
@@ -336,8 +336,8 @@ export let generateService = (req: Request, res: Response) => {
   --module=${params.module.moduleName} \
   --path=/${params.module.modulePath} \
   --subdirectory=${params.subdirectory} \
-  --pluralName=${params.pluralName} \
-  --menuService`;
+  --plural-name=${params.pluralName} \
+  --menu-service`;
 
   const cmd = `${executor} @firestitch/codegenerator:service ${command}`;
   console.log(cmd);
