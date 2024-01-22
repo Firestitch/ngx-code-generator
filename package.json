@@ -40,6 +40,7 @@
   },
   "schematics": "./schematics/collection.json",
   "dependencies": {
+    "@angular-devkit/schematics-cli": "^14.2.13",
     "@angular/animations": "14.2.9",
     "@angular/common": "14.2.9",
     "@angular/compiler": "14.2.9",

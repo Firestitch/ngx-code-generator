@@ -15,9 +15,7 @@ import { sanitizepath } from '../helpers/sanitize-path';
 import { PatternType } from '../enums/pattern-type.enum';
 import { findDirectoryModules } from '../helpers/find-directory-modules';
 
-const executor = process.env.NODE_ENV === 'development'
-  ? '$(which schematics)'
-  : 'ng g';
+const executor = '$(which schematics)';
 
 /**
  * GET /
