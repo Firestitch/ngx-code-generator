@@ -15,7 +15,7 @@ import { sanitizepath } from '../helpers/sanitize-path';
 import { PatternType } from '../enums/pattern-type.enum';
 import { findDirectoryModules } from '../helpers/find-directory-modules';
 
-const executor = '$(which schematics)';
+const executor = 'npx schematics';
 
 /**
  * GET /
