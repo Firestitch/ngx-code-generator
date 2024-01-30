@@ -10,7 +10,7 @@ export async function findDirectoryModules(modulePath: string) {
   }
 
   if (level === 0) {
-    return await ['/app', '/libs'];
+    return await ['/app', '/libs', '/common'];
   } else {
     return getChildDirectories(modulePath);
   }

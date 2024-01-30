@@ -33,6 +33,7 @@
     "cleanup-dist": "rimraf dist",
     "copy:bin": "copyfiles -u 0 \"./bin/*\" ./dist/",
     "copy:package-json": "node scripts/copy-package-json.js --packageDir=./dist --packageJson=./package.json --src=./dist",
+    "copy:schema": "copyfiles -f \"./libs/schema/*\" ./dist/schema/",
     "package:publish": "npm publish ./dist --access=public"
   },
   "bin": {

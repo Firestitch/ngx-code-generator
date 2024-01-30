@@ -30,7 +30,7 @@ export function create(options: any): Rule {
     const pathParts = options.path.split('/');
 
     const newPath = pathParts
-      .slice(2, pathParts.length - 1)
+      .slice(2, pathParts.length)
       .reduce((acc, part) => {
         acc.push(part);
         return acc;

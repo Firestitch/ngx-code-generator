@@ -10,12 +10,14 @@ import {
 } from '../helpers';
 import { fixErrorResponseMessage } from '../helpers/fix-error-response-message';
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
-import { srcPath, rootPath } from '../../main';
+import { srcPath, rootPath, commonPath } from '../../main';
 import { sanitizepath } from '../helpers/sanitize-path';
 import { PatternType } from '../enums/pattern-type.enum';
 import { findDirectoryModules } from '../helpers/find-directory-modules';
 
-const executor = 'npx schematics';
+const executor = process.env.NODE_ENV === 'development'
+  ? '$(which schematics)'
+  : 'npx schematics'
 
 /**
  * GET /
@@ -272,20 +274,17 @@ export let createConst = (req: Request, res: Response) => {
   exec(cmd, { }, execHandler);
 };
 
-export let modulesList = (req: Request, res: Response) => {
-  const currentPath = path.relative(process.cwd(), srcPath);
-
-  findAllModules(currentPath).then((modules) => {
-    try {
-      res.json({
-        modules: modules,
-      });
-    } catch (err) {
-      res.status(500).json({
-        message: err,
-      });
-    }
-  });
+export let modulesList = async (req: Request, res: Response) => {
+  try {
+    const modules = await getModulesList();
+    res.json({
+      modules,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err,
+    });
+  }
 };
 
 export let servicesList = (req: Request, res: Response) => {
@@ -345,37 +344,35 @@ export let generateService = (req: Request, res: Response) => {
 };
 
 export let generateModule = (req: Request, res: Response) => {
-  const execHandler = (err: any, stdout: any, stderr: any) => {
+  const execHandler = async (err: any, stdout: any, stderr: any) => {
     if (err) {
       res.status(500).json({
         message: fixErrorResponseMessage(stderr),
       });
     } else {
-      const currentPath = path.relative(process.cwd(), srcPath);
 
-      findAllModules(currentPath).then((modules) => {
-        const search = params.modulePath
-          .replace(/^\//, '')
-          .concat(params.name, '/', params.name, '.module');
+      const modules = await getModulesList();
+      const search = params.modulePath
+        .replace(/^\//, '')
+        .concat(params.name, '/', params.name, '.module');
 
-        // try to find module that was already created
-        module = modules.find((m: any) => {
-          return m.name === search;
-        });
-
-        console.log(search, module);
-
-        try {
-          res.json({
-            module: module,
-            modules: modules,
-          });
-        } catch (err) {
-          res.status(500).json({
-            message: err,
-          });
-        }
+      // try to find module that was already created
+      module = modules.find((m: any) => {
+        return m.name === search;
       });
+
+      console.log(search, module);
+
+      try {
+        res.json({
+          module: module,
+          modules: modules,
+        });
+      } catch (err) {
+        res.status(500).json({
+          message: err,
+        });
+      }
     }
     console.log(`${stdout}`);
     console.log(`${stderr}`);
@@ -392,7 +389,9 @@ export let generateModule = (req: Request, res: Response) => {
     return;
   }
 
-  const modulePath = path.join(srcPath, params.modulePath)
+  const modulePath = params.modulePath === '/common'
+    ? path.join(srcPath, params.modulePath)
+    : path.join(commonPath, 'modules');
 
   const command = `\
   --name=${params.name} \
@@ -469,3 +468,29 @@ export let getModulesFor = (req: any, res: Response) => {
     });
   }
 };
+
+
+async function getModulesList(): Promise<any[]> {
+  const currentPath = path.relative(process.cwd(), srcPath);
+  const projectModules = await findAllModules(currentPath)
+  const modules = [
+    ...projectModules,
+  ];
+
+  if (commonPath) {
+    const common = path.relative(process.cwd(), commonPath);
+    const commonModules = await findAllModules(common);
+
+    modules.push(
+      {
+        "name": "COMMON_MODULE",
+        "modulePath": commonPath,
+        "moduleFullPath": commonPath,
+        "moduleName": "commonModule"
+      },
+      ...commonModules,
+    )
+  }
+
+  return modules;
+}

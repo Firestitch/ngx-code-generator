@@ -13,9 +13,14 @@ const args = require('minimist')(process.argv.slice(2));
  * Start Express server.
  */
 
-const [configRootPath, configSrcPath] = getAngularProjectPaths(args.project || '');
+const [configRootPath, configSrcPath, configCommonPath] = getPaths(args.project || '');
 
 export const rootPath = args.root || configRootPath || '';
+export const commonPath = configCommonPath;
+
+console.log('RootPath is set to ', rootPath);
+console.log('commonPath is set to ', commonPath);
+
 const defaultSrcPath = rootPath ? rootPath + '/src' : 'src'
 
 export const srcPath = configSrcPath || defaultSrcPath;
@@ -29,24 +34,52 @@ const server = app.listen(app.get('port'), () => {
   console.log('  Press CTRL-C to stop\n');
 });
 
-function getAngularProjectPaths(targetProject: string): [string, string] {
-  const rawAngularJSON = fs.readFileSync('angular.json');
-  const angularJSONData = JSON.parse(rawAngularJSON.toString())
+function getPaths(targetProject: string): [string, string, string] {
+  const angularConfig = readAngularJSON();
+  const generatorConfig = readConfigJSON();
+
+
   if (!targetProject) {
-    targetProject = angularJSONData.defaultProject;
+    targetProject = angularConfig?.defaultProject
+      || (!!angularConfig?.projects && Object.keys(angularConfig.projects)[0])
+      || generatorConfig?.defaultProject
+      || (!!generatorConfig?.projects && Object.keys(generatorConfig.projects)[0]);
 
     if (!targetProject) {
-      targetProject = Object.keys(angularJSONData.projects)[0];
+      throw new Error(`Can not find "defaultProject" or "projects" configured in angular.json or codegenerator.json`)
     }
   }
 
-  const projectData = angularJSONData.projects[targetProject];
+  const projectData = generatorConfig?.projects[targetProject] || angularConfig?.projects[targetProject];
+  const commonPath = generatorConfig?.commonModule?.root;
 
   if (!projectData) {
     throw new Error(`Project "${targetProject}" does not exist`)
   } else {
-    return [projectData.root, projectData.sourceRoot];
+    return [projectData.root, projectData.sourceRoot, commonPath];
   }
+}
+
+function readAngularJSON(): Record<string, any> | null{
+  try {
+    const config = fs.readFileSync('angular.json');
+    return JSON.parse(config.toString())
+  } catch (e) {
+    // console.error(`Can not read angular.json: `, e);
+  }
+
+  return null;
+}
+
+function readConfigJSON(): Record<string, any> | null{
+  try {
+    const config = fs.readFileSync('codegenerator.json');
+    return JSON.parse(config.toString())
+  } catch (e) {
+    // console.error(`Can not read codegenerator.json: `, e);
+  }
+
+  return null;
 }
 
 export default server;
