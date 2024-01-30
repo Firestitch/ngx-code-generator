@@ -5,7 +5,7 @@
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
-    "package": "npm-run-all cleanup-dist build:backend build:frontend build:schematics copy:bin copy:package-json",
+    "package": "npm-run-all cleanup-dist build:backend build:frontend build:schematics copy:bin copy:package-json copy:schema",
     "test": "nx test",
     "publish": "npm publish",
     "lint": "nx workspace-lint && nx lint",
