@@ -15,10 +15,6 @@ import { sanitizepath } from '../helpers/sanitize-path';
 import { PatternType } from '../enums/pattern-type.enum';
 import { findDirectoryModules } from '../helpers/find-directory-modules';
 
-const executor = process.env.NODE_ENV === 'development'
-  ? '$(which schematics)'
-  : 'npx schematics'
-
 /**
  * GET /
  * Home page.
@@ -130,7 +126,7 @@ export let index = (req: Request, res: Response) => {
       break;
   }
 
-  const cmd = `${executor} @firestitch/codegenerator:${schema} ${command}`;
+  const cmd = makeCMD(schema, command);
   console.log(cmd);
   exec(cmd, execHandler);
 };
@@ -198,7 +194,7 @@ export let createEnum = (req: Request, res: Response) => {
   --keys=${keys.join()} \
   --values="${values.join()}"`;
 
-  const cmd = `${executor} @firestitch/codegenerator:enum ${command}`;
+  const cmd = makeCMD('enum', command);
   console.log(cmd);
   exec(cmd, execHandler);
 };
@@ -269,7 +265,7 @@ export let createConst = (req: Request, res: Response) => {
 
   const schema = 'const';
 
-  const cmd = `${executor} @firestitch/codegenerator:${schema} ${command}`;
+  const cmd = makeCMD(schema, command);
   console.log(cmd);
   exec(cmd, { }, execHandler);
 };
@@ -336,7 +332,7 @@ export let generateService = (req: Request, res: Response) => {
   --plural-name=${params.pluralName} \
   --menu-service`;
 
-  const cmd = `${executor} @firestitch/codegenerator:service ${command}`;
+  const cmd = makeCMD('service', command);
   console.log(cmd);
   exec(cmd, execHandler);
 };
@@ -396,7 +392,7 @@ export let generateModule = (req: Request, res: Response) => {
   --path=${modulePath} \
   --routing=${params.routing}`;
 
-  const cmd = `${executor} @firestitch/codegenerator:module ${command}`;
+  const cmd = makeCMD('module', command);
   exec(cmd, execHandler);
   console.log(cmd);
 };
@@ -491,4 +487,22 @@ async function getModulesList(): Promise<any[]> {
   }
 
   return modules;
+}
+
+function makeCMD(schema: string, command: string): string {
+  const executor = process.env.NODE_ENV === 'development'
+    ? '$(which schematics)'
+    : 'npx schematics'
+
+  const schematic = process.env.NODE_ENV === 'development'
+    ? '.'
+    : '@firestitch/codegenerator';
+
+  let cmd = `${executor} ${schematic}:${schema} ${command}`;
+
+  if (process.env.NODE_ENV === 'development') {
+    cmd += ' --dry-run=false'
+  }
+
+  return cmd;
 }

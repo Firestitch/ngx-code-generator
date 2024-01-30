@@ -109,7 +109,7 @@ const packagePublishFile = {
   dependencies: packageFile.dependencies,
   sideEffects: false,
   bin: packageFile.bin,
-  schematics: packageFile.schematics,
+  schematics: packageFile.schematics.replace('./dist/', './'),
 };
 
 console.log(BLUE, 'Writing package.json file', RESET);

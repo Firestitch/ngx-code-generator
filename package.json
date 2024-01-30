@@ -39,7 +39,7 @@
   "bin": {
     "codegen": "./bin/codegenerator"
   },
-  "schematics": "./schematics/collection.json",
+  "schematics": "./dist/schematics/collection.json",
   "dependencies": {
     "@angular-devkit/schematics-cli": "^14.2.13",
     "@angular/animations": "14.2.9",
