@@ -490,9 +490,7 @@ async function getModulesList(): Promise<any[]> {
 }
 
 function makeCMD(schema: string, command: string): string {
-  const executor = process.env.NODE_ENV === 'development'
-    ? '$(which schematics)'
-    : 'npx schematics'
+  const executor = 'npx schematics';
 
   const schematic = process.env.NODE_ENV === 'development'
     ? '.'

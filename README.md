@@ -50,6 +50,10 @@ Dev server is not single application and you have to start 3 different servers
 2. `npx nx serve api`
 3. `npm run watch:schematics`
 
+Manual generation of schematics if you are not watching run on every change
+1. `npm run package`
+
+
 ## Build & Publish
 
 Use `npm run package` for build and `npm run package:publish` for publishing your changes
