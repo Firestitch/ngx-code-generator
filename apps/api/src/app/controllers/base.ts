@@ -287,21 +287,19 @@ export let modulesList = async (req: Request, res: Response) => {
   }
 };
 
-export let servicesList = (req: Request, res: Response) => {
-  const currentPath = path.relative(process.cwd(), srcPath);
+export let servicesList = async (req: Request, res: Response) => {
+  const modules = await getModulesList();
 
-  findAllModules(currentPath).then((modules) => {
-    findAllServices(modules).then((services) => {
-      try {
-        res.json({
-          services: services,
-        });
-      } catch (err) {
-        res.status(500).json({
-          message: fixErrorResponseMessage(err),
-        });
-      }
-    });
+  findAllServices(modules).then((services) => {
+    try {
+      res.json({
+        services: services,
+      });
+    } catch (err) {
+      res.status(500).json({
+        message: fixErrorResponseMessage(err),
+      });
+    }
   });
 };
 
