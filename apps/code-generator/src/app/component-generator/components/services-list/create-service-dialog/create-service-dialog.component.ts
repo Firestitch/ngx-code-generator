@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ModuleInterface } from '@codegenerator/modules-autocomplete';
 import { FsProgressService } from '@firestitch/progress';
@@ -14,7 +14,7 @@ import { camelize } from '@angular-devkit/core/src/utils/strings';
   templateUrl: './create-service-dialog.component.html',
   styleUrls: ['./create-service-dialog.component.scss'],
 })
-export class CreateServiceDialogComponent {
+export class CreateServiceDialogComponent implements OnInit {
   public model = {
     module: null,
     subdirectory: '/data',
@@ -33,10 +33,15 @@ export class CreateServiceDialogComponent {
     private _message: FsMessage
   ) {}
 
+  public ngOnInit(): void {
+    this.dialogRef.updateSize('800px');
+  }
+
   public generate() {
     const progressDialog = this._progressService.open();
 
-    this._servicesService.generateService(this.model).subscribe(
+    this._servicesService.generateService(this.model)
+    .subscribe(
       (res) => {
         const type = this.model.subdirectory === '/data' ? 'data' : 'service';
         const servicePath = `${this.model.module.modulePath}${this.model.subdirectory}`;

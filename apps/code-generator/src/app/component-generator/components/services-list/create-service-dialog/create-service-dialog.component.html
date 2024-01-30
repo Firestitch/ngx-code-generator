@@ -1,6 +1,6 @@
+<!--<form>-->
 <div class="container">
-  <h2 mat-dialog-title>Create Service</h2>
-  <!--<form>-->
+  <h2 mat-dialog-title>Create Service</h2>  
   <div class="form">
     <app-modules-list
       [(module)]="model.module"
@@ -42,8 +42,8 @@
         (blur)="toCamelCase()"
       />
     </mat-form-field>
-    <!--</form>-->
   </div>
   <button mat-button color="primary" (click)="generate()">CREATE</button>
   <button mat-button mat-dialog-close>CANCEL</button>
 </div>
+<!--</form>-->

@@ -36,22 +36,23 @@ export class ServicesListComponent implements ControlValueAccessor {
     this._initServices(val);
   }
 
+  public get services() {
+    return this._services;
+  }
+
   @Output()
   public serviceChange = new EventEmitter();
 
   public loading = true;
 
-  public onChange: any = () => {};
-  public onTouch: any = () => {};
+  public onChange: (value) => void;
+  public onTouch: (value) => void;
+
   public fuzzer: FuzzySearch;
 
   private _services;
 
   constructor(private _dialog: MatDialog) {}
-
-  get services() {
-    return this._services;
-  }
 
   public fetch = (kw) => {
     if (this.services) {
