@@ -20,10 +20,11 @@ export class ModulesService {
     return this._http.post('/generate/module', params);
   }
 
-  public getModulesFor(currentPath) {
+  public getModulesFor(project, currentPath) {
     return this._http.get('/get-modules-for', {
       params: {
-        currentPath: currentPath,
+        project,
+        currentPath,
       },
     });
   }

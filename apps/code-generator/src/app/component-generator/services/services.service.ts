@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class ServicesService {
   constructor(private _http: HttpClient) {}
 
-  public listOfServices() {
-    return this._http.get('/services');
+  public listOfServices(project, module): Observable<any> {
+    return this._http.get('/services', { params: { project, module }});
   }
 
   public generateService(params) {

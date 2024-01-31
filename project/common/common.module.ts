@@ -1,7 +1,10 @@
-import { NgModule } from '@angular/core';
-import { TestComponent, SsssssssssComponent, GdComponent } from './views';
+import { ProjectsComponent } from './components';
 
-@NgModule({  declarations: [TestComponent, SsssssssssComponent, GdComponent]
+
+@NgModule({ 
+  imports: [MatButtonModule]
+  declarations: [],
+  exports: []
 })
 export class CommonModule {
 }

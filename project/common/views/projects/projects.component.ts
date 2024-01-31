@@ -10,11 +10,11 @@ import { FsNavService } from '@firestitch/nav';
 
 
 @Component({
-  templateUrl: './gd.component.html',
-  styleUrls: ['./gd.component.scss'],
+  templateUrl: './projects.component.html',
+  styleUrls: ['./projects.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GdComponent implements OnInit  {
+export class ProjectsComponent implements OnInit  {
 
   constructor(
     private _cdRef: ChangeDetectorRef,
@@ -26,7 +26,7 @@ export class GdComponent implements OnInit  {
   }
 
   private _initTitle(): void {
-    this._navService.setTitle('Gd');
+    this._navService.setTitle('Projects');
   }
 
 }

@@ -2,13 +2,11 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
-  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 
 import { NgForm } from '@angular/forms';
-import { ServicesService } from '../../services';
 import * as pluralize from 'pluralize';
 import { camelCase } from 'camel-case';
 
@@ -16,7 +14,7 @@ import { camelCase } from 'camel-case';
   selector: 'app-component-generator-form',
   templateUrl: './generator-form.component.html',
 })
-export class GeneratorFormComponent implements OnInit, AfterViewInit {
+export class GeneratorFormComponent implements AfterViewInit {
   @Output()
   public formChanged = new EventEmitter<any>();
 
@@ -25,6 +23,11 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
 
   @ViewChild('moduleForm', { static: true })
   public form: NgForm;
+
+  public serviceModel = {
+    project: null,
+    module: null,
+  };
 
   public model = {
     project: null,
@@ -47,20 +50,11 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
     includedModuleExports: false,
   };
 
-  public services = [];
   public createEditOptions = [];
   public listOptions = [];
   public hasListInterface = false;
   public hasCreateEditInterface = false;
   public hasModel = false;
-
-  constructor(private _servicesService: ServicesService) {}
-
-  public ngOnInit() {
-    this._servicesService.listOfServices().subscribe((response: any) => {
-      this.services = response.services;
-    });
-  }
 
   public ngAfterViewInit() {
     this.form.valueChanges.subscribe((values) => {

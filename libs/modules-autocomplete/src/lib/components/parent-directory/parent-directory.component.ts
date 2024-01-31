@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   forwardRef,
+  Input,
   OnDestroy,
   OnInit,
   ViewChild
@@ -32,6 +33,8 @@ import { ModulesService } from '../../services/modules.service';
 })
 
 export class ParentDirectoryComponent implements OnInit, AfterViewInit, ControlValueAccessor, OnDestroy {
+
+  @Input() public project;
 
   public activePath = [];
   public parentPath = '';
@@ -120,7 +123,7 @@ export class ParentDirectoryComponent implements OnInit, AfterViewInit, ControlV
       val = this.currentPath;
     }
 
-    this._generatorService.getModulesFor(val || '/')
+    this._generatorService.getModulesFor(this.project, val || '/')
       .pipe(
         takeUntil(this._destroy$),
       )

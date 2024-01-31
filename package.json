@@ -1,10 +1,12 @@
 {
   "name": "@firestitch/codegenerator",
-  "version": "12.1.1",
+  "version": "12.1.5",
   "license": "MIT",
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
+    "serve:api": "npx nx serve api \"--args=--root=project\" --verbose=true",
+    "serve:code-generator": "npx nx serve code-generator",
     "package": "npm-run-all cleanup-dist build:backend build:frontend build:schematics copy:bin copy:package-json copy:schema",
     "test": "nx test",
     "publish": "npm publish",

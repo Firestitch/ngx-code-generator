@@ -163,10 +163,22 @@
 
       <ng-container *ngIf="hasListInterface || hasCreateEditInterface">
         <h2>Model & Data</h2>
+        <app-project-select
+          [(ngModel)]="serviceModel.project"
+          (ngModelChange)="serviceModel.module = null"
+          name="serviceProject"
+          [required]="true">
+        </app-project-select>
+        <app-modules-list
+          [(ngModel)]="serviceModel.module"
+          [project]="serviceModel.project?.name"
+          name="serviceModule">
+        </app-modules-list>
         <app-services-list
           [(ngModel)]="model.service"
           (ngModelChange)="serviceChanged($event)"
-          [services]="services"
+          [module]="serviceModel?.module?.name"
+          [project]="serviceModel.project?.name"
           name="service">
         </app-services-list>
 
@@ -210,7 +222,7 @@
             mat-raised-button
             color="primary"
             [disabled]="moduleForm.invalid">
-          GENERATE
+          Generate
         </button>
       </div>
     </mat-card-content>

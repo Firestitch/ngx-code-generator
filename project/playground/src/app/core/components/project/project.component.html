@@ -1,0 +1,22 @@
+<form fsForm [submit]="save" *fsSkeletonForm="projects">
+  <fs-dialog>
+    <h1 mat-dialog-title>{{projects.id ? 'Projects' : 'Create Projects'}}</h1>
+    <div mat-dialog-content>
+      <!-- 
+        <mat-form-field class="full-width">
+          <mat-label>Name</mat-label>
+          <input
+            matInput
+            [(ngModel)]="projects.name"
+            name="name">
+        </mat-form-field> 
+      -->
+    </div>
+
+    <div mat-dialog-actions>
+      <fs-form-dialog-actions
+        [create]="!projects.id">
+      </fs-form-dialog-actions>
+    </div>
+  </fs-dialog>
+</form>

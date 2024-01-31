@@ -298,20 +298,18 @@ export const projectsList = async (req: Request, res: Response) => {
 };
 
 export const servicesList = async (req: Request, res: Response) => {
-  const project = req.body.project?.name;
-  const modules = await getModulesList(project);
-
-  findAllServices(modules).then((services) => {
-    try {
-      res.json({
-        services: services,
-      });
-    } catch (err) {
-      res.status(500).json({
-        message: fixErrorResponseMessage(err),
-      });
-    }
-  });
+  findAllServices(String(req.query?.project), String(req.query?.module))
+    .then((services) => {
+      try {
+        res.json({
+          services: services,
+        });
+      } catch (err) {
+        res.status(500).json({
+          message: fixErrorResponseMessage(err),
+        });
+      }
+    });
 };
 
 export const generateService = (req: Request, res: Response) => {
@@ -458,16 +456,16 @@ export const enumsList = (req: any, res: Response) => {
 };
 
 export const getModulesFor = (req: any, res: Response) => {
-  const params = req.query;
+  const query = req.query;
 
-  if (!params.currentPath) {
+  if (!query.currentPath) {
     res.status(400).json({
       message: 'Name is required',
     });
   }
 
   try {
-    findDirectoryModules(params.currentPath).then((data) => {
+    findDirectoryModules(query.project, query.currentPath).then((data) => {
       res.json(data);
     });
   } catch (e) {

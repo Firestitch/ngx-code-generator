@@ -26,9 +26,8 @@ export class CreateServiceDialogComponent implements OnInit {
   public hidePath = false;
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { modules: ModuleInterface[] },
     public dialogRef: MatDialogRef<CreateServiceDialogComponent>,
-    @Inject(MAT_DIALOG_DATA)
-    public data: { modules: ModuleInterface[]; services: any[] },
     private _servicesService: ServicesService,
     private _progressService: FsProgressService,
     private _message: FsMessage
@@ -43,7 +42,7 @@ export class CreateServiceDialogComponent implements OnInit {
 
     this._servicesService.generateService(this.model)
     .subscribe(
-      (res) => {
+      () => {
         const type = this.model.subdirectory === '/data' ? 'data' : 'service';
         const servicePath = `${this.model.module.modulePath}${this.model.subdirectory}`;
         const singularName = `${
@@ -77,28 +76,6 @@ export class CreateServiceDialogComponent implements OnInit {
   }
 
   public moduleChanged() {
-    this.setDefaultSubDirectory();
-  }
-
-  /**
-   * Hack for set default path
-   * If module has services hide path dropdown and set default path from first elem
-   * @todo
-   */
-  public setDefaultSubDirectory() {
-    // const moduleServices = this.data.services.find(
-    //   (s) => s.module === this.model.module.moduleName
-    // );
-    // this.hidePath = moduleServices && !!moduleServices.services.length;
-    //
-    // if (this.hidePath) {
-    //   this.model.subdirectory =
-    //     moduleServices.services[0].servicePath.indexOf('shared/services') !== -1
-    //       ? '/shared/services'
-    //       : '/services';
-    // } else {
-    //   this.model.subdirectory = null;
-    // }
   }
 
   public toCamelCase() {

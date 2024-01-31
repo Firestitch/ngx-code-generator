@@ -1,9 +1,13 @@
 import * as path from 'path';
-import { promises as fs } from 'fs';
+import { promises as fs, existsSync } from 'fs';
 import { getSrcPath } from '../../main';
 import { sanitizepath } from './sanitize-path';
 
 export async function findAllModules(dir: string) {
+  if(!existsSync(dir)) {
+    return [];
+  }
+
   const fileList: any = [];
   const files = await fs.readdir(dir);
   const moduleRe = /\.module\.ts$/;

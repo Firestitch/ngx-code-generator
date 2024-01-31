@@ -18,7 +18,7 @@ import { strings } from '@angular-devkit/core';
 import { WorkspaceDefinition } from '@angular-devkit/core/src/workspace';
 import {
   addDeclarationToNgModule,
-  addDeclarationToRoutingModule, addModuleDeclarationToNgModule, importModulesToNgModule,
+  addDeclarationToRoutingModule, importModulesToNgModule,
   updateIndexFile
 } from '../../utils/ng-module-utils';
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
@@ -27,7 +27,6 @@ import { buildRelativePathForService, getComponentPath } from '../../utils/build
 import { ListOptions } from './schema';
 import { Config } from './config';
 import { getServiceClassName } from '../../utils/get-service-class-name';
-import { addDeclarationToModule } from '../../utils/ast-utils';
 import { coerceTypes } from '../../utils/coerce-types';
 import { converPathToAlias } from '../../utils/conver-path-to-alias';
 

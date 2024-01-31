@@ -2,22 +2,18 @@ import { promises as fs } from 'fs';
 import * as path from 'path';
 import { getSrcPath } from '../../main';
 
-export async function findDirectoryModules(modulePath: string) {
-  const level = modulePath.split('/').filter((val) => !!val).length;
-
+export async function findDirectoryModules(project, modulePath: string) {
   if (modulePath[modulePath.length - 1] !== '/') {
     modulePath += '/';
   }
 
-  if (level === 0) {
-    return await ['/app', '/libs', '/common'];
-  } else {
-    return getChildDirectories(modulePath);
-  }
+  return getChildDirectories(project, modulePath);
 }
 
-async function getChildDirectories(targetPath: string) {
-  const fullPath = path.join(getSrcPath(''), targetPath);
+async function getChildDirectories(project, targetPath: string) {
+  const fullPath = path.join(getSrcPath(project), targetPath);
+
+  console.debug(fullPath);
 
   let targetDirStat;
 

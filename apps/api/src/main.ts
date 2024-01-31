@@ -2,6 +2,27 @@ import * as errorHandler from 'errorhandler';
 import * as fs from 'fs';
 import { app } from './app/app';
 
+const GREEN = '\x1b[32m';
+const RED = '\x1b[31m';
+const BLUE = '\x1b[34m';
+const RESET = '\x1b[0m';
+
+const clog = console.log;
+const elog = console.error;
+const dlog = console.debug;
+
+console.log = (...value) => {
+  clog(...[GREEN, ...value, RESET]);
+}
+
+console.error = (...value) => {
+  elog(...[RED, ...value, RESET]);
+}
+
+console.debug = (...value) => {
+  dlog(...[BLUE, ...value, RESET]);
+}
+
 
 /**
  * Error Handler. Provides full stack - remove for production
@@ -16,15 +37,15 @@ const path = require('path');
  */
 export const rootPath = getRootPath();
 
-console.log('RootPath is set to ', rootPath);
+console.debug('RootPath is set to', `"${rootPath}"`);
+console.debug('angular.json path is set to', `"${angularJsonPath()}"`);
 
 const server = app.listen(app.get('port'), () => {
-  console.log(
-    '  App is running at http://localhost:%d in %s mode',
-    app.get('port'),
-    app.get('env')
+  console.debug(
+    `App is running at http://localhost:${app.get('port')} in ${app.get('env')} mode`
+    
   );
-  console.log('  Press CTRL-C to stop\n');
+  console.debug('Press CTRL-C to stop\n');
 });
 
 export function getSrcPath(projectName?: string) {
@@ -41,7 +62,7 @@ export function getRootPath() {
 export function getProjects(): { name: string, root: string, sourceRoot: string }[] {
   const angularConfig = readAngularJSON();
 
-  return Object.keys(angularConfig.projects)
+  return Object.keys(angularConfig?.projects || [])
     .map((name) => {
       return {
         name,
@@ -51,41 +72,28 @@ export function getProjects(): { name: string, root: string, sourceRoot: string 
     });
 }
 
-// function getPaths(targetProject: string): [string, string] {
-//   const angularConfig = readAngularJSON();
+function angularJsonPath(): string {
+  return getRootPath() ? path.join(getRootPath(), 'angular.json') : 'angular.json';
+}
 
-//   if (!targetProject) {
-//     targetProject = angularConfig?.defaultProject
-//       || (!!angularConfig?.projects && Object.keys(angularConfig.projects)[0]);
-
-//     if (!targetProject) {
-//       throw new Error(`Can not find "defaultProject" or "projects" configured in angular.json or codegenerator.json`)
-//     }
-//   }
-
-//   const projectData = angularConfig?.projects[targetProject];
-
-//   if (!projectData) {
-//     throw new Error(`Project "${targetProject}" does not exist`)
-//   } else {
-//     return [projectData.root, projectData.sourceRoot];
-//   }
-// }
-
-function readAngularJSON(): Record<string, any> | null{
+function readAngularJSON(): Record<string, any> | null {
   try {
+    const file = angularJsonPath();
 
-    const file = getRootPath() ? path.join(getRootPath(), 'angular.json') : 'angular.json';
+    if(!fs.existsSync(file)) {
+      return null;
+    }
+
     const config = fs.readFileSync(file);
 
     return JSON.parse(config.toString())
   } catch (e) {
     console.error(`Can not read angular.json: `, e);
-
-    throw e;
   }
 
   return null;
 }
 
 export default server;
+
+

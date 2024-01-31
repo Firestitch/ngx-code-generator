@@ -47,7 +47,7 @@ Schematics code placed in `/libs/schematics`
 Dev server is not single application and you have to start 3 different servers
 
 1. `npx nx serve code-generator`
-2. `npx nx serve api '--args=--root=apps'`
+2. `npx nx serve api '--args=--root=apps' --verbose=true` 
 3. `npm run watch:schematics`
 
 Manual generation of schematics if you are not watching run on every change
@@ -58,3 +58,9 @@ Manual generation of schematics if you are not watching run on every change
 
 Use `npm run package` for build and `npm run package:publish` for publishing your changes
 
+
+
+## Debug Schematics
+
+1. node --inspect-brk ./node_modules/.bin/schematics .:dialog  --name=testa   --module=common.module.ts   --path=project/common   --included-module-exports=false   --routable-component=undefined   --route-observer=undefined   --titled-component=false --dry-run=false
+2. open in browser chrome://inspect

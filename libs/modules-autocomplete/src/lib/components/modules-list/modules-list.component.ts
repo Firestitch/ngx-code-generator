@@ -63,8 +63,7 @@ export class ModulesListComponent implements OnInit, ControlValueAccessor {
   }
 
   public ngOnInit() {
-    //this._loadModules();
-    this._initFromLocalStorage();
+    //this._initFromLocalStorage();
   }
   
   public fetch = (kw: string) => {
@@ -103,7 +102,7 @@ export class ModulesListComponent implements OnInit, ControlValueAccessor {
   public openDialog() {
     this._dialog.open(CreateModuleDialogComponent, {
       width: '400px',
-      data: { rootModule: '' }
+      data: { rootModule: '', project: this.project }
     })
       .afterClosed()
       .subscribe(result => {

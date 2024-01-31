@@ -1,16 +1,15 @@
 import {
   Component,
-  EventEmitter,
   forwardRef,
   Input,
-  Output,
 } from '@angular/core';
 import { CreateServiceDialogComponent } from './create-service-dialog/';
 import { MatDialog } from '@angular/material/dialog';
-import { of } from 'rxjs';
+import { map } from 'rxjs';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import FuzzySearch from 'fuzzy-search';
+import { ServicesService } from '../../services';
 
 @Component({
   selector: 'app-services-list',
@@ -25,41 +24,39 @@ import FuzzySearch from 'fuzzy-search';
   ],
 })
 export class ServicesListComponent implements ControlValueAccessor {
-  @Input()
-  public required;
+  
+  @Input() public required;
+  @Input() public module;
+  @Input() public project;
 
   public service;
-
-  @Input()
-  set services(val) {
-    this._initServices(val);
-  }
-
-  public get services() {
-    return this._services;
-  }
-
-  public loading = true;
 
   public onChange: (value) => void;
   public onTouch: (value) => void;
 
   public fuzzer: FuzzySearch;
 
-  private _services;
-
-  constructor(private _dialog: MatDialog) {}
+  constructor(
+    private _dialog: MatDialog,
+    private _servicesService: ServicesService
+  ) {}
 
   public fetch = (kw) => {
-    if (this.services) {
-      if (!!kw) {
-        const keyword = kw.replace(' ', '');
+    return this._servicesService.listOfServices(this.project, this.module)
+      .pipe(
+        map(({ services }) => {
+          this._sortServices(services);
+ 
+          this.fuzzer = new FuzzySearch(services, ['name']);
 
-        return of(this.fuzzer.search(keyword));
-      } else {
-        return of(this.services);
-      }
-    }
+          if (!!kw) {
+            const keyword = kw.replace(' ', '');
+            return this.fuzzer.search(keyword);
+          }
+
+          return services;
+        })
+      );
   };
 
   public displayWith = (data) => {
@@ -71,19 +68,18 @@ export class ServicesListComponent implements ControlValueAccessor {
   };
 
   public selectService(event) {
-    this.writeValue(event);
+    this.onChange(event);
   }
 
   public openDialog() {
     this._dialog.open(CreateServiceDialogComponent, {
       width: '400px',
-      data: { services: this.services },
+     // data: { services: this.services },
     })
     .afterClosed()
     .subscribe((result) => {
       this.selectService(result);
       this.service = result;
-      this.services.push(result);
     });
   }
 
@@ -94,6 +90,7 @@ export class ServicesListComponent implements ControlValueAccessor {
   public registerOnChange(fn) {
     this.onChange = fn;
   }
+
   public registerOnTouched(fn) {
     this.onTouch = fn;
   }
@@ -124,28 +121,5 @@ export class ServicesListComponent implements ControlValueAccessor {
         });
       }
     });
-  }
-
-  private _initServices(val) {
-    this.loading = !val;
-
-    if (val) {
-      this._sortServices(val);
-
-      this._services = val.reduce((acc, group) => {
-        group.services.forEach((service) => {
-          acc.push({
-            ...service,
-            fullPath: service.servicePath + '/' + service.singularName,
-          });
-        });
-
-        return acc;
-      }, []);
-    } else {
-      this._services = val;
-    }
-
-    this.fuzzer = new FuzzySearch(this._services, ['fullPath']);
   }
 }

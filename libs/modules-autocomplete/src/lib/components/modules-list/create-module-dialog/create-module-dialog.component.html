@@ -2,7 +2,11 @@
   <h2 mat-dialog-title> Create Module </h2>
   <div class="form">
 
-    <app-parent-directory [(ngModel)]="model.modulePath" name="modulePath"></app-parent-directory>
+    <app-parent-directory 
+      [(ngModel)]="model.modulePath" 
+      [project]="model.project"
+      name="modulePath">
+    </app-parent-directory>
 
     <mat-form-field>
       <mat-label>

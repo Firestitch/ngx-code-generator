@@ -18,15 +18,16 @@ import { ModulesService } from '../../../services/modules.service';
 })
 
 export class CreateModuleDialogComponent implements OnInit {
-  public model = {
-    modulePath: null,
+  public model: any = {
+    modulePath: '/',
     name: null,
-    routing: true
+    routing: true,
+    project: ''
   };
 
   constructor(
     public dialogRef: MatDialogRef<CreateModuleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { rootModule: ModuleInterface },
+    @Inject(MAT_DIALOG_DATA) public data: { project: string },
     private _generatorService: ModulesService,
     private _progressService: FsProgressService,
     private _message: FsMessage,
@@ -34,7 +35,7 @@ export class CreateModuleDialogComponent implements OnInit {
   }
 
   public ngOnInit() {
-    // this.model.module = this.data.rootModule;
+    this.model.project = this.data.project;
   }
 
   public generate() {
