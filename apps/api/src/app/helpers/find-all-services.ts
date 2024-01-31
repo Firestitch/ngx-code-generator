@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import { srcPath } from '../../main';
+import { getSrcPath } from '../../main';
 import { sanitizepath } from './sanitize-path';
 
 export async function findAllServices(modules: any) {
@@ -28,7 +28,7 @@ export async function findAllServices(modules: any) {
               .toString()
               .concat('/', file.replace(/\.ts$/, ''))
               .replace(/\\/g, '/')
-              .replace(new RegExp(`^${srcPath}/`), ''),
+              .replace(new RegExp(`^${getSrcPath(null)}/`), ''),
           };
         })
       );
@@ -46,7 +46,7 @@ export async function findAllServices(modules: any) {
               .toString()
               .concat('/', file.replace(/\.ts$/, ''))
               .replace(/\\/g, '/')
-              .replace(new RegExp(`^${srcPath}/`), ''),
+              .replace(new RegExp(`^${getSrcPath(null)}/`), ''),
           };
         })
       );

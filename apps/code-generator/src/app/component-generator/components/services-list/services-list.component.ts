@@ -28,7 +28,6 @@ export class ServicesListComponent implements ControlValueAccessor {
   @Input()
   public required;
 
-  @Input()
   public service;
 
   @Input()
@@ -39,9 +38,6 @@ export class ServicesListComponent implements ControlValueAccessor {
   public get services() {
     return this._services;
   }
-
-  @Output()
-  public serviceChange = new EventEmitter();
 
   public loading = true;
 
@@ -76,35 +72,23 @@ export class ServicesListComponent implements ControlValueAccessor {
 
   public selectService(event) {
     this.writeValue(event);
-
-    if (event) {
-      this.serviceChange.emit(this.service);
-    }
   }
 
   public openDialog() {
-    const dialogRef = this._dialog.open(CreateServiceDialogComponent, {
+    this._dialog.open(CreateServiceDialogComponent, {
       width: '400px',
       data: { services: this.services },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (!result) {
-        this.serviceChange.emit('');
-        return;
-      }
-
+    })
+    .afterClosed()
+    .subscribe((result) => {
       this.selectService(result);
       this.service = result;
-
       this.services.push(result);
     });
   }
 
   public writeValue(value) {
     this.service = value;
-    this.onChange(value);
-    this.onTouch(value);
   }
 
   public registerOnChange(fn) {

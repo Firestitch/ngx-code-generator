@@ -17,6 +17,7 @@ import { camelize } from '@angular-devkit/core/src/utils/strings';
 export class CreateServiceDialogComponent implements OnInit {
   public model = {
     module: null,
+    project: null,
     subdirectory: '/data',
     singularName: null,
     pluralName: null,

@@ -1,7 +1,12 @@
-import { promises as fs } from 'fs';
+import { promises as fs, existsSync } from 'fs';
 
 export async function findAllEnums(dir: any) {
   const enums: any = [];
+
+  if(!existsSync(dir)) {
+    return [];
+  }
+  
   const targetDirStat = await fs.stat(dir);
   const enumsRe = /\.enum\.ts$/;
 

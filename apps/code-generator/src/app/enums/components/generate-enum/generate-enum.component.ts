@@ -15,7 +15,7 @@ import { NgForm } from '@angular/forms';
   templateUrl: './generate-enum.component.html',
   styleUrls: ['./generate-enum.component.scss'],
 })
-export class GenerateEnumComponent implements OnInit, AfterViewInit {
+export class GenerateEnumComponent implements AfterViewInit {
   @Input()
   public loading = false;
 
@@ -38,16 +38,13 @@ export class GenerateEnumComponent implements OnInit, AfterViewInit {
   public form: NgForm;
 
   public model = {
+    project: null,
     module: null,
     name: null,
     enums: [{ name: '', value: '' }],
   };
 
   public services = [];
-
-  constructor() {}
-
-  public ngOnInit() {}
 
   public ngAfterViewInit() {
     this.form.valueChanges.subscribe((values) => {

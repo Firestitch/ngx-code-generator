@@ -12,7 +12,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { FsMessage } from '@firestitch/message';
 
-import { of } from 'rxjs';
+import { catchError, map, of, tap, throwError } from 'rxjs';
 import FuzzySearch from 'fuzzy-search';
 
 import { ModuleInterface } from '../../interfaces';
@@ -33,16 +33,10 @@ import { ModulesService } from '../../services/modules.service';
     }
   ]
 })
-export class ModulesListComponent implements OnInit, OnChanges, ControlValueAccessor {
-
-  @Input()
-  public modules: ModuleInterface[];
+export class ModulesListComponent implements OnInit, ControlValueAccessor {
 
   @Input()
   public fetchOnFocus = true;
-
-  @Input()
-  public module: ModuleInterface;
 
   @Input()
   public showCreateButton = true;
@@ -50,13 +44,13 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
   @Input()
   public namespace: string;
 
-  @Output() public moduleChange = new EventEmitter();
+  @Input()
+  public project: string;
 
-  public loading = true;
   public fuzzer: FuzzySearch;
+  public module: ModuleInterface;
 
   private static readonly _LOCAL_STORAGE_KEY = 'codegen-module';
-  private _userMadeChoice = false;
 
   constructor(
     private _modulesService: ModulesService,
@@ -69,25 +63,28 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
   }
 
   public ngOnInit() {
-    this._loadModules();
+    //this._loadModules();
     this._initFromLocalStorage();
   }
+  
+  public fetch = (kw: string) => {
+    return this._modulesService.listOfModules(this.project)
+      .pipe(
+        map(({ modules }) => {
+          if (!!kw) {
+            const keyword = kw.replace(' ', '');
+            this.fuzzer = new FuzzySearch(modules, ['moduleFullPath']);
+            return this.fuzzer.search(keyword);
+          } 
 
-  public ngOnChanges(changes) {
-    if (changes.modules && changes.modules.currentValue !== void 0) {
-      this.loading = false;
-    }
-  }
+          return modules;
+        }),
+        catchError((response) => {
+          this._message.error(response.error && response.error.message || (response.body && response.body.error) || response.message);
 
-  public fetch = (kw) => {
-    if (this.modules) {
-      if (!!kw) {
-        const keyword = kw.replace(' ', '');
-        return of(this.fuzzer.search(keyword));
-      } else {
-        return of(this.modules);
-      }
-    }
+          return throwError(response);
+        })
+      );
   }
 
   public displayWith = (data) => {
@@ -101,33 +98,18 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
   public selectModule(event) {
     this._saveToLocalStorage(event);
     this.writeValue(event);
-
-    if (event) {
-      this.moduleChange.emit(this.module);
-    }
   }
 
   public openDialog() {
-    const rootModule = this.modules.find((m) => m.moduleName === 'app.module.ts');
-    const dialogRef = this._dialog.open(CreateModuleDialogComponent, {
+    this._dialog.open(CreateModuleDialogComponent, {
       width: '400px',
-      data: { rootModule }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result) {
-        this.moduleChange.emit('');
-        return;
-      }
-
-      this.module = result.module;
-      this.selectModule(this.module);
-
-      this.modules = result.modules;
-      this._initFuzzer();
-
-      this.moduleChange.emit(this.module);
-    });
+      data: { rootModule: '' }
+    })
+      .afterClosed()
+      .subscribe(result => {
+        this.module = result?.module;
+        this.selectModule(this.module);
+      });
   }
 
   public writeValue(value) {
@@ -141,21 +123,6 @@ export class ModulesListComponent implements OnInit, OnChanges, ControlValueAcce
   public registerOnChange(fn) { this.onChange = fn;  }
   public registerOnTouched(fn) { this.onTouch = fn; }
 
-  private _loadModules() {
-    this._modulesService.listOfModules()
-      .subscribe((response: any) => {
-        this.loading = false;
-        this.modules = response.modules;
-        this._initFuzzer();
-      },
-        (response) => {
-          this._message.error(response.error && response.error.message || (response.body && response.body.error) || response.message);
-        });
-  }
-
-  private _initFuzzer() {
-    this.fuzzer = new FuzzySearch(this.modules, ['moduleFullPath']);
-  }
 
   private _initFromLocalStorage(): void {
     setTimeout(() => {

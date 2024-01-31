@@ -2,12 +2,17 @@
 <div class="container">
   <h2 mat-dialog-title>Create Service</h2>  
   <div class="form">
+    <app-project-select
+      [(ngModel)]="model.project"
+      name="project"
+      [required]="true">
+    </app-project-select>
     <app-modules-list
-      [(module)]="model.module"
+      [(ngModel)]="model.module"
+      [project]="model.project?.name"
       (moduleChange)="moduleChanged()"
       [showCreateButton]="false"
-      namespace="create-service"
-    >
+      namespace="create-service">
     </app-modules-list>
 
     <mat-form-field *ngIf="!hidePath">

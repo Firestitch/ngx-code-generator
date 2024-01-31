@@ -10,7 +10,7 @@ import {
 } from '../helpers';
 import { fixErrorResponseMessage } from '../helpers/fix-error-response-message';
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
-import { srcPath, rootPath, commonPath } from '../../main';
+import { getSrcPath, getProjects } from '../../main';
 import { sanitizepath } from '../helpers/sanitize-path';
 import { PatternType } from '../enums/pattern-type.enum';
 import { findDirectoryModules } from '../helpers/find-directory-modules';
@@ -19,7 +19,7 @@ import { findDirectoryModules } from '../helpers/find-directory-modules';
  * GET /
  * Home page.
  */
-export let index = (req: Request, res: Response) => {
+export const generate = (req: Request, res: Response) => {
   const execHandler = (err: any, stdout: any, stderr: any) => {
     if (err) {
       res.status(500).json({
@@ -134,7 +134,7 @@ export let index = (req: Request, res: Response) => {
 /**
  * GET /create-enum
  */
-export let createEnum = (req: Request, res: Response) => {
+export const createEnum = (req: Request, res: Response) => {
   const execHandler = (err: any, stdout: any, stderr: any) => {
     if (stderr) {
       res.status(500).json({
@@ -199,7 +199,7 @@ export let createEnum = (req: Request, res: Response) => {
   exec(cmd, execHandler);
 };
 
-export let createConst = (req: Request, res: Response) => {
+export const createConst = (req: Request, res: Response) => {
   const execHandler = (err: any, stdout: any, stderr: any) => {
     if (err) {
       res.status(500).json({
@@ -270,9 +270,10 @@ export let createConst = (req: Request, res: Response) => {
   exec(cmd, { }, execHandler);
 };
 
-export let modulesList = async (req: Request, res: Response) => {
+export const modulesList = async (req: Request, res: Response) => {
   try {
-    const modules = await getModulesList();
+    const project = String(req.query.project);
+    const modules = await getModulesList(project);
     res.json({
       modules,
     });
@@ -283,8 +284,22 @@ export let modulesList = async (req: Request, res: Response) => {
   }
 };
 
-export let servicesList = async (req: Request, res: Response) => {
-  const modules = await getModulesList();
+export const projectsList = async (req: Request, res: Response) => {
+  try {
+    const projects = await getProjectsList();
+    res.json({
+      projects,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err,
+    });
+  }
+};
+
+export const servicesList = async (req: Request, res: Response) => {
+  const project = req.body.project?.name;
+  const modules = await getModulesList(project);
 
   findAllServices(modules).then((services) => {
     try {
@@ -299,7 +314,7 @@ export let servicesList = async (req: Request, res: Response) => {
   });
 };
 
-export let generateService = (req: Request, res: Response) => {
+export const generateService = (req: Request, res: Response) => {
   const execHandler = (err: any, stdout: any, stderr: any) => {
     if (err) {
       res.status(500).json({
@@ -337,7 +352,7 @@ export let generateService = (req: Request, res: Response) => {
   exec(cmd, execHandler);
 };
 
-export let generateModule = (req: Request, res: Response) => {
+export const generateModule = (req: Request, res: Response) => {
   const execHandler = async (err: any, stdout: any, stderr: any) => {
     if (err) {
       res.status(500).json({
@@ -345,7 +360,8 @@ export let generateModule = (req: Request, res: Response) => {
       });
     } else {
 
-      const modules = await getModulesList();
+      const project = req.body.project?.name;
+      const modules = await getModulesList(project);
       const search = params.modulePath
         .replace(/^\//, '')
         .concat(params.name, '/', params.name, '.module');
@@ -383,9 +399,7 @@ export let generateModule = (req: Request, res: Response) => {
     return;
   }
 
-  const modulePath = params.modulePath === '/common'
-    ? path.join(srcPath, params.modulePath)
-    : path.join(commonPath, 'modules');
+  const modulePath = path.join(getSrcPath(params.project?.name), params.modulePath);
 
   const command = `\
   --name=${params.name} \
@@ -397,7 +411,7 @@ export let generateModule = (req: Request, res: Response) => {
   console.log(cmd);
 };
 
-export let enumKeysList = (req: any, res: Response) => {
+export const enumKeysList = (req: any, res: Response) => {
   const params = req.query;
 
   if (!params.enumPath) {
@@ -419,7 +433,7 @@ export let enumKeysList = (req: any, res: Response) => {
   }
 };
 
-export let enumsList = (req: any, res: Response) => {
+export const enumsList = (req: any, res: Response) => {
   const params = req.query;
 
   if (!params.enumPath) {
@@ -443,7 +457,7 @@ export let enumsList = (req: any, res: Response) => {
   }
 };
 
-export let getModulesFor = (req: any, res: Response) => {
+export const getModulesFor = (req: any, res: Response) => {
   const params = req.query;
 
   if (!params.currentPath) {
@@ -463,28 +477,19 @@ export let getModulesFor = (req: any, res: Response) => {
   }
 };
 
+async function getProjectsList(): Promise<any[]> {
+  const modules = getProjects();
 
-async function getModulesList(): Promise<any[]> {
-  const currentPath = path.relative(process.cwd(), srcPath);
+  return modules;
+}
+
+async function getModulesList(project: string): Promise<any[]> {
+  const currentPath = path.relative(process.cwd() || '', getSrcPath(project) || '');
+
   const projectModules = await findAllModules(currentPath)
   const modules = [
     ...projectModules,
   ];
-
-  if (commonPath) {
-    const common = path.relative(process.cwd(), commonPath);
-    const commonModules = await findAllModules(common);
-
-    modules.push(
-      {
-        "name": "COMMON_MODULE",
-        "modulePath": commonPath,
-        "moduleFullPath": commonPath,
-        "moduleName": "commonModule"
-      },
-      ...commonModules,
-    )
-  }
 
   return modules;
 }

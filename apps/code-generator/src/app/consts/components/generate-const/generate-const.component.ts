@@ -39,6 +39,7 @@ export class GenerateConstComponent implements OnInit, AfterViewInit {
   public form: NgForm;
 
   public model = {
+    project: null,
     module: null,
     enum: null,
     enumData: null,
@@ -77,7 +78,7 @@ export class GenerateConstComponent implements OnInit, AfterViewInit {
     }
 
     this.constsService
-      .getEnumsForModule(this.model.module.modulePath)
+      .getEnumsForModule(this.model.project, this.model.module.modulePath)
       .subscribe((response) => {
         this.enums = response;
 

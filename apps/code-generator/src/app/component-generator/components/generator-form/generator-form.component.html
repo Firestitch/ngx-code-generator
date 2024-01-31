@@ -1,19 +1,24 @@
 <form class="form" (ngSubmit)="submit()" #moduleForm="ngForm">
   <mat-card>
     <mat-card-content>
+      <app-project-select
+        [(ngModel)]="model.project"
+        (ngModelChange)="projectChange()"
+        name="project"
+        [required]="true">
+      </app-project-select>
       <app-modules-list
         [(ngModel)]="model.module"
-        name="module"
-      ></app-modules-list>
-
+        [project]="model.project?.name"
+        name="module">
+      </app-modules-list>
       <mat-form-field>
         <mat-label>Pattern</mat-label>
         <mat-select
-          [(ngModel)]="model.interfacePattern"
-          (selectionChange)="interfacePatternChanged()"
-          name="interfacePattern"
-          required
-        >
+            [(ngModel)]="model.interfacePattern"
+            (selectionChange)="interfacePatternChanged()"
+            name="interfacePattern"
+            required>
           <mat-optgroup label="Generic Components">
             <mat-option [value]="'basic'">Blank</mat-option>
             <mat-option [value]="'dialog'">Dialog</mat-option>
@@ -21,21 +26,18 @@
           </mat-optgroup>
           <mat-optgroup label="Data & Model Components">
             <mat-option [value]="'list'">List</mat-option>
-            <mat-option [value]="'list-create-edit'"
-              >List, Create & Edit</mat-option
-            >
+            <mat-option [value]="'list-create-edit'">List, Create & Edit</mat-option>
             <mat-option [value]="'create-edit'">Create & Edit</mat-option>
           </mat-optgroup>
         </mat-select>
       </mat-form-field>
 
       <ng-container
-        *ngIf="
-          model.interfacePattern === 'basic' ||
-          model.interfacePattern === 'dialog' ||
-          model.interfacePattern === 'tabs'
-        "
-      >
+          *ngIf="
+            model.interfacePattern === 'basic' ||
+            model.interfacePattern === 'dialog' ||
+            model.interfacePattern === 'tabs'
+          ">
         <h2>Component</h2>
       </ng-container>
 
@@ -48,9 +50,7 @@
           model.interfacePattern === 'basic' ||
           model.interfacePattern === 'dialog' ||
           model.interfacePattern === 'tabs' ||
-          hasListInterface
-        "
-      >
+          hasListInterface">
         <mat-label>Name</mat-label>
         <input
           matInput
@@ -59,8 +59,7 @@
           name="componentName"
           #componentName="ngModel"
           required
-          autocomplete="off"
-        />
+          autocomplete="off"/>
         <mat-error *ngIf="componentName.invalid">
           Component Name is required
         </mat-error>
@@ -69,9 +68,10 @@
       <fs-label-field *ngIf="listOptions.length">
         <fs-label>Options</fs-label>
         <div *ngFor="let item of listOptions">
-          <mat-checkbox [(ngModel)]="model[item.name]"
-                        (ngModelChange)="interfacePatternChanged()"
-                        [name]="item.name">
+          <mat-checkbox 
+              [(ngModel)]="model[item.name]"
+              (ngModelChange)="interfacePatternChanged()"
+              [name]="item.name">
             {{ item.value }}
           </mat-checkbox>
         </div>
@@ -92,8 +92,7 @@
             name="createEditComponentName"
             #createEditComponentName="ngModel"
             required
-            autocomplete="off"
-          />
+            autocomplete="off"/>
           <mat-error *ngIf="createEditComponentName.invalid">
             Name is required
           </mat-error>
@@ -104,16 +103,13 @@
             Interface
           </mat-label>
           <mat-select
-            [(ngModel)]="model.createEditInterfacePattern"
-            name="createEditInterfacePattern"
-            (ngModelChange)="createEditInterfaceChanged()"
-            required
-          >
+              [(ngModel)]="model.createEditInterfacePattern"
+              name="createEditInterfacePattern"
+              (ngModelChange)="createEditInterfaceChanged()"
+              required>
             <mat-option [value]="'dialog'">Dialog</mat-option>
             <mat-option [value]="'full'">Page</mat-option>
-            <mat-option [value]="'dialog-create-page-edit'"
-              >Dialog Create & Page Edit</mat-option
-            >
+            <mat-option [value]="'dialog-create-page-edit'">Dialog Create & Page Edit</mat-option>
           </mat-select>
         </mat-form-field>
 
@@ -127,10 +123,7 @@
         </fs-label-field>
 
         <ng-container
-          *ngIf="
-            !hasListInterface && model.createEditInterfacePattern === 'dialog'
-          "
-        >
+          *ngIf="!hasListInterface && model.createEditInterfacePattern === 'dialog'">
           <mat-form-field>
             <mat-label>
               Related Parent Type
@@ -138,8 +131,7 @@
             <mat-select
               [(ngModel)]="model.relatedParentType"
               name="relatedParentType"
-              required
-            >
+              required>
               <mat-option [value]="'none'">None</mat-option>
               <mat-option [value]="'component'">Component</mat-option>
               <mat-option [value]="'view'">View</mat-option>
@@ -149,9 +141,7 @@
           <mat-form-field
             *ngIf="
               model.relatedParentType === 'component' ||
-              model.relatedParentType === 'view'
-            "
-          >
+              model.relatedParentType === 'view'">
             <mat-label>
               Related Parent Name
             </mat-label>
@@ -160,8 +150,7 @@
               [(ngModel)]="model.componentName"
               name="componentName"
               #componentName="ngModel"
-              autocomplete="off"
-            />
+              autocomplete="off"/>
             <mat-hint align="start"
               ><strong>Triggers the opening of the dialog</strong>
             </mat-hint>
@@ -178,8 +167,7 @@
           [(ngModel)]="model.service"
           (ngModelChange)="serviceChanged($event)"
           [services]="services"
-          name="service"
-        >
+          name="service">
         </app-services-list>
 
         <ng-container *ngIf="hasListInterface || hasCreateEditInterface">
@@ -193,8 +181,7 @@
               name="singularModelName"
               #singularModelName="ngModel"
               required
-              autocomplete="off"
-            />
+              autocomplete="off"/>
             <mat-error *ngIf="singularModelName.invalid">
               Singular Model Name is required
             </mat-error>
@@ -210,8 +197,7 @@
               name="pluralModelName"
               #pluralModelName="ngModel"
               required="true"
-              autocomplete="off"
-            />
+              autocomplete="off"/>
             <mat-error *ngIf="pluralModelName.invalid">
               Plural Model Name is required
             </mat-error>
@@ -221,10 +207,9 @@
 
       <div class="actions">
         <button
-          mat-raised-button
-          color="primary"
-          [disabled]="moduleForm.invalid"
-        >
+            mat-raised-button
+            color="primary"
+            [disabled]="moduleForm.invalid">
           GENERATE
         </button>
       </div>

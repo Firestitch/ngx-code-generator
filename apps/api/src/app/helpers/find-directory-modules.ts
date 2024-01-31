@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import { srcPath } from '../../main';
+import { getSrcPath } from '../../main';
 
 export async function findDirectoryModules(modulePath: string) {
   const level = modulePath.split('/').filter((val) => !!val).length;
@@ -17,7 +17,7 @@ export async function findDirectoryModules(modulePath: string) {
 }
 
 async function getChildDirectories(targetPath: string) {
-  const fullPath = path.join(srcPath, targetPath);
+  const fullPath = path.join(getSrcPath(''), targetPath);
 
   let targetDirStat;
 

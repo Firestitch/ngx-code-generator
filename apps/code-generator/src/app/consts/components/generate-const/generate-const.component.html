@@ -4,11 +4,16 @@
       <div class="mat-error" *ngIf="error">
         {{ error }}
       </div>
+      <app-project-select
+        [(ngModel)]="model.project"
+        name="project"
+        [required]="true">
+      </app-project-select>
       <app-modules-list
+        [project]="model.project?.name"
         [(ngModel)]="model.module"
         (ngModelChange)="loadEnums()"
-        name="module"
-      >
+        name="module">
       </app-modules-list>
 
       <ng-container *ngIf="model.module">

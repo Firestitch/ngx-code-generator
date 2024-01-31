@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { promises as fs } from 'fs';
-import { srcPath } from '../../main';
+import { getSrcPath } from '../../main';
 import { sanitizepath } from './sanitize-path';
 
 export async function findAllModules(dir: string) {
@@ -21,7 +21,7 @@ export async function findAllModules(dir: string) {
         fileList.push({
           name: sanitizepath(dir.toString())
             .concat('/', file.replace(/\.ts$/, ''))
-            .replace(new RegExp(`^${srcPath}/`), ''),
+            .replace(new RegExp(`^${getSrcPath(null)}/`), ''),
           modulePath: dir.toString().replace(/\\/g, '/'),
           moduleFullPath: filePath.replace(/\\/g, '/'),
           moduleName: file,

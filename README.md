@@ -47,7 +47,7 @@ Schematics code placed in `/libs/schematics`
 Dev server is not single application and you have to start 3 different servers
 
 1. `npx nx serve code-generator`
-2. `npx nx serve api`
+2. `npx nx serve api '--args=--root=apps'`
 3. `npm run watch:schematics`
 
 Manual generation of schematics if you are not watching run on every change

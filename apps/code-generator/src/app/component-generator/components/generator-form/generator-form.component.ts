@@ -27,6 +27,7 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
   public form: NgForm;
 
   public model = {
+    project: null,
     module: null,
     service: null,
     componentName: null,
@@ -157,6 +158,10 @@ export class GeneratorFormComponent implements OnInit, AfterViewInit {
 
   public submit() {
     this.generate.emit(this.model);
+  }
+
+  public projectChange() {
+    this.model.module = null;
   }
 
   public serviceChanged(service) {

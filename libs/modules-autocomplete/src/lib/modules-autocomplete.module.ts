@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
 
 import { FsAutocompleteModule } from '@firestitch/autocomplete';
 
@@ -17,33 +18,39 @@ import {
   ModulesListComponent,
   CreateModuleDialogComponent,
   ParentDirectoryComponent,
+  ProjectSelectComponent,
 } from './components';
 import { ModuleListItemPipe } from './pipes';
 
 
 @NgModule({
-    imports: [
-        CommonModule,
-        MatTooltipModule,
-        MatAutocompleteModule,
-        MatDialogModule,
-        MatInputModule,
-        MatFormFieldModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        FormsModule,
-        ReactiveFormsModule,
-        FsAutocompleteModule,
-    ],
-    declarations: [
-        ModulesListComponent,
-        CreateModuleDialogComponent,
-        ModuleListItemPipe,
-        ParentDirectoryComponent,
-    ],
-    exports: [
-        ModulesListComponent,
-    ]
+  imports: [
+    CommonModule,
+
+    MatTooltipModule,
+    MatAutocompleteModule,
+    MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatSelectModule,
+
+    FormsModule,
+    ReactiveFormsModule,
+    FsAutocompleteModule,
+  ],
+  declarations: [
+    ModulesListComponent,
+    CreateModuleDialogComponent,
+    ModuleListItemPipe,
+    ParentDirectoryComponent,
+    ProjectSelectComponent,
+  ],
+  exports: [
+    ModulesListComponent,
+    ProjectSelectComponent,
+  ]
 })
 export class ModulesAutocompleteModule {
 }

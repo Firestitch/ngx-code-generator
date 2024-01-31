@@ -11,6 +11,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { throwIfAlreadyLoaded } from './module-import-guard';
 import { ApiUrlInterceptor } from './interceptors';
+import { RteComponent } from './views';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { ApiUrlInterceptor } from './interceptors';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
   ],
+  declarations: [RteComponent],
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {

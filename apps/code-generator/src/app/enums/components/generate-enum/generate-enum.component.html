@@ -1,10 +1,16 @@
 <form class="form" (ngSubmit)="submit()" #moduleForm="ngForm">
   <mat-card>
     <mat-card-content>
+      <app-project-select
+        [(ngModel)]="model.project"
+        name="project"
+        [required]="true">
+      </app-project-select>
       <app-modules-list
+        [project]="model.project?.name"
         [(ngModel)]="model.module"
-        name="module"
-      ></app-modules-list>
+        name="module">
+      </app-modules-list>
 
       <ng-container *ngIf="model.module">
         <mat-form-field>
