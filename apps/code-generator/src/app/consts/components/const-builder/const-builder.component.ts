@@ -71,7 +71,7 @@ export class ConstBuilderComponent
     this.constsService
       .getEnumDetails(this.enum.enumFullPath)
       .pipe(
-        delay(100) 
+        delay(100) // crutch
       )
       .subscribe((resource) => {
         this.enumData = resource;

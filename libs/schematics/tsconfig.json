@@ -3,12 +3,8 @@
   "files": [],
   "include": ["src/**/*"],
   "references": [
-    {
-      "path": "./tsconfig.schematics.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
+    { "path": "./tsconfig.schematics.json" },
+    { "path": "./tsconfig.spec.json" }
   ],
   "compilerOptions": {
     "target": "es2020"

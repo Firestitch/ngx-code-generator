@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "playground": {
+      "root": "playground",
+      "sourceRoot": "playground/src"
+    },
+    "common": {
+      "root": "common",
+      "sourceRoot": "common"
+    }
+  }
+}
