@@ -27,7 +27,7 @@ export const generate = (req: Request, res: Response) => {
       });
     } else {
       res.json({
-        message: stdout,
+        message:  stdout,
       });
     }
     console.log(`${stdout}`);

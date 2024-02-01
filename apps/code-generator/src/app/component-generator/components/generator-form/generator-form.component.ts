@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Output,
@@ -13,6 +14,7 @@ import { camelCase } from 'camel-case';
 @Component({
   selector: 'app-component-generator-form',
   templateUrl: './generator-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneratorFormComponent implements AfterViewInit {
   @Output()

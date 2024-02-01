@@ -1,6 +1,6 @@
 {
   "name": "@firestitch/codegenerator",
-  "version": "12.1.5",
+  "version": "12.1.7",
   "license": "MIT",
   "scripts": {
     "nx": "nx",
@@ -109,6 +109,7 @@
     "copyfiles": "^2.4.1",
     "cypress": "^7.3.0",
     "date-fns": "^2.23.0",
+    "iconv-lite": "^0.6.3",
     "dotenv": "10.0.0",
     "eslint": "8.15.0",
     "eslint-config-prettier": "8.1.0",

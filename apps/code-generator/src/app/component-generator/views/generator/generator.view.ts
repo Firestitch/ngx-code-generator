@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FsMessage } from '@firestitch/message';
 import { FsProgressService } from '@firestitch/progress';
@@ -20,7 +20,8 @@ export class GeneratorView {
     private _http: HttpClient,
     private _message: FsMessage,
     private _progressService: FsProgressService,
-    private _prompt: FsPrompt
+    private _prompt: FsPrompt,
+    private _cdRef: ChangeDetectorRef,
   ) {}
 
   public formDataChange(data) {
@@ -36,6 +37,7 @@ export class GeneratorView {
         this._message.success('Successfully Generated');
         this.resultLogs = response.message;
         this.activeTab = 1;
+        this._cdRef.markForCheck();
 
         if (model.interfacePattern === 'dialog') {
           this._prompt
@@ -64,7 +66,7 @@ public open() {
     });
 }</code></pre>`.replace(' ', '&nbsp;'),
             })
-            .subscribe(() => {});
+            .subscribe();
         }
       },
       (response) => {

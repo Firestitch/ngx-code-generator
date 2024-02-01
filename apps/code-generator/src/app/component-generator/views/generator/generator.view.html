@@ -2,8 +2,7 @@
   <div class="col generator-card">
     <app-component-generator-form
       (formChanged)="formDataChange($event)"
-      (generate)="generate($event)"
-    >
+      (generate)="generate($event)">
     </app-component-generator-form>
   </div>
   <div class="col">
@@ -15,13 +14,6 @@
         <mat-tab label="Logs">
           <generator-logs [logs]="resultLogs"></generator-logs>
         </mat-tab>
-        <!--<mat-tab label="Code">
-          <ng-container *ngIf="formData">
-            <generator-code [model]="formData.singularModelName"
-                            [component]="formData.componentName"
-                            [pattern]="formData.interfacePattern"></generator-code>
-          </ng-container>
-        </mat-tab>-->
       </mat-tab-group>
     </mat-card>
   </div>
