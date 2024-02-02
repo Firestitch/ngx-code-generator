@@ -1,6 +1,6 @@
 {
   "name": "@firestitch/codegenerator",
-  "version": "12.1.7",
+  "version": "12.1.8",
   "license": "MIT",
   "scripts": {
     "nx": "nx",

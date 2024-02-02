@@ -351,14 +351,14 @@ export const generateService = (req: Request, res: Response) => {
 };
 
 export const generateModule = (req: Request, res: Response) => {
+  const project = req.body.project;
   const execHandler = async (err: any, stdout: any, stderr: any) => {
     if (err) {
       res.status(500).json({
         message: fixErrorResponseMessage(stderr),
       });
     } else {
-
-      const project = req.body.project?.name;
+      
       const modules = await getModulesList(project);
       const search = params.modulePath
         .replace(/^\//, '')
@@ -368,8 +368,6 @@ export const generateModule = (req: Request, res: Response) => {
       module = modules.find((m: any) => {
         return m.name === search;
       });
-
-      console.log(search, module);
 
       try {
         res.json({
@@ -397,7 +395,9 @@ export const generateModule = (req: Request, res: Response) => {
     return;
   }
 
-  const modulePath = path.join(getSrcPath(params.project?.name), params.modulePath);
+  console.debug(project,getSrcPath(project));
+
+  const modulePath = path.join(getSrcPath(project), params.modulePath);
 
   const command = `\
   --name=${params.name} \
@@ -494,7 +494,7 @@ async function getModulesList(project: string): Promise<any[]> {
 
 function makeCMD(schema: string, command: string): string {
   const executor = 'npx schematics';
-
+  
   const schematic = process.env.NODE_ENV === 'development'
     ? '.'
     : '@firestitch/codegenerator';
