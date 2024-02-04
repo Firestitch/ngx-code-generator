@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./consts.view.scss'],
 })
 export class ConstsView implements OnInit {
+  
   public error = '';
   public loading = false;
 
@@ -43,7 +44,8 @@ export class ConstsView implements OnInit {
 
     const progressDialog = this._progressService.open();
 
-    this._http.post('/generate/const', data).subscribe(
+    this._http.post('/generate/const', data)
+    .subscribe(
       (response: { code: string; path: string }) => {
         this.loading = false;
         this.error = '';

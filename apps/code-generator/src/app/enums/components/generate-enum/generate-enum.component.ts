@@ -44,6 +44,7 @@ export class GenerateEnumComponent implements AfterViewInit {
     enums: [{ name: '', value: '' }],
   };
 
+  public const = true;
   public services = [];
 
   public ngAfterViewInit() {
@@ -54,7 +55,10 @@ export class GenerateEnumComponent implements AfterViewInit {
 
   public submit() {
     if (this.form.valid && this._checkEnumsValidation()) {
-      this.generate.emit(this.model);
+      this.generate.emit({
+        ...this.model,
+        const: this.const,
+      });
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { upperFirst } from 'lodash-es';
 import { camelCase } from 'camel-case';
@@ -15,27 +15,30 @@ import { camelCase } from 'camel-case';
     },
   ],
 })
-export class EnumBuilderComponent implements OnInit, ControlValueAccessor {
-  public items = [];
+export class EnumBuilderComponent implements ControlValueAccessor {
+  
+  @Input() public const = true;
+  
+  public items = [];  
 
-  public onChange: any = () => {};
-  public onTouch: any = () => {};
-
-  constructor() {}
-
-  public ngOnInit() {}
+  public onChange: (value) => void;
+  public onTouch: (value) => void;
 
   public writeValue(value) {
     this.items = value;
-    this.onChange(value);
-    this.onTouch(value);
   }
 
-  public moreItems() {
-    this.items.push({
-      name: '',
-      value: '',
-    });
+  public moreItems(value) {
+    if( 
+        !value ||
+        (value === 'value' && !this.const) ||
+        (value === 'text' && this.const)
+      ) {
+      this.items.push({
+        name: '',
+        value: '',
+      });
+    }
   }
 
   public removeItem(item) {
@@ -52,6 +55,7 @@ export class EnumBuilderComponent implements OnInit, ControlValueAccessor {
     }
 
     item.name = upperFirst(item.name);
+    item.text = upperFirst(item.name);
   }
 
   public registerOnChange(fn) {

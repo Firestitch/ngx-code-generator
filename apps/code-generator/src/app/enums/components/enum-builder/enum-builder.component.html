@@ -1,9 +1,13 @@
+<mat-checkbox [(ngModel)]="const" name="const">Generate Constant</mat-checkbox>
+
+<br>
+
 <h2>Enum Members</h2>
 <div class="values-container">
   <div class="enum-item" *ngFor="let item of items">
     <mat-form-field class="name">
       <mat-label>
-        Name
+        Enum name
       </mat-label>
       <input
         matInput
@@ -18,16 +22,33 @@
 
     <mat-form-field class="value">
       <mat-label>
-        Textual Value
+        Literal value
       </mat-label>
       <input
         matInput
         [(ngModel)]="item.value"
-        (keydown.Tab)="moreItems()"
-        name="Value"
+        (keydown.Tab)="moreItems('value')"
+        name="value"
         required
       />
     </mat-form-field>
+
+    <ng-container *ngIf="const">
+      <span class="separator">: </span>
+
+      <mat-form-field class="value">
+        <mat-label>
+          Textual value
+        </mat-label>
+        <input
+          matInput
+          [(ngModel)]="item.text"
+          (keydown.Tab)="moreItems('text')"
+          name="text"
+          required
+        />
+    </mat-form-field>
+    </ng-container>
 
     <button
       mat-icon-button
@@ -40,13 +61,12 @@
   </div>
 
   <button
-    mat-flat-button
-    class="more"
-    color="primary"
-    type="button"
-    *ngIf="items.length === 0"
-    (click)="moreItems()"
-  >
+      mat-flat-button
+      class="more"
+      color="primary"
+      type="button"
+      *ngIf="items.length === 0"
+    (click)="moreItems(null)">
     Add more
   </button>
 </div>

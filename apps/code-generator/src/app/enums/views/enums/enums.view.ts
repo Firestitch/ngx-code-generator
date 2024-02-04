@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { FsMessage } from '@firestitch/message';
 import { FsProgressService } from '@firestitch/progress';
+import { of, switchMap, tap } from 'rxjs';
 
 
 @Component({
@@ -38,15 +39,40 @@ export class EnumsView {
 
     const progressDialog = this._progressService.open();
 
-    this._http.post('/generate/enum', data).subscribe(
-      (response: { code: string; path: string }) => {
-        this.loading = false;
-        this.successfulGeneration = true;
+    this._http.post('/generate/enum', data)
+    .pipe(
+      tap((response: { code: string; path: string }) => {
         this.code = response.code;
         this.enumPath = response.path;
         this.enumName = data.name;
         this.modulePath = data.module.modulePath;
         this.moduleName = data.module.name;
+      }),
+      switchMap(() => {
+        const consts = data.enums
+          .map((item) => item.name);
+
+        const members = data.enums
+          .map((item) => item.text);
+
+        return data.const ? 
+          this._http.post('/generate/const', {
+            module: data.module,
+            consts,
+            enumData: {
+              members,
+              name: data.name,
+            },
+            enum: {
+              enumPath: `${data.module.modulePath}/enums`,
+            },
+            name: data.name,
+          }) : of(null);
+      })
+    )
+    .subscribe(() => {
+        this.loading = false;
+        this.successfulGeneration = true;
 
         progressDialog.close();
         this._message.success('Successfully Generated');

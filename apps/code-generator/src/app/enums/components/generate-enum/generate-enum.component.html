@@ -22,33 +22,22 @@
             [(ngModel)]="model.name"
             name="componentName"
             #name="ngModel"
-            required
-          />
+            required/>
           <mat-error *ngIf="name.invalid"> Name is required </mat-error>
         </mat-form-field>
 
         <app-enum-builder
+          [const]="const"
           [(ngModel)]="model.enums"
-          name="enums"
-        ></app-enum-builder>
+          name="enums">
+        </app-enum-builder>
 
         <div class="actions">
           <button
-            mat-raised-button
-            color="primary"
-            [disabled]="moduleForm.invalid"
-          >
-            GENERATE
-          </button>
-
-          <button
-            type="button"
-            mat-raised-button
-            color="basic"
-            [disabled]="!canGenerateConst"
-            (click)="generateConst()"
-          >
-            GENERATE CONST
+              mat-raised-button
+              color="primary"
+              [disabled]="moduleForm.invalid">
+            Generate
           </button>
         </div>
       </ng-container>

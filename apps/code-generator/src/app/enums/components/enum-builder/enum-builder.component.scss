@@ -3,12 +3,19 @@
   flex-direction: column;
 
   .enum-item {
+    display: flex;
+    align-items: baseline;
+
     .name {
-      width: 40%;
+      width: 150px;
     }
 
     .value {
-      width: 40%;
+      width: 100%;
+    }
+
+    .text {
+      width: 100%
     }
 
     .remove-button {
