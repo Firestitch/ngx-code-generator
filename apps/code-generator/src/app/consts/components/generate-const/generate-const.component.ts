@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -17,7 +18,8 @@ import { classify } from '@angular-devkit/core/src/utils/strings';
 
 @Component({
   selector: 'app-generate-const',
-  templateUrl: './generate-const.component.html',
+  templateUrl: './generate-const.component.html',  
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GenerateConstComponent implements OnInit, AfterViewInit {
   @Input()

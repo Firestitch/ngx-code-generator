@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { upperFirst } from 'lodash-es';
 import { camelCase } from 'camel-case';
@@ -7,6 +7,7 @@ import { camelCase } from 'camel-case';
   selector: 'app-enum-builder',
   templateUrl: './enum-builder.component.html',
   styleUrls: ['./enum-builder.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

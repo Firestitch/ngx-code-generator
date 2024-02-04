@@ -6,6 +6,7 @@ import * as baseController from './controllers/base';
 
 const compare = require('node-version-compare');
 const result = compare(process.version, '10.10.0');
+const nocache = require('nocache');
 
 if (result < 0) {
   console.error('Code Genetator requires NodeJs version >= 10.10.0');
@@ -17,6 +18,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(nocache());
 app.use(
   express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 })
 );

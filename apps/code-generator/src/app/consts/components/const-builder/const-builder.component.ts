@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   forwardRef,
@@ -18,6 +19,7 @@ import { startCase, capitalize } from 'lodash-es';
   selector: 'app-const-builder',
   templateUrl: './const-builder.component.html',
   styleUrls: ['./const-builder.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

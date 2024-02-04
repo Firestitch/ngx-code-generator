@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   forwardRef,
   OnInit,
@@ -14,6 +16,7 @@ import { ModulesService } from '../../services/modules.service';
   selector: 'app-project-select',
   templateUrl: './project-select.component.html',
   styleUrls: ['./project-select.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     ModulesService,
     {
@@ -34,8 +37,8 @@ export class ProjectSelectComponent implements OnInit, ControlValueAccessor {
   constructor(
     private _modulesService: ModulesService,
     private _message: FsMessage,
+    private _cdRef: ChangeDetectorRef,
   ) {}
-
 
   public ngOnInit() {
     this._loadProjects();
@@ -60,17 +63,26 @@ export class ProjectSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   private _initFromLocalStorage(): void {
-    setTimeout(() => {
+    setTimeout(() => { 
       const project = localStorage.getItem('project');
 
       if (project && !this.project) {
-        this.selectProject(JSON.parse(project));
+        this.project = JSON.parse(project);
+        this._cdRef.markForCheck();
+        this.onChange(this.project);
       }
-    }, 100);
+    }, 500);
+  }
+
+  public compareWith(o1, o2) {
+    return o1?.name === o2?.name &&
+      o1?.root === o2?.root &&
+      o1?.sourceRoot === o2?.sourceRoot;
   }
 
   public selectProject(project) {
     this.onChange(project);
+    localStorage.setItem('project', JSON.stringify(project));
   }
 
 }

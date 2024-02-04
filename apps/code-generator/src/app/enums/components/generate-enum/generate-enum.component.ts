@@ -1,19 +1,21 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 
 import { NgForm } from '@angular/forms';
+import { capitalize } from 'lodash-es';
 
 @Component({
   selector: 'app-enum-form',
   templateUrl: './generate-enum.component.html',
   styleUrls: ['./generate-enum.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GenerateEnumComponent implements AfterViewInit {
   @Input()
@@ -48,9 +50,10 @@ export class GenerateEnumComponent implements AfterViewInit {
   public services = [];
 
   public ngAfterViewInit() {
-    this.form.valueChanges.subscribe((values) => {
-      this.formChanged.emit({ ...values });
-    });
+    this.form.valueChanges
+      .subscribe((values) => {
+        this.formChanged.emit({ ...values });
+      });
   }
 
   public submit() {
@@ -60,6 +63,10 @@ export class GenerateEnumComponent implements AfterViewInit {
         const: this.const,
       });
     }
+  }
+
+  public nameBlur(): void {
+    this.model.name = capitalize(this.model.name);
   }
 
   public generateConst(): void {

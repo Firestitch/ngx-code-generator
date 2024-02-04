@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FsMessage } from '@firestitch/message';
 import { FsProgressService } from '@firestitch/progress';
@@ -6,7 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './consts.view.html',
-  styleUrls: ['./consts.view.scss'],
+  styleUrls: ['./consts.view.scss'],  
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConstsView implements OnInit {
   

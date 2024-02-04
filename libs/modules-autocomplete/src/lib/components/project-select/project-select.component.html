@@ -2,6 +2,7 @@
   <mat-label>Project</mat-label>
   <mat-select
       [(ngModel)]="project"
+      [compareWith]="compareWith"
       (ngModelChange)="selectProject($event)"
       name="Project">
     <mat-option

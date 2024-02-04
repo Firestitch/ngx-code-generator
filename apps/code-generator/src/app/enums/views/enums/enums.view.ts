@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 import { FsMessage } from '@firestitch/message';
 import { FsProgressService } from '@firestitch/progress';
+
 import { of, switchMap, tap } from 'rxjs';
+import * as pluralize from 'pluralize';
 
 
 @Component({
   templateUrl: './enums.view.html',
   styleUrls: ['./enums.view.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EnumsView {
   public loading = false;
@@ -26,6 +29,7 @@ export class EnumsView {
     private _message: FsMessage,
     private _progressService: FsProgressService,
     private _router: Router,
+    private _cdRef: ChangeDetectorRef,
   ) {}
 
   public get canGenerateConst(): boolean {
@@ -66,13 +70,14 @@ export class EnumsView {
             enum: {
               enumPath: `${data.module.modulePath}/enums`,
             },
-            name: data.name,
+            name: pluralize(data.name),
           }) : of(null);
       })
     )
     .subscribe(() => {
         this.loading = false;
         this.successfulGeneration = true;
+        this._cdRef.markForCheck();
 
         progressDialog.close();
         this._message.success('Successfully Generated');
@@ -84,6 +89,7 @@ export class EnumsView {
         this.modulePath = '';
         this.moduleName = '';
         this.code = '';
+        this._cdRef.markForCheck();
 
         progressDialog.close();
         this._message.error(

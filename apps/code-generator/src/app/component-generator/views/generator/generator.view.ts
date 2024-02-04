@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FsMessage } from '@firestitch/message';
 import { FsProgressService } from '@firestitch/progress';
@@ -9,6 +9,7 @@ import { camelize } from '@angular-devkit/core/src/utils/strings';
 @Component({
   templateUrl: './generator.view.html',
   styleUrls: ['./generator.view.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneratorView {
   public formData = null;
