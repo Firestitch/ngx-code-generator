@@ -10,6 +10,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { FsMessage } from '@firestitch/message';
 
 import { ModulesService } from '../../services/modules.service';
+import { catchError, throwError } from 'rxjs';
 
 
 @Component({
@@ -54,12 +55,17 @@ export class ProjectSelectComponent implements OnInit, ControlValueAccessor {
 
   private _loadProjects() {
     this._modulesService.listOfProjects()
+    .pipe(
+      catchError((response) => {
+        this._message.error(response.error && response.error.message || (response.body && response.body.error) || response.message);
+
+        return throwError(response);
+      }),
+    )
       .subscribe(({ projects }) => {
         this.projects = projects;
-      },
-        (response) => {
-          this._message.error(response.error && response.error.message || (response.body && response.body.error) || response.message);
-        });
+        this._cdRef.markForCheck();
+      });
   }
 
   private _initFromLocalStorage(): void {

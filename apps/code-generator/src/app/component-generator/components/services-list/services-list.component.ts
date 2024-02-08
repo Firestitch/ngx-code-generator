@@ -11,6 +11,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import FuzzySearch from 'fuzzy-search';
 import { ServicesService } from '../../services';
 
+
 @Component({
   selector: 'app-services-list',
   templateUrl: './services-list.component.html',
@@ -42,7 +43,7 @@ export class ServicesListComponent implements ControlValueAccessor {
   ) {}
 
   public fetch = (kw) => {
-    return this._servicesService.listOfServices(this.project, this.module)
+    return this._servicesService.listOfServices(this.project, this.module?.name)
       .pipe(
         map(({ services }) => {
           this._sortServices(services);
@@ -74,7 +75,7 @@ export class ServicesListComponent implements ControlValueAccessor {
   public openDialog() {
     this._dialog.open(CreateServiceDialogComponent, {
       width: '400px',
-     // data: { services: this.services },
+      data: { module: this.module },
     })
     .afterClosed()
     .subscribe((result) => {

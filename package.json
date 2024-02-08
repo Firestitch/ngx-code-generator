@@ -1,6 +1,6 @@
 {
   "name": "@firestitch/codegenerator",
-  "version": "12.1.14",
+  "version": "12.1.15",
   "license": "MIT",
   "scripts": {
     "nx": "nx",
@@ -69,9 +69,9 @@
     "@angular/compiler-cli": "14.2.9",
     "@angular/language-service": "14.2.9",
     "@angular/material": "14.2.6",
-    "@firestitch/autocomplete": "^14.0.0-beta.0",
+    "@firestitch/autocomplete": "^12.5.3",
     "@firestitch/autocomplete-chips": "^12.1.2",
-    "@firestitch/clear": "^12.2.1",
+    "@firestitch/clear": "^12.4.0",
     "@firestitch/common": "^12.3.0",
     "@firestitch/core": "^12.0.3",
     "@firestitch/date": "^12.4.1",

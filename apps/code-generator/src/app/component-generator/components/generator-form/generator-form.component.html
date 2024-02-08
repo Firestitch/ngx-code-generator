@@ -3,13 +3,14 @@
     <mat-card-content>
       <app-project-select
         [(ngModel)]="model.project"
-        (ngModelChange)="projectChange()"
+        (ngModelChange)="projectChange($event)"
         name="project"
         [required]="true">
       </app-project-select>
       <app-modules-list
         [(ngModel)]="model.module"
         [project]="model.project?.name"
+        (ngModelChange)="moduleChange($event)"
         name="module">
       </app-modules-list>
       <mat-form-field>
@@ -177,7 +178,7 @@
         <app-services-list
           [(ngModel)]="model.service"
           (ngModelChange)="serviceChanged($event)"
-          [module]="serviceModel?.module?.name"
+          [module]="serviceModel?.module"
           [project]="serviceModel.project?.name"
           name="service">
         </app-services-list>

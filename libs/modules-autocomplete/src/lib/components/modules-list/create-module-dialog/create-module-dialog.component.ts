@@ -4,7 +4,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FsProgressService } from '@firestitch/progress';
 import { FsMessage } from '@firestitch/message';
 
-import { ModuleInterface } from '../../../interfaces/';
 import { ModulesService } from '../../../services/modules.service';
 
 

@@ -64,7 +64,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
       .pipe(
         switchMap((<%= camelize(singleModel) %>) => {
           return <%= camelize(singleModel) %>.id
-            ? this._<%= camelize(serviceName) %>.get(this._data.<%= camelize(singleModel) %>.id)
+            ? this._<%= camelize(serviceName) %>.get(<%= camelize(singleModel) %>.id)
             : of(<%= camelize(singleModel) %>);
         }),
         takeUntil(this._destroy$),

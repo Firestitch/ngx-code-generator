@@ -26,7 +26,7 @@ export class CreateServiceDialogComponent implements OnInit {
   public hidePath = false;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { modules: ModuleInterface[] },
+    @Inject(MAT_DIALOG_DATA) public data: { module: ModuleInterface },
     public dialogRef: MatDialogRef<CreateServiceDialogComponent>,
     private _servicesService: ServicesService,
     private _progressService: FsProgressService,
@@ -34,6 +34,7 @@ export class CreateServiceDialogComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    this.model.module = this.data.module;
     this.dialogRef.updateSize('800px');
   }
 
