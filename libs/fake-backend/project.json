@@ -1,0 +1,21 @@
+{
+  "name": "fake-backend",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/fake-backend/src",
+  "prefix": "codegenerator",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/fake-backend"],
+      "options": {
+        "jestConfig": "libs/fake-backend/jest.config.ts",
+        "tsConfig": "libs/fake-backend/tsconfig.lib.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}

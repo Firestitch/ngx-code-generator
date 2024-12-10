@@ -33,3 +33,7 @@ dist/*
 
 logs/*
 .angular/*
+
+.nx/cache
+.nx/workspace-data
+

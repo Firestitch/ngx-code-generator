@@ -41,8 +41,6 @@ export class EnumsView {
     this.code = '';
     this.successfulGeneration = false;
 
-    const progressDialog = this._progressService.open();
-
     this._http.post('/generate/enum', data)
     .pipe(
       tap((response: { code: string; path: string }) => {
@@ -59,7 +57,7 @@ export class EnumsView {
         const members = data.enums
           .map((item) => item.text);
 
-        return data.const ? 
+        return data.const ?
           this._http.post('/generate/const', {
             module: data.module,
             consts,
@@ -79,7 +77,6 @@ export class EnumsView {
         this.successfulGeneration = true;
         this._cdRef.markForCheck();
 
-        progressDialog.close();
         this._message.success('Successfully Generated');
       },
       (response) => {
@@ -91,7 +88,6 @@ export class EnumsView {
         this.code = '';
         this._cdRef.markForCheck();
 
-        progressDialog.close();
         this._message.error(
           (response.error && response.error.message) ||
             (response.body && response.body.error) ||

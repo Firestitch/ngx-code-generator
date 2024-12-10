@@ -1,5 +1,5 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -13,23 +13,17 @@ import { throwIfAlreadyLoaded } from './module-import-guard';
 import { ApiUrlInterceptor } from './interceptors';
 import { RteComponent } from './views';
 
-@NgModule({
-  imports: [
-    BrowserAnimationsModule,
-    BrowserModule,
-    HttpClientModule,
-    ToastrModule.forRoot({ preventDuplicates: true }),
-    FsMessageModule.forRoot({
-      toastTimeout: 3,
-    }),
-    FsProgressModule.forRoot(),
-    FsPromptModule.forRoot(),
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
-  ],
-  declarations: [RteComponent],
-})
+@NgModule({ declarations: [RteComponent], imports: [BrowserAnimationsModule,
+        BrowserModule,
+        ToastrModule.forRoot({ preventDuplicates: true }),
+        FsMessageModule.forRoot({
+            toastTimeout: 3,
+        }),
+        FsProgressModule.forRoot(),
+        FsPromptModule.forRoot()], providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: ApiUrlInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
     throwIfAlreadyLoaded(parentModule, 'CoreModule');

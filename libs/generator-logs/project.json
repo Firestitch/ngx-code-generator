@@ -1,0 +1,21 @@
+{
+  "name": "generator-logs",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/generator-logs/src",
+  "prefix": "codegenerator",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/generator-logs"],
+      "options": {
+        "jestConfig": "libs/generator-logs/jest.config.ts",
+        "tsConfig": "libs/generator-logs/tsconfig.lib.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}

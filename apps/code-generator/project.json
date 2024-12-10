@@ -1,0 +1,103 @@
+{
+  "name": "code-generator",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/code-generator/src",
+  "prefix": "codegenerator",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/public",
+        "index": "apps/code-generator/src/index.html",
+        "main": "apps/code-generator/src/main.ts",
+        "polyfills": "apps/code-generator/src/polyfills.ts",
+        "tsConfig": "apps/code-generator/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/code-generator/src/favicon.png",
+          "apps/code-generator/src/assets"
+        ],
+        "styles": ["apps/code-generator/src/styles.scss"],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "node_modules/",
+            "apps/main/src/styles",
+            "apps/main/src"
+          ]
+        },
+        "allowedCommonJsDependencies": [
+          "pluralize",
+          "@angular-devkit/core",
+          "heic2any"
+        ]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "1mb",
+              "maximumError": "2mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/code-generator/src/environments/environment.ts",
+              "with": "apps/code-generator/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "code-generator:build:production"
+        },
+        "development": {
+          "buildTarget": "code-generator:build:development"
+        }
+      },
+      "options": {
+        "proxyConfig": "apps/code-generator/proxy.config.json"
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "code-generator:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/code-generator"],
+      "options": {
+        "jestConfig": "apps/code-generator/jest.config.ts"
+      }
+    }
+  }
+}

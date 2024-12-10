@@ -1,0 +1,21 @@
+{
+  "name": "modules-autocomplete",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/modules-autocomplete/src",
+  "prefix": "codegenerator",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/modules-autocomplete"],
+      "options": {
+        "jestConfig": "libs/modules-autocomplete/jest.config.ts",
+        "tsConfig": "libs/modules-autocomplete/tsconfig.lib.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}

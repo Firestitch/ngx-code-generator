@@ -39,7 +39,6 @@ export class CreateServiceDialogComponent implements OnInit {
   }
 
   public generate() {
-    const progressDialog = this._progressService.open();
 
     this._servicesService.generateService(this.model)
     .subscribe(
@@ -56,13 +55,12 @@ export class CreateServiceDialogComponent implements OnInit {
           fullPath: servicePath + '/' + singularName,
         };
 
-        progressDialog.close();
         this._message.success('Successfully Generated');
 
         this.dialogRef.close(service);
       },
       (response) => {
-        progressDialog.close();
+        // progressDialog.close();
         this._message.error(
           (response.error && response.error.message) ||
             (response.body && response.body.error) ||

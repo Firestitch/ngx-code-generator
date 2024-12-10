@@ -1,0 +1,30 @@
+{
+  "name": "schematics",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/schematics/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/schematics",
+        "tsConfig": "libs/schematics/tsconfig.schematics.json",
+        "packageJson": "libs/schematics/package.json",
+        "main": "libs/schematics/src/index.ts",
+        "assets": ["libs/schematics/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/schematics"],
+      "options": {
+        "jestConfig": "libs/schematics/jest.config.ts"
+      }
+    }
+  }
+}

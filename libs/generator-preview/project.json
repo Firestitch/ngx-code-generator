@@ -1,0 +1,21 @@
+{
+  "name": "generator-preview",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/generator-preview/src",
+  "prefix": "codegenerator",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/generator-preview"],
+      "options": {
+        "jestConfig": "libs/generator-preview/jest.config.ts",
+        "tsConfig": "libs/generator-preview/tsconfig.lib.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}

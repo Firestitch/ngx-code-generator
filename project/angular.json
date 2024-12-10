@@ -4,11 +4,13 @@
   "projects": {
     "playground": {
       "root": "playground",
-      "sourceRoot": "playground/src"
+      "sourceRoot": "playground/src",
+      "projectType": "application"
     },
     "common": {
       "root": "common",
-      "sourceRoot": "common"
+      "sourceRoot": "common",
+      "projectType": "library"
     }
   }
 }

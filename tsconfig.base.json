@@ -8,9 +8,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "ES2022",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": ["es2022", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -28,8 +28,10 @@
         "libs/modules-autocomplete/src/index.ts"
       ],
       "@codegenerator/schematics": ["libs/schematics/src/index.ts"],
-      "@codegenerator/util-pipes": ["libs/util-pipes/src/index.ts"]
-    }
+      "@codegenerator/util-pipes": ["libs/util-pipes/src/index.ts"],
+      "@codegenerator/workspace-plugin": ["tools/workspace-plugin/src/index.ts"]
+    },
+    "useDefineForClassFields": false
   },
   "exclude": ["node_modules", "tmp"]
 }

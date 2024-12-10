@@ -1,0 +1,21 @@
+{
+  "name": "generator-code",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/generator-code/src",
+  "prefix": "codegenerator",
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/generator-code"],
+      "options": {
+        "jestConfig": "libs/generator-code/jest.config.ts",
+        "tsConfig": "libs/generator-code/tsconfig.lib.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}

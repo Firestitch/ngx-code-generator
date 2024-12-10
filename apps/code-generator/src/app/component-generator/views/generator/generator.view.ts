@@ -30,11 +30,8 @@ export class GeneratorView {
   }
 
   public generate(model) {
-    const progressDialog = this._progressService.open();
-
     this._http.post('/generate', this.formData).subscribe(
       (response: { message: string }) => {
-        progressDialog.close();
         this._message.success('Successfully Generated');
         this.resultLogs = response.message;
         this.activeTab = 1;
@@ -71,7 +68,6 @@ public open() {
         }
       },
       (response) => {
-        progressDialog.close();
         this._message.error(
           (response.error && response.error.message) ||
             (response.body && response.body.error) ||

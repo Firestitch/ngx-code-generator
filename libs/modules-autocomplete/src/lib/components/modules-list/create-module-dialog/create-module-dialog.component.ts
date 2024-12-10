@@ -38,15 +38,15 @@ export class CreateModuleDialogComponent implements OnInit {
   }
 
   public generate() {
-    const progressDialog = this._progressService.open();
+    // const progressDialog = this._progressService.open();
 
     this._generatorService.generateModule(this.model)
       .subscribe((response: any) => {
-        progressDialog.close();
+        // progressDialog.close();
         this._message.success('Successfully Generated');
         this.dialogRef.close(response);
       }, (response) => {
-        progressDialog.close();
+        // progressDialog.close();
         this._message.error(response.error && response.error.message || (response.body && response.body.error) || response.message);
       }
     );

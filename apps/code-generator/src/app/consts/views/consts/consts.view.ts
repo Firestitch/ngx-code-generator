@@ -6,11 +6,11 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './consts.view.html',
-  styleUrls: ['./consts.view.scss'],  
+  styleUrls: ['./consts.view.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConstsView implements OnInit {
-  
+
   public error = '';
   public loading = false;
 
@@ -43,8 +43,6 @@ export class ConstsView implements OnInit {
     this.constPath = '';
     this.code = '';
 
-    const progressDialog = this._progressService.open();
-
     this._http.post('/generate/const', data)
     .subscribe(
       (response: { code: string; path: string }) => {
@@ -53,7 +51,6 @@ export class ConstsView implements OnInit {
         this.code = response.code;
         this.constPath = response.path;
 
-        progressDialog.close();
         this._message.success('Successfully Generated');
       },
       (response) => {
@@ -61,7 +58,6 @@ export class ConstsView implements OnInit {
         this.constPath = '';
         this.code = '';
 
-        progressDialog.close();
         this._message.error(
           (response.error && response.error.message) ||
             (response.body && response.body.error) ||

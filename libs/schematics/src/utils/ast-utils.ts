@@ -10,8 +10,7 @@ import { Change, InsertChange } from './change';
 import { insertImport, addRoutesArrayDeclaration } from './route-utils';
 import { camelize, classify } from '@angular-devkit/core/src/utils/strings';
 import { ModuleOptions } from './find-module';
-import { createClassDeclaration } from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
-import { ClassDeclaration, Identifier, MethodDeclaration, TypeReferenceNode } from 'typescript';
+import { ClassDeclaration, MethodDeclaration } from 'typescript';
 import { NoopChange } from '@schematics/angular/utility/change';
 
 
@@ -200,8 +199,9 @@ export function insertNgOnDestroy(
 
 function getLastPublicMethod(source: ts.SourceFile): number {
   const publicMethods = findNodes(source, ts.SyntaxKind.MethodDeclaration)
-    .filter((method) => {
-      return method.modifiers
+    .filter((node) => ts.canHaveModifiers(node))
+    .filter((node) => {
+      return ts.getModifiers(node)
         .some((modifier) => {
           return modifier.kind !== ts.SyntaxKind.PrivateKeyword && modifier.kind !== ts.SyntaxKind.ProtectedKeyword;
         });
@@ -242,8 +242,9 @@ function insertDestroyDeclaration(source): Change {
   let insertPosition: number;
 
   const publicProperties = propertyDeclarations
-    .filter((method) => {
-      return method.modifiers
+    .filter((node) => ts.canHaveModifiers(node))
+    .filter((node) => {
+      return ts.getModifiers(node)
         .some((modifier) => {
           return modifier.kind !== ts.SyntaxKind.PrivateKeyword && modifier.kind !== ts.SyntaxKind.ProtectedKeyword;
         });
@@ -584,7 +585,7 @@ export function addSymbolToNgModuleMetadata(
   }
 
   if (Array.isArray(node)) {
-    const nodeArray = node as {} as Array<ts.Node>;
+    const nodeArray = node as object as Array<ts.Node>;
     const symbolsArray = nodeArray.map(node => node.getText());
     if (symbolsArray.includes(symbolName)) {
       return [];
