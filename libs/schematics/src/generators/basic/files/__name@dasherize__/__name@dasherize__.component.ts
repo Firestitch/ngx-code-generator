@@ -2,37 +2,31 @@ import {
   Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,<% if(titledComponent || routeObserver) { %>
-  OnInit,<% } %>
-} from '@angular/core';<%if (routeObserver) { %>
-import { ActivatedRoute } from '@angular/router';<% } %><% if(routeObserver) { %>
+  OnInit,
+  inject,<% } %>
+} from '@angular/core';<% if(routeObserver) { %>
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';<% } %><%if (routeObserver) { %>
+import { ActivatedRoute } from '@angular/router';<% } %><% if(titledComponent || routeObserver) { %><% if(titledComponent) { %>
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';<% } %><% if(titledComponent || routeObserver) { %>
-
-<% if(titledComponent) { %>import { FsNavService } from '@firestitch/nav';<% } %>
-<% if(routeObserver) { %>import { RouteObserver } from '@firestitch/core';<% } %>
-<% } else { %>
-<% } %>
+import { FsNavService } from '@firestitch/nav';<% } %><% if(routeObserver) { %>
+import { RouteObserver } from '@firestitch/core';<% } %><% } %>
 
 @Component({<%if(type==='component'){%>
   selector: 'app-<%=dasherize(name)%>',<%}%>
   templateUrl: './<%=dasherize(name)%>.component.html',
   styleUrls: ['./<%=dasherize(name)%>.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class <%= classify(name) %>Component<% if (titledComponent || routeObserver) { %> implements OnInit <%}%> {
 <%if (routeObserver) { %>
   public data: any;
-
-  private _routeObserver$ = new RouteObserver(this._route, 'data');
-  private _destroy$ = new Subject<void>();
   <% } %>
-  constructor(
-    private _cdRef: ChangeDetectorRef,<% if (titledComponent) { %>
-    private _navService: FsNavService,<% } %><% if(routeObserver) { %>
-    private _route: ActivatedRoute,<% } %>
-  ) {}<% if (titledComponent || routeObserver) { %>
-
+  private _cdRef = inject(ChangeDetectorRef);<% if (titledComponent) { %>
+  private _navService = inject(FsNavService);<% } %>
+  <%if (routeObserver) { %>private _route = inject(ActivatedRoute);
+  private _routeObserver$ = new RouteObserver(this._route, 'data');<% } %>
+  <% if (titledComponent || routeObserver) { %>
   public ngOnInit(): void {
     <% if(titledComponent && !routeObserver) { %>this._initTitle();<%} else {%>this._initRouteObserver();<% } %>
   }<% } %><% if(routeObserver) { %>
@@ -40,7 +34,7 @@ export class <%= classify(name) %>Component<% if (titledComponent || routeObserv
   private _initRouteObserver(): void {
     this._routeObserver$
       .pipe(
-        takeUntil(this._destroy$),
+        takeUntilDestroyed(),
       )
       .subscribe((data) => {
         this.data = data;<% if(titledComponent) { %>
