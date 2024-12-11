@@ -101,15 +101,15 @@ export function create(options: any): Rule {
     const rule = chain([
       branchAndMerge(chain([
         mergeWith(templateSource),
-        importModulesToNgModule(options, [
-          ['FormsModule', '@angular/forms'],
-          ['MatCardModule', '@angular/material/card'],
-          ['MatButtonModule', '@angular/material/button'],
-          ['MatInputModule', '@angular/material/input'],
-          ['FsFormModule', '@firestitch/form'],
-          ['FsSkeletonModule', '@firestitch/skeleton'],
-        ]),
-        addDeclarationToNgModule(options, !!options.includedModuleExports),
+        // importModulesToNgModule(options, [
+        //   ['FormsModule', '@angular/forms'],
+        //   ['MatCardModule', '@angular/material/card'],
+        //   ['MatButtonModule', '@angular/material/button'],
+        //   ['MatInputModule', '@angular/material/input'],
+        //   ['FsFormModule', '@firestitch/form'],
+        //   ['FsSkeletonModule', '@firestitch/skeleton'],
+        // ]),
+        // addDeclarationToNgModule(options, !!options.includedModuleExports),
         options.isRouting && options.type === 'view' ? addDeclarationToRoutingModule(options) : noop(),
         updateIndexFile(options, ExpansionType.Component),
         routable ? addResolverSchematic(options) : noop(),

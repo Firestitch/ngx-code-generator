@@ -1,18 +1,24 @@
 import {
   Component,
-  Inject,
+  inject,
   OnInit,
-  OnDestroy,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 import { FsMessage } from '@firestitch/message';
+import { FsListModule } from '@firestitch/list';
+import { FsDialogModule } from '@firestitch/dialog';
+import { FsFormModule } from '@firestitch/form';
+import { FsSkeletonModule } from '@firestitch/skeleton';
 
-import { Subject, of } from 'rxjs';
-import { switchMap, tap, takeUntil } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
 import { <%= classify(serviceName) %> } from '<%= relativeServicePath %>';
 
@@ -21,28 +27,30 @@ import { <%= classify(serviceName) %> } from '<%= relativeServicePath %>';
   templateUrl: './<%=dasherize(name)%>.component.html',
   styleUrls: ['./<%=dasherize(name)%>.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    FsListModule,
+    FsDialogModule,
+    FsFormModule,
+    FsSkeletonModule,
+  ],
 })
-export class <%= classify(name) %>Component implements OnInit, OnDestroy {
+export class <%= classify(name) %>Component implements OnInit {
 
   public <%= camelize(singleModel) %>;
 
-  private _destroy$ = new Subject<void>();
+  private _data = inject(MAT_DIALOG_DATA);
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) private _data: any,
-    private _dialogRef: MatDialogRef<<%= classify(name) %>Component>,
-    private _message: FsMessage,
-    private _<%= camelize(serviceName) %>: <%= classify(serviceName) %>,
-    private _cdRef: ChangeDetectorRef,
-  ) {}
+  private _dialogRef: MatDialogRef<<%= classify(name) %>Component> = inject(MatDialogRef);
+  private _message = inject(FsMessage);
+  private _<%= camelize(serviceName) %> = inject(<%= classify(serviceName) %>);
+  private _cdRef = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this._fetchData();
-  }
-
-  public ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
   }
 
   public save = () => {
@@ -67,7 +75,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
             ? this._<%= camelize(serviceName) %>.get(<%= camelize(singleModel) %>.id)
             : of(<%= camelize(singleModel) %>);
         }),
-        takeUntil(this._destroy$),
+        takeUntilDestroyed(),
       )
       .subscribe((<%= camelize(singleModel) %>) => {
         this.<%= camelize(singleModel) %> = { ...<%= camelize(singleModel) %> };
