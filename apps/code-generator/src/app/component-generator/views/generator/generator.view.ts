@@ -48,7 +48,9 @@ export class GeneratorView {
                   cancel: true,
                 },
               ],
-              template: `<pre><code>constructor(private _dialog: MatDialog) {}
+              template: `<pre><code>import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+private _dialog = inject(MatDialog);
 
 public open() {
   this._dialog.open(${upperFirst(
@@ -58,7 +60,7 @@ public open() {
   })
     .afterClosed()
     .pipe(
-      takeUntil(this._destroy$),
+      takeUntilDestroyed(),
     )
     .subscribe((response) => {
     });

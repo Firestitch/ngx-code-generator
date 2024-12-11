@@ -80,16 +80,16 @@ export function create(options: any): Rule {
     const rule = chain([
       branchAndMerge(chain([
         mergeWith(templateSource),
-        importModulesToNgModule(config, [
-          ['MatButtonModule', '@angular/material/button'],
-          ['MatDialogModule', '@angular/material/dialog'],
-          ['MatInputModule', '@angular/material/input'],
-          ['FsDialogModule', '@firestitch/dialog'],
-          ['FsListModule', '@firestitch/list'],
-          ['FsFormModule', '@firestitch/form'],
-          ['FsSkeletonModule', '@firestitch/skeleton'],
-        ]),
-        addDeclarationToNgModule(config, !!config.includedModuleExports),
+        // importModulesToNgModule(config, [
+        //   ['MatButtonModule', '@angular/material/button'],
+        //   ['MatDialogModule', '@angular/material/dialog'],
+        //   ['MatInputModule', '@angular/material/input'],
+        //   ['FsDialogModule', '@firestitch/dialog'],
+        //   ['FsListModule', '@firestitch/list'],
+        //   ['FsFormModule', '@firestitch/form'],
+        //   ['FsSkeletonModule', '@firestitch/skeleton'],
+        // ]),
+        // addDeclarationToNgModule(config, !!config.includedModuleExports),
         isRoutingExists && config.type === 'view' ? addDeclarationToRoutingModule(config) : noop(),
         indexFileExists ? updateIndexFile(config, ExpansionType.Component) : noop(),
       ]))

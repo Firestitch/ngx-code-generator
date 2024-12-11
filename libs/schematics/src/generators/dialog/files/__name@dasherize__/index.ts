@@ -1,1 +1,1 @@
-export * from './<%=dasherize(name)%>.component';
+export { <%=classify(name)%>Component } from './<%=dasherize(name)%>.component';
