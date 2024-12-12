@@ -174,10 +174,10 @@ export function create(options: ListOptions): Rule {
     const rule = chain([
       branchAndMerge(chain([
         mergeWith(templateSource),
-        addDeclarationToNgModule(config, config.includedModuleExports),
-        importModulesToNgModule(config, [
-          ['FsListModule', '@firestitch/list'],
-        ]),
+        // addDeclarationToNgModule(config, config.includedModuleExports),
+        // importModulesToNgModule(config, [
+        //   ['FsListModule', '@firestitch/list'],
+        // ]),
         isRoutingExists && config.type === 'view' ? addDeclarationToRoutingModule(config) : noop(),
         updateIndexFile(config, ExpansionType.Component),
         ...extrenalSchematics,

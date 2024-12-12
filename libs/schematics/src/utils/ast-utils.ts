@@ -276,6 +276,56 @@ function insertDestroyDeclaration(source): Change {
   }
 }
 
+function insertPrivatePropertyDeclaration(source, name: string, declaration: string): Change {
+  const propertyDeclarations = findNodes(source, ts.SyntaxKind.PropertyDeclaration);
+
+  const existingDeclaration = propertyDeclarations
+    .some((property: ts.PropertyDeclaration) => {
+      return (property?.name as ts.Identifier).text === name;
+    });
+
+  if (existingDeclaration) {
+    return new NoopChange();
+  }
+
+  let insertPosition: number;
+
+  const publicProperties = propertyDeclarations
+    .filter((node) => ts.canHaveModifiers(node))
+    .filter((node) => {
+      return ts.getModifiers(node)
+        .some((modifier) => {
+          return modifier.kind !== ts.SyntaxKind.PrivateKeyword && modifier.kind !== ts.SyntaxKind.ProtectedKeyword;
+        });
+    });
+
+  if (publicProperties.length > 0) {
+    insertPosition = publicProperties.pop().getEnd()
+  } else {
+    const classDeclaration = findNodes(source, ts.SyntaxKind.ClassDeclaration)[0];
+
+    const openBraceToken = classDeclaration
+      .getChildren()
+      .find((child) => child.kind === ts.SyntaxKind.OpenBraceToken);
+
+    if (openBraceToken) {
+      insertPosition = openBraceToken.end
+    }
+  }
+
+  if (insertPosition) {
+    return new InsertChange(
+      source,
+      insertPosition,
+      `\n
+  private ${declaration};`
+    );
+  } else {
+    return new NoopChange();
+  }
+}
+
+
 function insertConstructorMember(
   source,
   modifier: 'public' | 'protected' | 'private',
@@ -660,79 +710,39 @@ export function addDialogToComponentMetadata(
 
   const changes: Change[] = [];
   const dialogMethodName = 'openDialog';
-  let dialogVarName = 'dialog';
+  const dialogVarName = 'dialog';
 
   const componentClass = findNodes(source, ts.SyntaxKind.ClassDeclaration)
     .find((node: any) => {
       return node.modifiers.length
     });
 
-  const classConstructor: any = findNodes(componentClass, ts.SyntaxKind.Constructor).pop();
-
-  if (classConstructor) {
-    const existingDialog = classConstructor.parameters.find((param) => {
-      return param.type && param.type.typeName.text === 'MatDialog'
-    });
-
-    if (existingDialog) {
-      dialogVarName = existingDialog.name.text
-    } else {
-      changes.push(
-        insertConstructorMember(
-          source,
-          'private',
-          `_${dialogVarName}`,
-          'MatDialog'
-        ),
-        insertConstructorMember(
-          source,
-          'private',
-          '_route',
-          'ActivatedRoute'
-        ),
-        insertImport(
-          source,
-          componentPath || '',
-          'ActivatedRoute',
-          '@angular/router',
-          false,
-        ),
-        insertImport(
-          source,
-          componentPath || '',
-          'MatDialog',
-          '@angular/material/dialog',
-          false,
-        ),
-      );
-    }
-  } else {
-    const firstMethod = (componentClass as any).members.filter((node) => {
-      return node.kind === ts.SyntaxKind.MethodDeclaration;
-    }).pop();
-
-    let position = null;
-    const toInsertConstructor = `
-  constructor(private _${dialogVarName}: MatDialog) {}
-`;
-
-    if (firstMethod) {
-      position = firstMethod.getFullStart()
-    } else {
-      position = componentClass.getEnd() - 1;
-    }
-
-    changes.push(
-      new InsertChange(componentPath, position, toInsertConstructor),
-      insertImport(
-        source,
-        componentPath || '',
-        'MatDialog',
-        '@angular/material/dialog',
-        false,
-      ),
-    );
-  }
+  changes.push(
+    insertPrivatePropertyDeclaration(
+      source,
+      `_${dialogVarName}`,
+      `_${dialogVarName} = inject(MatDialog);`
+    ),
+    insertPrivatePropertyDeclaration(
+      source,
+      '_route',
+      `_route = inject(ActivatedRoute);`
+    ),
+    insertImport(
+      source,
+      componentPath || '',
+      'ActivatedRoute',
+      '@angular/router',
+      false,
+    ),
+    insertImport(
+      source,
+      componentPath || '',
+      'MatDialog',
+      '@angular/material/dialog',
+      false,
+    ),
+  );
 
   if (!componentClass) { return; }
 
@@ -764,7 +774,7 @@ export function addDialogToComponentMetadata(
       .afterClosed()
       .pipe(
         filter((response) => !!response),
-        takeUntil(this._destroy$),
+        takeUntilDestroyed(),
       )
       .subscribe(() => this.reload());
   }\n`;
@@ -781,32 +791,10 @@ export function addDialogToComponentMetadata(
     insertImport(
       source,
       componentPath || '',
-      `Subject`,
-      'rxjs',
-      false,
-    ),
-    insertImport(
-      source,
-      componentPath || '',
-      `takeUntil`,
-      'rxjs/operators',
-      false,
-    ),
-    insertImport(
-      source,
-      componentPath || '',
       `filter`,
       'rxjs/operators',
       false,
     ),
-    ...insertImplements(
-      source,
-      componentPath,
-      'OnDestroy',
-      '@angular/core'
-    ),
-    insertDestroyDeclaration(componentClass),
-    insertNgOnDestroy(source, componentPath || ''),
   );
   return changes;
 }

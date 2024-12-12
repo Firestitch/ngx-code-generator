@@ -3,54 +3,47 @@ import {
   OnInit,
   ViewChild,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
-} from '@angular/core';<% if (mode === 'full') { %>
+  ChangeDetectorRef,
+  inject,
+} from '@angular/core';<% if(routeObserver) { %>
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';<% } %><% if (mode === 'full') { %>
 import { Router, ActivatedRoute } from '@angular/router';<% } %><% if (mode !== 'full' && routeObserver) { %>
 import { ActivatedRoute } from '@angular/router';<% } %>
 
-import { FsListComponent, FsListConfig } from '@firestitch/list';
+import { FsListModule, FsListComponent, FsListConfig } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';<% if (titledComponent) { %>
 import { FsNavService } from '@firestitch/nav';<% } %><% if(routeObserver) { %>
-import { RouteObserver } from '@firestitch/core';
+import { RouteObserver } from '@firestitch/core';<% } %>
 
-import { Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';<% } else { %>
-
-import { map } from 'rxjs/operators';<% } %>
+import { map } from 'rxjs/operators';
 
 import { <%= classify(serviceName) %> } from '<%= relativeServicePath %>';
 
-<% if (routableComponent) { %>
-@Component({
+@Component({<% if (!routableComponent) { %>
+  selector: 'app-<%=dasherize(name)%>',<% } %>
   templateUrl: './<%=dasherize(name)%>.component.html',
   styleUrls: ['./<%=dasherize(name)%>.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-})<% } %><% if (!routableComponent) { %>
-@Component({
-  selector: 'app-<%=dasherize(name)%>',
-  templateUrl: './<%=dasherize(name)%>.component.html',
-  styleUrls: ['./<%=dasherize(name)%>.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})<% } %>
+  standalone: true,
+  imports: [
+    FsListModule
+  ],
+})
 export class <%= classify(name) %>Component implements OnInit {
 
   @ViewChild(FsListComponent)
   public list: FsListComponent;
 
   public listConfig: FsListConfig;<%if (routeObserver) { %>
-  public data: any;
+  public data: any;<% } %>
 
-  private _routeObserver$ = new RouteObserver(this._route, 'data');
-  private _destroy$ = new Subject<void>();<% } %>
-
-  constructor(
-    private _cdRef: ChangeDetectorRef,
-    private _<%= camelize(serviceName) %>: <%= classify(serviceName) %>,<% if (titledComponent) { %>
-    private _navService: FsNavService,<% } %><% if (mode === 'full') { %>
-    private _route: ActivatedRoute,
-    private _router: Router,<% } %><% if(routeObserver) { %>
-    private _route: ActivatedRoute,<% } %>
-  ) {}
+  private _cdRef = inject(ChangeDetectorRef);
+  private _<%= camelize(serviceName) %> = inject(<%= classify(serviceName) %>);<% if (titledComponent) { %>
+  private _navService = inject(FsNavService);<% } %><% if (mode === 'full') { %>
+  private _route = inject(ActivatedRoute);
+  private _router = inject(Router);<% } %><% if(routeObserver) { %>
+  private _route = inject(ActivatedRoute);
+  private _routeObserver$ = new RouteObserver(this._route, 'data');<% } %>
 
   public ngOnInit(): void {<% if(titledComponent) { %>
     this._initTitle();<% } %><% if(routeObserver) { %>
@@ -115,7 +108,7 @@ export class <%= classify(name) %>Component implements OnInit {
   private _initRouteObserver(): void {
     this._routeObserver$
       .pipe(
-        takeUntil(this._destroy$),
+        takeUntilDestroyed(),
       )
       .subscribe((data) => {
         this.data = data;<% if(titledComponent) { %>
