@@ -19,6 +19,7 @@ import { map } from 'rxjs/operators';
 
 import { <%= classify(serviceName) %> } from '<%= relativeServicePath %>';
 
+
 @Component({<% if (!routableComponent) { %>
   selector: 'app-<%=dasherize(name)%>',<% } %>
   templateUrl: './<%=dasherize(name)%>.component.html',

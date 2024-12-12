@@ -12,6 +12,7 @@ import { FsListModule } from '@firestitch/list';
 import { FsFormModule } from '@firestitch/form';
 import { FsSkeletonModule } from '@firestitch/skeleton';
 
+
 @Component({
   templateUrl: './<%=dasherize(name)%>.component.html',
   styleUrls: ['./<%=dasherize(name)%>.component.scss'],
