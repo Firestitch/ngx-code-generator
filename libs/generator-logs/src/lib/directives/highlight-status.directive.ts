@@ -9,11 +9,10 @@ const UPDATE = 'UPDATE';
 export class HighlightStatusDirective implements OnChanges {
 
   @Input() text: string;
-  
+
   constructor(private el: ElementRef) {}
 
   public ngOnChanges() {
-
     const text =  this.text.replace(/\\u[\dA-Fa-f]{4}/g, match => {
       return String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16));
     });
@@ -30,7 +29,7 @@ export class HighlightStatusDirective implements OnChanges {
 
       const commonText = document.createElement('span');
       commonText.innerHTML = parts[1];
-      this.el.nativeElement.appendChild(` ${commonText}`);
+      this.el.nativeElement.appendChild(commonText);
     } else {
       const commonText = document.createElement('span');
       commonText.innerHTML = text;
