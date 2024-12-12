@@ -1,43 +1,48 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';<% if(routeObserver) { %>
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterModule, Router, NavigationEnd<% if(routeObserver) { %>, ActivatedRoute<% } %> } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
+import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+
+import { FsTabsModule } from '@firestitch/tabs';<% if(routeObserver) { %>
 import { RouteObserver } from '@firestitch/core';<% } %>
 
-import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 import { NavService } from '@app/core';
-
 
 @Component({
   templateUrl: './<%=dasherize(name)%>.component.html',
   styleUrls: ['./<%=dasherize(name)%>.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    RouterModule,
+    CommonModule,
+
+    MatCardModule,
+    MatTabsModule,
+
+    FsTabsModule,
+  ],
 })
-export class <%= classify(name) %>Component implements OnInit, OnDestroy {
+export class <%= classify(name) %>Component implements OnInit {
 
   public links: { path: string, label: string }[] = [];<%if (routeObserver) { %>
-  public data: any;
+  public data: any;<% } %>
 
+  private _navService = inject(NavService);
+  private _router = inject(Router);
+  private _cdRef = inject(ChangeDetectorRef);<% if(routeObserver) { %>
+  private _route = inject(ActivatedRoute);
   private _routeObserver$ = new RouteObserver(this._route, 'data');<% } %>
-  private _destroy$ = new Subject();
-
-  constructor(
-    private _navService: NavService,
-    private _router: Router,
-    private _cdRef: ChangeDetectorRef,<% if(routeObserver) { %>
-    private _route: ActivatedRoute,<% } %>
-  ) {}
 
   public ngOnInit(): void {<% if(titledComponent) { %>
     this._initNavigationEnd();<% } %><% if(routeObserver) { %>
     this._initRouteObserver();<% } %>
     this._setLinks();
-  }
-
-  public ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
   }
 
   private _setLinks(): void {
@@ -64,7 +69,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
     this._router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        takeUntil(this._destroy$),
+        takeUntilDestroyed(),
       )
       .subscribe(() => {
         this._initTitle();
@@ -76,7 +81,7 @@ export class <%= classify(name) %>Component implements OnInit, OnDestroy {
   private _initRouteObserver(): void {
     this._routeObserver$
       .pipe(
-        takeUntil(this._destroy$),
+        takeUntilDestroyed(),
       )
       .subscribe((data) => {
         this.data = data;<% if(titledComponent) { %>
