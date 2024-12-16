@@ -4,6 +4,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  DestroyRef,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -42,12 +43,13 @@ export class <%= classify(name) %>Component implements OnInit {
 
   public <%= camelize(singleModel) %>;
 
-  private _data = inject(MAT_DIALOG_DATA);
+  private readonly _data = inject(MAT_DIALOG_DATA);
 
-  private _dialogRef: MatDialogRef<<%= classify(name) %>Component> = inject(MatDialogRef);
-  private _message = inject(FsMessage);
-  private _<%= camelize(serviceName) %> = inject(<%= classify(serviceName) %>);
-  private _cdRef = inject(ChangeDetectorRef);
+  private readonly _dialogRef: MatDialogRef<<%= classify(name) %>Component> = inject(MatDialogRef);
+  private readonly _message = inject(FsMessage);
+  private readonly _<%= camelize(serviceName) %> = inject(<%= classify(serviceName) %>);
+  private readonly _cdRef = inject(ChangeDetectorRef);
+  private readonly _destroyRef = inject(DestroyRef);
 
   public ngOnInit(): void {
     this._fetchData();
@@ -75,7 +77,7 @@ export class <%= classify(name) %>Component implements OnInit {
             ? this._<%= camelize(serviceName) %>.get(<%= camelize(singleModel) %>.id)
             : of(<%= camelize(singleModel) %>);
         }),
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this._destroyRef),
       )
       .subscribe((<%= camelize(singleModel) %>) => {
         this.<%= camelize(singleModel) %> = { ...<%= camelize(singleModel) %> };

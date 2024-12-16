@@ -1,4 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  inject,
+  DestroyRef,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule, Router, NavigationEnd<% if(routeObserver) { %>, ActivatedRoute<% } %> } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -33,11 +40,12 @@ export class <%= classify(name) %>Component implements OnInit {
   public links: { path: string, label: string }[] = [];<%if (routeObserver) { %>
   public data: any;<% } %>
 
-  private _navService = inject(NavService);
-  private _router = inject(Router);
-  private _cdRef = inject(ChangeDetectorRef);<% if(routeObserver) { %>
-  private _route = inject(ActivatedRoute);
-  private _routeObserver$ = new RouteObserver(this._route, 'data');<% } %>
+  private readonly _navService = inject(NavService);
+  private readonly _router = inject(Router);
+  private readonly _cdRef = inject(ChangeDetectorRef);<% if(routeObserver) { %>
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _routeObserver$ = new RouteObserver(this._route, 'data');<% } %>
+  private readonly _destroyRef = inject(DestroyRef);
 
   public ngOnInit(): void {<% if(titledComponent) { %>
     this._initNavigationEnd();<% } %><% if(routeObserver) { %>
@@ -69,7 +77,7 @@ export class <%= classify(name) %>Component implements OnInit {
     this._router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this._destroyRef),
       )
       .subscribe(() => {
         this._initTitle();
@@ -81,7 +89,7 @@ export class <%= classify(name) %>Component implements OnInit {
   private _initRouteObserver(): void {
     this._routeObserver$
       .pipe(
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this._destroyRef),
       )
       .subscribe((data) => {
         this.data = data;<% if(titledComponent) { %>

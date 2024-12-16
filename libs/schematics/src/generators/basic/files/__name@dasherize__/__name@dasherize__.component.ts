@@ -3,7 +3,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,<% if(titledComponent || routeObserver) { %>
   OnInit,
-  inject,<% } %>
+  inject,<% } %><% if(routeObserver) { %>
+  DestroyRef,<% } %>
 } from '@angular/core';<% if(routeObserver) { %>
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';<% } %><%if (routeObserver) { %>
 import { ActivatedRoute } from '@angular/router';<% } %><% if(titledComponent || routeObserver) { %><% if(titledComponent) { %>
@@ -22,10 +23,11 @@ export class <%= classify(name) %>Component<% if (titledComponent || routeObserv
 <%if (routeObserver) { %>
   public data: any;
   <% } %>
-  private _cdRef = inject(ChangeDetectorRef);<% if (titledComponent) { %>
-  private _navService = inject(FsNavService);<% } %>
-  <%if (routeObserver) { %>private _route = inject(ActivatedRoute);
-  private _routeObserver$ = new RouteObserver(this._route, 'data');<% } %>
+  private readonly _cdRef = inject(ChangeDetectorRef);<% if (titledComponent) { %>
+  private readonly _navService = inject(FsNavService);<% } %>
+  <%if (routeObserver) { %>private readonly _route = inject(ActivatedRoute);
+  private readonly _routeObserver$ = new RouteObserver(this._route, 'data');
+  private readonly _destroyRef = inject(DestroyRef);<% } %>
   <% if (titledComponent || routeObserver) { %>
   public ngOnInit(): void {
     <% if(titledComponent && !routeObserver) { %>this._initTitle();<%} else {%>this._initRouteObserver();<% } %>
@@ -34,7 +36,7 @@ export class <%= classify(name) %>Component<% if (titledComponent || routeObserv
   private _initRouteObserver(): void {
     this._routeObserver$
       .pipe(
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this._destroyRef),
       )
       .subscribe((data) => {
         this.data = data;<% if(titledComponent) { %>

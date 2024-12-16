@@ -4,7 +4,8 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  inject,
+  inject,<% if(routeObserver) { %>
+  DestroyRef,<% } %>
 } from '@angular/core';<% if(routeObserver) { %>
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';<% } %><% if (mode === 'full') { %>
 import { Router, ActivatedRoute } from '@angular/router';<% } %><% if (mode !== 'full' && routeObserver) { %>
@@ -38,13 +39,14 @@ export class <%= classify(name) %>Component implements OnInit {
   public listConfig: FsListConfig;<%if (routeObserver) { %>
   public data: any;<% } %>
 
-  private _cdRef = inject(ChangeDetectorRef);
-  private _<%= camelize(serviceName) %> = inject(<%= classify(serviceName) %>);<% if (titledComponent) { %>
-  private _navService = inject(FsNavService);<% } %><% if (mode === 'full') { %>
-  private _route = inject(ActivatedRoute);
-  private _router = inject(Router);<% } %><% if(routeObserver) { %>
-  private _route = inject(ActivatedRoute);
-  private _routeObserver$ = new RouteObserver(this._route, 'data');<% } %>
+  private readonly _cdRef = inject(ChangeDetectorRef);
+  private readonly _<%= camelize(serviceName) %> = inject(<%= classify(serviceName) %>);<% if (titledComponent) { %>
+  private readonly _navService = inject(FsNavService);<% } %><% if (mode === 'full') { %>
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _router = inject(Router);<% } %><% if(routeObserver) { %>
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _routeObserver$ = new RouteObserver(this._route, 'data');
+  private readonly _destroyRef = inject(DestroyRef);<% } %>
 
   public ngOnInit(): void {<% if(titledComponent) { %>
     this._initTitle();<% } %><% if(routeObserver) { %>
@@ -109,7 +111,7 @@ export class <%= classify(name) %>Component implements OnInit {
   private _initRouteObserver(): void {
     this._routeObserver$
       .pipe(
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this._destroyRef),
       )
       .subscribe((data) => {
         this.data = data;<% if(titledComponent) { %>

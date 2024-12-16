@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   inject,
+  DestroyRef,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -42,13 +43,14 @@ export class <%= classify(name) %>Component implements OnInit {
 
   public <%= camelize(singleModel) %>: any;
 
-  private _route = inject(ActivatedRoute);
-  private _router = inject(Router);
-  private _cdRef = inject(ChangeDetectorRef);
-  private _<%= camelize(serviceName) %> = inject(<%= classify(serviceName) %>);
-  private _message = inject(FsMessage);<% if(titledComponent) { %>
-  private _navService = inject(FsNavService);<% } %>
-  private _routeObserver$ = new RouteObserver(this._route, '<%= camelize(singleModel) %>');
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _router = inject(Router);
+  private readonly _cdRef = inject(ChangeDetectorRef);
+  private readonly _<%= camelize(serviceName) %> = inject(<%= classify(serviceName) %>);
+  private readonly _message = inject(FsMessage);<% if(titledComponent) { %>
+  private readonly _navService = inject(FsNavService);<% } %>
+  private readonly _routeObserver$ = new RouteObserver(this._route, '<%= camelize(singleModel) %>');
+  private readonly _destroyRef = inject(DestroyRef);
 
   public ngOnInit(): void {
     this._initRouteObserver();
@@ -82,7 +84,7 @@ export class <%= classify(name) %>Component implements OnInit {
   private _initRouteObserver(): void {
     this._routeObserver$
       .pipe(
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this._destroyRef),
       )
       .subscribe((<%= camelize(singleModel) %>) => {
         this.<%= camelize(singleModel) %> = <%= camelize(singleModel) %> || {};<% if(titledComponent) { %>
