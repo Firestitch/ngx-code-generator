@@ -12,7 +12,7 @@ import * as pluralize from 'pluralize';
 import { camelCase } from 'camel-case';
 
 @Component({
-  selector: 'app-component-generator-form',
+  selector: './app-component-generator-form',
   templateUrl: './generator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -89,7 +89,7 @@ export class GeneratorFormComponent implements AfterViewInit {
 
     let hasRoutable = !!this.model.interfacePattern;
     let hasTitle = !!this.model.interfacePattern;
-    let hasExports = !!this.model.interfacePattern;
+    const hasExports = !!this.model.interfacePattern;
 
     switch (this.model.interfacePattern) {
       case 'list':
