@@ -731,6 +731,12 @@ export function addDialogToComponentMetadata(
     insertImport(
       source,
       componentPath || '',
+      'takeUntilDestroyed',
+      '@angular/core/rxjs-interop',
+    ),
+    insertImport(
+      source,
+      componentPath || '',
       'ActivatedRoute',
       '@angular/router',
       false,
