@@ -161,10 +161,6 @@ export class GeneratorFormComponent implements AfterViewInit {
     this.serviceModel.project = project;
   }
 
-  public moduleChange(module) {
-    this.serviceModel.module = module;
-  }
-
   public serviceChanged(service) {
     if (service) {
       const name = service.singularName.replace(

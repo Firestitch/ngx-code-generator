@@ -41,10 +41,9 @@ export class <%= classify(name) %>Component implements OnInit {
 
   private readonly _cdRef = inject(ChangeDetectorRef);
   private readonly _<%= camelize(serviceName) %> = inject(<%= classify(serviceName) %>);<% if (titledComponent) { %>
-  private readonly _navService = inject(FsNavService);<% } %><% if (mode === 'full') { %>
-  private readonly _route = inject(ActivatedRoute);
+  private readonly _navService = inject(FsNavService);<% } %><% if (mode === 'full') { %><% if(routeObserver || mode === 'full') { %>
+  private readonly _route = inject(ActivatedRoute);<% } %>
   private readonly _router = inject(Router);<% } %><% if(routeObserver) { %>
-  private readonly _route = inject(ActivatedRoute);
   private readonly _routeObserver$ = new RouteObserver(this._route, 'data');
   private readonly _destroyRef = inject(DestroyRef);<% } %>
 
