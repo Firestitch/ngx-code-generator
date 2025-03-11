@@ -76,7 +76,7 @@ export class ProjectSelectComponent implements OnInit, ControlValueAccessor {
 
   private _initFromLocalStorage(): void {
     setTimeout(() => { 
-      const project = localStorage.getItem('project');
+      const project = localStorage.getItem(this.persistName);
 
       if (project && !this.project) {
         this.project = JSON.parse(project);
