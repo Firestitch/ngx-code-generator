@@ -18,7 +18,7 @@ import { RouteObserver } from '@firestitch/core';<% } %>
 
 import { filter } from 'rxjs/operators';
 
-import { NavService } from '@app/core';
+import { NavService } from '@common/services';
 
 @Component({
   templateUrl: './<%=dasherize(name)%>.component.html',

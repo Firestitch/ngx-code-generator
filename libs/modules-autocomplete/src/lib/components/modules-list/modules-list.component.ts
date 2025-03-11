@@ -1,18 +1,15 @@
 import {
   Component,
-  EventEmitter,
   forwardRef,
   Input,
-  OnChanges,
   OnInit,
-  Output
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { FsMessage } from '@firestitch/message';
 
-import { catchError, map, of, tap, throwError } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import FuzzySearch from 'fuzzy-search';
 
 import { ModuleInterface } from '../../interfaces';
@@ -42,7 +39,7 @@ export class ModulesListComponent implements OnInit, ControlValueAccessor {
   public showCreateButton = true;
 
   @Input()
-  public namespace: string;
+  public persistName: string;
 
   @Input()
   public project: string;
@@ -58,12 +55,10 @@ export class ModulesListComponent implements OnInit, ControlValueAccessor {
     private _message: FsMessage,
   ) {}
 
-  public get localStorageKey(): string {
-    return this.namespace || ModulesListComponent._LOCAL_STORAGE_KEY;
-  }
-
   public ngOnInit() {
-    //this._initFromLocalStorage();
+    if(this.persistName) {
+      this._initFromLocalStorage();
+    }
   }
   
   public fetch = (kw: string) => {
@@ -95,7 +90,10 @@ export class ModulesListComponent implements OnInit, ControlValueAccessor {
   }
 
   public selectModule(event) {
-    this._saveToLocalStorage(event);
+    if(this.persistName) {
+      this._saveToLocalStorage(event);
+    }
+
     this.writeValue(event);
   }
 
@@ -125,7 +123,7 @@ export class ModulesListComponent implements OnInit, ControlValueAccessor {
 
   private _initFromLocalStorage(): void {
     setTimeout(() => {
-      const module = localStorage.getItem(this.localStorageKey);
+      const module = localStorage.getItem(this.persistName);
 
       if (module && !this.module) {
         this.selectModule(JSON.parse(module));
@@ -134,7 +132,7 @@ export class ModulesListComponent implements OnInit, ControlValueAccessor {
   }
 
   private _saveToLocalStorage(value: ModuleInterface): void {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(value));
+    localStorage.setItem(this.persistName, JSON.stringify(value));
   }
 
 }

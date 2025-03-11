@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   forwardRef,
+  Input,
   OnInit,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -29,6 +30,9 @@ import { catchError, throwError } from 'rxjs';
 })
 export class ProjectSelectComponent implements OnInit, ControlValueAccessor {
 
+  @Input()
+  public persistName: string;
+
   public projects: any[] = [];
   public project: any;
  
@@ -43,7 +47,9 @@ export class ProjectSelectComponent implements OnInit, ControlValueAccessor {
 
   public ngOnInit() {
     this._loadProjects();
-    this._initFromLocalStorage();
+    if(this.persistName) {
+      this._initFromLocalStorage();
+    }
   }
 
   public writeValue(value) {
@@ -88,7 +94,9 @@ export class ProjectSelectComponent implements OnInit, ControlValueAccessor {
 
   public selectProject(project) {
     this.onChange(project);
-    localStorage.setItem('project', JSON.stringify(project));
+    if(this.persistName) {
+      localStorage.setItem(this.persistName, JSON.stringify(project));
+    }
   }
 
 }

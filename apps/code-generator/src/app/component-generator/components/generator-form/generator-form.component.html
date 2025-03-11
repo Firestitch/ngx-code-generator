@@ -2,6 +2,7 @@
   <mat-card appearance="outlined">
     <mat-card-content>
       <app-project-select
+        [persistName]="'project'"
         [(ngModel)]="model.project"
         (ngModelChange)="projectChange($event)"
         name="project"
@@ -164,12 +165,14 @@
       <ng-container *ngIf="hasListInterface || hasCreateEditInterface">
         <h2>Model & Data</h2>
         <app-project-select
+          [persistName]="'common-project'"
           [(ngModel)]="serviceModel.project"
           (ngModelChange)="serviceModel.module = null"
           name="serviceProject"
           [required]="true">
         </app-project-select>
         <app-modules-list
+          [persistName]="'common-module'"
           [(ngModel)]="serviceModel.module"
           [project]="serviceModel.project?.name"
           name="serviceModule">

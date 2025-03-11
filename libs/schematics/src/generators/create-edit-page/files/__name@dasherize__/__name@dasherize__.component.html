@@ -1,20 +1,22 @@
 <mat-card>
-  <form fsForm [submit]="save" *fsSkeletonForm="<%= camelize(singleModel) %>">
-      <!-- 
-        <mat-form-field class="full-width">
-          <mat-label>Name</mat-label>
-          <input
-            matInput
-            [(ngModel)]="<%= camelize(singleModel) %>.name"
-            name="name">
-        </mat-form-field> 
-      -->
+  <mat-card-content>
+    <form fsForm [submit]="save" *fsSkeletonForm="<%= camelize(singleModel) %>">
+        <!-- 
+          <mat-form-field class="full-width">
+            <mat-label>Name</mat-label>
+            <input
+              matInput
+              [(ngModel)]="<%= camelize(singleModel) %>.name"
+              name="name">
+          </mat-form-field> 
+        -->
 
-      <button
-        mat-raised-button
-        type="submit"
-        color="primary">
-        {{<%= camelize(singleModel) %>.id ? 'Save' : 'Create'}}
-    </button>
-  </form>
+        <button
+          mat-raised-button
+          type="submit"
+          color="primary">
+          {{<%= camelize(singleModel) %>.id ? 'Save' : 'Create'}}
+      </button>
+    </form>
+  </mat-card-content>
 </mat-card>

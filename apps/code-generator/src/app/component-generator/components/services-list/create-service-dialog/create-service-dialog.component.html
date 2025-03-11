@@ -3,11 +3,13 @@
   <h2 mat-dialog-title>Create Service</h2>  
   <div class="form">
     <app-project-select
+      [persistName]="'common-project'"
       [(ngModel)]="model.project"
       name="project"
       [required]="true">
     </app-project-select>
     <app-modules-list
+      [persistName]="'common-module'"
       [(ngModel)]="model.module"
       [project]="model.project?.name"
       (moduleChange)="moduleChanged()"
