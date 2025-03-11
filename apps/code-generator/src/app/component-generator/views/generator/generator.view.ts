@@ -60,7 +60,7 @@ public open() {
   })
     .afterClosed()
     .pipe(
-      takeUntilDestroyed(),
+      takeUntilDestroyed(this._destroyRef),
     )
     .subscribe((response) => {
     });

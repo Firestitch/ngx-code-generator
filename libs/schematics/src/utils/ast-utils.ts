@@ -780,7 +780,7 @@ export function addDialogToComponentMetadata(
       .afterClosed()
       .pipe(
         filter((response) => !!response),
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this._destroyRef),
       )
       .subscribe(() => this.reload());
   }\n`;
