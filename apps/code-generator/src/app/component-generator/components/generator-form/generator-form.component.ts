@@ -158,7 +158,6 @@ export class GeneratorFormComponent implements AfterViewInit {
 
   public projectChange(project) {
     this.model.module = null;
-    this.serviceModel.project = project;
   }
 
   public serviceChanged(service) {
