@@ -12,7 +12,6 @@ import { ItemType } from '@firestitch/filter';
 import { map, takeUntil, filter } from 'rxjs/operators';
 
 import { DogData } from '../../../../../../common/data/dog.data';
-import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DogComponent } from '../../components';
 import { Subject } from 'rxjs';
@@ -33,10 +32,8 @@ export class DogsComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject<void>();
 
   constructor(
-    private _cdRef: ChangeDetectorRef,
     private _dogData: DogData,
     private _dialog: MatDialog,
-    private _route: ActivatedRoute,
   ) {}
 
   public ngOnInit(): void {

@@ -10,7 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule, Router, NavigationEnd<% if(routeObserver) { %>, ActivatedRoute<% } %> } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-import { MatCardModule } from '@angular/material/card';
+import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { FsTabsModule } from '@firestitch/tabs';<% if(routeObserver) { %>
@@ -29,7 +29,8 @@ import { NavService } from '@common/services';
     RouterModule,
     CommonModule,
 
-    MatCardModule,
+    MatCard,
+    MatCardContent,
     MatTabsModule,
 
     FsTabsModule,

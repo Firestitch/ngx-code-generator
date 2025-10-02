@@ -1,14 +1,13 @@
 import { Component, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 
 import { of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { FsDialogModule } from '@firestitch/dialog';
-import { FsListModule } from '@firestitch/list';
 import { FsFormModule } from '@firestitch/form';
 import { FsSkeletonModule } from '@firestitch/skeleton';
 
@@ -19,14 +18,14 @@ import { FsSkeletonModule } from '@firestitch/skeleton';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    MatDialogModule,
-    MatButtonModule,
-    MatInputModule,
-
-    FsDialogModule,
-    FsListModule,
+    MatDialogContent,
+    MatDialogActions,
     FsFormModule,
+    MatLabel,
+    MatFormField,
+    MatInput,
     FsSkeletonModule,
+    FsDialogModule,
   ]
 })
 export class <%= classify(name) %>Component {

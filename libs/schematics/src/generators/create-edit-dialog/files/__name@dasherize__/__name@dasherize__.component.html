@@ -3,8 +3,8 @@
     <fs-dialog-title>
       {{<%= camelize(singleModel) %>.id ? '<%= capitalize(singleModel) %>' : 'Create <%= capitalize(singleModel) %>'}}
     </fs-dialog-title>
-    <div mat-dialog-content>
-      <!-- 
+    <mat-dialog-content>
+      <div>
         <mat-form-field class="full-width">
           <mat-label>Name</mat-label>
           <input
@@ -12,10 +12,9 @@
             [(ngModel)]="<%= camelize(singleModel) %>.name"
             name="name">
         </mat-form-field> 
-      -->
-    </div>
-
-    <div mat-dialog-actions>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
       <fs-form-dialog-actions
         [create]="!<%= camelize(singleModel) %>.id">
       </fs-form-dialog-actions>

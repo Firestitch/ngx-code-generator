@@ -120,7 +120,6 @@ export class ModulesListComponent implements OnInit, ControlValueAccessor {
   public registerOnChange(fn) { this.onChange = fn;  }
   public registerOnTouched(fn) { this.onTouch = fn; }
 
-
   private _initFromLocalStorage(): void {
     setTimeout(() => {
       const module = localStorage.getItem(this.persistName);

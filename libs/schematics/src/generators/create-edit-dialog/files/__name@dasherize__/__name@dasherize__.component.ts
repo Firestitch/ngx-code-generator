@@ -9,11 +9,9 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 
 import { FsMessage } from '@firestitch/message';
-import { FsListModule } from '@firestitch/list';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsFormModule } from '@firestitch/form';
 import { FsSkeletonModule } from '@firestitch/skeleton';
@@ -31,9 +29,8 @@ import { <%= classify(serviceName) %> } from '<%= relativeServicePath %>';
   standalone: true,
   imports: [
     FormsModule,
-    MatDialogModule,
-    MatButtonModule,
-    FsListModule,
+    MatDialogContent,
+    MatDialogActions,
     FsDialogModule,
     FsFormModule,
     FsSkeletonModule,

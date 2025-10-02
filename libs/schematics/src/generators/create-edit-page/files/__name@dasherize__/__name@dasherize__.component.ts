@@ -10,8 +10,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatButton } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 
 import { RouteObserver } from '@firestitch/core';
@@ -32,8 +32,9 @@ import { <%= classify(serviceName) %> } from '<%= relativeServicePath %>';
   standalone: true,
   imports: [
     FormsModule,
-    MatCardModule,
-    MatButtonModule,
+    MatCard,
+    MatCardContent,
+    MatButton,
     MatInputModule,
     FsFormModule,
     FsSkeletonModule,
